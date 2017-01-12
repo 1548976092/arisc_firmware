@@ -1,0 +1,7 @@
+1024 248
+
+http://lxr.free-electrons.com/source/arch/openrisc/kernel/entry.S?v=3.8
+http://lxr.free-electrons.com/source/arch/openrisc/kernel/head.S?v=3.8
+
+https://github.com/arm-embedded/newlib.debian/blob/master/libgloss/or1k/crt0.S
+http://openrisc.io/newlib/docs/html/or1k-sprs_8h_source.html

@@ -1,0 +1,6 @@
+*.o
+*.bin
+*.code
+*.as
+/boot/boot
+/arisc-fw
