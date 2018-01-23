@@ -1,33 +1,5 @@
-Open firmware for Allwinner H3 SoC
+Test firmware for Allwinner H3 SoC
 ----------------------------------
 
-So far this code serves for experimentation with H3's secondary
-OpenRISC core.
-
-Currently it implements a stress test for CPUX_PLL on Orange Pi One:
-
-- maximum CPU voltage is set (1.3V) via GPIO pin
-- PLL frequency is randomly selected in the range from 60MHz to 1024MHz
-- NKMP factors are calucalted (there are multiple methods available for
-  testing - those used by mainline kernel, u-boot, reverse engineered
-  table from the H3 firmware, etc.)
-- PLL is applied (you can test a direct application without switching
-  CPU to 24MHz oscillator, with switching, staged application of 
-  dividers and multipliers, ...)
-- To determine stability main ARM CPU runs a loop and sends a incrementing
-  counter value via MSGBOX to OpenRISC CPU which is running the PLL tests.
-  If we stop getting messages we assume PLL change failed.
-
-So far the results are that:
-
-1) M factor must always be 1, P factor must be 1 for frequencies above 
-   288MHz (as noted in the H3 datasheet).
-
-2) Switching ARM CPU temporarily to 24MHz oscillator does not improve
-   stability at all.
-
-3) Staged application of mukltipliers and dividers does not help stability
-   either.
-
-There is no nice interface to switching between various tests. You need
-to edit the code.
+RED/GREEN leds state changes every second.
+Leds state also outputs to the UART0.
