@@ -4,10 +4,7 @@
 #include "gpio.h"
 #include "debug.h"
 #include "clk.h"
-//#include "ths.h"
 #include "timer.h"
-//#include "regulator.h"
-//#include "msgbox.h"
 
 void enable_caches(void)
 {
@@ -37,23 +34,12 @@ void handle_exception(uint32_t type, uint32_t pc, uint32_t sp)
 	}
 }
 
-#if 0
-static unsigned int holdrand = 0;
-static unsigned int rand(void) 
-{
-	 return (((holdrand = holdrand * 214013 + 2531011) >> 16) & 0x7fff);
-}
-#endif
-
 int main(void)
 {
 	enable_caches();
 	gpio_init();
 	uart0_init();
 	clk_set_rate(CLK_CPUS, 300000000);
-//	ths_init();
-//	regulator_init();
-//	msgbox_init();
 
 	// turn on leds
 	gpio_set_pincfg(GPIO_BANK_A, 15, GPIO_FUNC_OUTPUT);
@@ -64,13 +50,9 @@ int main(void)
 
 	puts("\nOpenRISC FW 1.0\n");
 
-//	regulator_set_voltage(1300);
-
-//	uint32_t limiting = 0;
-//	uint32_t freq = 0;
 	while (1) 
 	{
-		delay_us(1000000);
+		delay_us(1000000); // 1 sec
 
 		// blink leds so that world knows we're alive
 		if ( led_state ) 
@@ -87,52 +69,7 @@ int main(void)
 	                led_state = 1;
 			printf("led_state = 1\n");
 	        }
-		
-#if 0		
-		uint32_t temp = ths_get_temp();
-		if (temp > 60000)
-			limiting = 1;
-                else if (temp < 50000)
-			limiting = 0;
-
-		if (limiting) {
-			clk_set_rate(CLK_CPUX, 60000000);
-			//delay_us(10000);
-			//regulator_set_voltage(1100);
-		} else {
-			// 464 432
-#define F1 464
-#define F2 816
-			if (freq == F1)
-				freq = F2;
-			else 
-				freq = F1;
-
-			freq = rand() * 1024 / 32768;
-
-			/*
-			if (freq > 408) {
-				regulator_set_voltage(1300);
-				delay_us(10000);
-			}
-                          */
-
-			clk_set_rate(CLK_CPUX_WRONG, freq * 1000000);
-
-                        /*
-			if (freq < 408) {
-				delay_us(10000);
-				regulator_set_voltage(1100);
-			}
-			*/
-		}
-
-		uint32_t msg = 0;
-		if (msgbox_read(1, &msg)) {
-			printf("got message %d\n", msg);
-		}
-
-		//printf("%f °C   %d MHz => %d MHz \n", temp, freq, clk_get_rate(CLK_CPUX) / 1000 / 1000);
-#endif
 	}
+
+	return 0;
 }
