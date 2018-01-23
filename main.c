@@ -4,10 +4,10 @@
 #include "gpio.h"
 #include "debug.h"
 #include "clk.h"
-#include "ths.h"
+//#include "ths.h"
 #include "timer.h"
-#include "regulator.h"
-#include "msgbox.h"
+//#include "regulator.h"
+//#include "msgbox.h"
 
 void enable_caches(void)
 {
@@ -37,11 +37,13 @@ void handle_exception(uint32_t type, uint32_t pc, uint32_t sp)
 	}
 }
 
+#if 0
 static unsigned int holdrand = 0;
 static unsigned int rand(void) 
 {
 	 return (((holdrand = holdrand * 214013 + 2531011) >> 16) & 0x7fff);
 }
+#endif
 
 int main(void)
 {
@@ -49,26 +51,44 @@ int main(void)
 	gpio_init();
 	uart0_init();
 	clk_set_rate(CLK_CPUS, 300000000);
-	ths_init();
-	regulator_init();
-	msgbox_init();
+//	ths_init();
+//	regulator_init();
+//	msgbox_init();
 
 	// turn on leds
 	gpio_set_pincfg(GPIO_BANK_A, 15, GPIO_FUNC_OUTPUT);
 	gpio_set_pincfg(GPIO_BANK_L, 10, GPIO_FUNC_OUTPUT);
 	set_bit(15, gpio_get_data_addr(GPIO_BANK_A));
 	set_bit(10, gpio_get_data_addr(GPIO_BANK_L));
+        uint8_t led_state = 1;
 
 	puts("\nOpenRISC FW 1.0\n");
 
-	regulator_set_voltage(1300);
+//	regulator_set_voltage(1300);
 
-	// blink leds so that world knows we're alive
-	uint32_t limiting = 0;
-	uint32_t freq = 0;
-	while (1) {
-		delay_us(10000);
+//	uint32_t limiting = 0;
+//	uint32_t freq = 0;
+	while (1) 
+	{
+		delay_us(1000000);
 
+		// blink leds so that world knows we're alive
+		if ( led_state ) 
+		{
+			clr_bit(15, gpio_get_data_addr(GPIO_BANK_A));
+	                clr_bit(10, gpio_get_data_addr(GPIO_BANK_L));
+	                led_state = 0;
+			printf("led_state = 0\n");
+	        }
+		else
+		{
+			set_bit(15, gpio_get_data_addr(GPIO_BANK_A));
+	                set_bit(10, gpio_get_data_addr(GPIO_BANK_L));
+	                led_state = 1;
+			printf("led_state = 1\n");
+	        }
+		
+#if 0		
 		uint32_t temp = ths_get_temp();
 		if (temp > 60000)
 			limiting = 1;
@@ -113,5 +133,6 @@ int main(void)
 		}
 
 		//printf("%f °C   %d MHz => %d MHz \n", temp, freq, clk_get_rate(CLK_CPUX) / 1000 / 1000);
+#endif
 	}
 }
