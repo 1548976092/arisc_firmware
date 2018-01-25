@@ -41,34 +41,46 @@ int main(void)
 	uart0_init();
 	clk_set_rate(CLK_CPUS, 300000000);
 
-	// turn on leds
+	// turn off leds
 	gpio_set_pincfg(GPIO_BANK_A, 15, GPIO_FUNC_OUTPUT);
 	gpio_set_pincfg(GPIO_BANK_L, 10, GPIO_FUNC_OUTPUT);
-	set_bit(15, gpio_get_data_addr(GPIO_BANK_A));
-	set_bit(10, gpio_get_data_addr(GPIO_BANK_L));
-        uint8_t led_state = 1;
+	clr_bit(15, gpio_get_data_addr(GPIO_BANK_A)); // RED led
+	clr_bit(10, gpio_get_data_addr(GPIO_BANK_L)); // GREEN led
+
+	// config test pin
+	gpio_set_pincfg(GPIO_BANK_A, 12, GPIO_FUNC_OUTPUT);
+	clr_bit(12, gpio_get_data_addr(GPIO_BANK_A));
+        uint8_t pin_state = 0;
 
 	puts("\nOpenRISC FW 1.0\n");
 
 	while (1) 
 	{
-		delay_us(1000000); // 1 sec
+        	// indicate idle by the GREEN led
+        	clr_bit(15, gpio_get_data_addr(GPIO_BANK_A)); // RED led
+        	set_bit(10, gpio_get_data_addr(GPIO_BANK_L)); // GREEN led
 
-		// blink leds so that world knows we're alive
-		if ( led_state ) 
+		delay_us(1000000); // 1 sec of idle
+
+        	// indicate busy state by the RED led
+        	set_bit(15, gpio_get_data_addr(GPIO_BANK_A)); // RED led
+        	clr_bit(10, gpio_get_data_addr(GPIO_BANK_L)); // GREEN led
+
+		// toggling test pin
+		for ( int32_t pulses = 10000000; pulses; )
 		{
-			clr_bit(15, gpio_get_data_addr(GPIO_BANK_A));
-	                clr_bit(10, gpio_get_data_addr(GPIO_BANK_L));
-	                led_state = 0;
-			printf("led_state = 0\n");
-	        }
-		else
-		{
-			set_bit(15, gpio_get_data_addr(GPIO_BANK_A));
-	                set_bit(10, gpio_get_data_addr(GPIO_BANK_L));
-	                led_state = 1;
-			printf("led_state = 1\n");
-	        }
+		        if ( pin_state ) 
+		        {
+			        clr_bit(12, gpio_get_data_addr(GPIO_BANK_A));
+	                        pin_state = 0;
+	                        --pulses;
+	                }
+		        else
+		        {
+			        set_bit(12, gpio_get_data_addr(GPIO_BANK_A));
+	                        pin_state = 1;
+	                }
+                }
 	}
 
 	return 0;
