@@ -41,46 +41,28 @@ int main(void)
 	uart0_init();
 	clk_set_rate(CLK_CPUS, 300000000);
 
-	// turn off leds
+	// configure and turn off the leds
 	gpio_set_pincfg(GPIO_BANK_A, 15, GPIO_FUNC_OUTPUT);
 	gpio_set_pincfg(GPIO_BANK_L, 10, GPIO_FUNC_OUTPUT);
-	clr_bit(15, gpio_get_data_addr(GPIO_BANK_A)); // RED led
-	clr_bit(10, gpio_get_data_addr(GPIO_BANK_L)); // GREEN led
+	clr_bit(15, gpio_get_data_addr(GPIO_BANK_A)); // RED led OFF
+	clr_bit(10, gpio_get_data_addr(GPIO_BANK_L)); // GREEN led OFF
 
-	// config test pin
-	gpio_set_pincfg(GPIO_BANK_A, 12, GPIO_FUNC_OUTPUT);
-	clr_bit(12, gpio_get_data_addr(GPIO_BANK_A));
-        uint8_t pin_state = 0;
+	// output to the UART0
+	puts("ARISC test firmware by MX_Master.\n");
+	puts("This firmware just blinking by onboard leds every second.\n");
 
-	puts("\nOpenRISC FW 1.0\n");
-
+	// simple blinking by leds
 	while (1) 
 	{
-        	// indicate idle by the GREEN led
-        	clr_bit(15, gpio_get_data_addr(GPIO_BANK_A)); // RED led
-        	set_bit(10, gpio_get_data_addr(GPIO_BANK_L)); // GREEN led
+		clr_bit(15, gpio_get_data_addr(GPIO_BANK_A)); // RED led OFF
+		set_bit(10, gpio_get_data_addr(GPIO_BANK_L)); // GREEN led ON
 
 		delay_us(1000000); // 1 sec of idle
 
-        	// indicate busy state by the RED led
-        	set_bit(15, gpio_get_data_addr(GPIO_BANK_A)); // RED led
-        	clr_bit(10, gpio_get_data_addr(GPIO_BANK_L)); // GREEN led
+		set_bit(15, gpio_get_data_addr(GPIO_BANK_A)); // RED led ON
+		clr_bit(10, gpio_get_data_addr(GPIO_BANK_L)); // GREEN led OFF
 
-		// toggling test pin
-		for ( int32_t pulses = 10000000; pulses; )
-		{
-		        if ( pin_state ) 
-		        {
-			        clr_bit(12, gpio_get_data_addr(GPIO_BANK_A));
-	                        pin_state = 0;
-	                        --pulses;
-	                }
-		        else
-		        {
-			        set_bit(12, gpio_get_data_addr(GPIO_BANK_A));
-	                        pin_state = 1;
-	                }
-                }
+		delay_us(1000000); // 1 sec of idle
 	}
 
 	return 0;
