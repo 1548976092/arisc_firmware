@@ -1,4 +1,4 @@
-export PATH := ../../Toolchains/or1k-elf/bin:../../sunxi-tools/:$(PATH)
+export PATH := /opt/toolchains/or1k-elf/bin:$(PATH)
 CROSS_COMPILE ?= or1k-elf-
 
 # Commands
@@ -9,16 +9,15 @@ OBJCOPY = $(CROSS_COMPILE)objcopy
 OBJDUMP = $(CROSS_COMPILE)objdump
 SIZE = $(CROSS_COMPILE)size
 STRIP = $(CROSS_COMPILE)strip
-FEL ?= sunxi-fel
 
 # Compiler flags
-CFLAGS = -Os -fno-common -fno-builtin -ffreestanding -fno-exceptions -ffunction-sections -DDEBUG
+CFLAGS = -O3 -fno-common -fno-builtin -ffreestanding -fno-exceptions -ffunction-sections -DDEBUG
 
 # Linker flags
 LDFLAGS = -static -nostartfiles -nodefaultlibs -Wl,--gc-sections -Wl,--require-defined=_start $(CFLAGS)
 
 # Sources
-SRC = main.c debug.c regulator.c uart.c ths.c i2c.c clk.c gpio.c timer.c msgbox.c libgcc.c
+SRC = main.c clk.c uart.c gpio.c debug.c timer.c libgcc.c
 COBJ = $(SRC:.c=.o)
 
 all: arisc-fw.code
@@ -45,8 +44,3 @@ clean:
 	rm -rf $(COBJ) start.o arisc-fw arisc-fw.code arisc-fw.as
 	make -C boot clean
 
-load: arisc-fw.code
-	$(FEL) write 0x40000 $<
-	$(FEL) exe 0x44000
-
-.PHONY: clean load all
