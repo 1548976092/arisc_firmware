@@ -1,13 +1,6 @@
 #include "gpio.h"
 #include "clk.h"
 
-#define PIO_BASE 		0X01C20800
-#define R_PIO_BASE 		0x01f02c00
-#define BANK_SIZE  		0x24
-
-#define CFG_INDEX(pin)	(((pin) & 0x1F) >> 3)
-#define CFG_OFFSET(pin)	(((pin) & 0x7) << 2)
-
 void gpio_init(void)
 {
 	clk_enable(CLK_R_PIO);

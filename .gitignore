@@ -4,3 +4,6 @@
 *.as
 /boot/boot
 /arisc-fw
+.project
+.cproject
+
