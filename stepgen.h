@@ -14,7 +14,7 @@
 
 
 #define CH_CNT          8
-#define INTERVAL_LOSS   82 / 100
+#define INTERVAL_LOSS   99 / 100
 
 
 
@@ -51,7 +51,7 @@ ch_set_step_pin(uint8_t id, uint8_t bank, uint8_t pin)
         PIO_BASE + bank * BANK_SIZE);
 
     gpio_set_pincfg(bank, pin, GPIO_FUNC_OUTPUT);
-    set_bit(pin, ch[id].step_port_addr);
+    clr_bit(pin, ch[id].step_port_addr);
 }
 
 static uint8_t inline
@@ -67,7 +67,7 @@ static void inline
 ch_set_task(uint8_t id, uint32_t freq, uint32_t steps)
 {
     ch[id].freq = freq;
-    ch[id].interval = TIMER_FREQUENCY / freq * INTERVAL_LOSS / 2;
+    ch[id].interval = TIMER_FREQUENCY / freq / 2;
     ch[id].steps_task = steps;
     ch[id].steps_todo = steps;
     ch[id].step_state = 0;
@@ -116,7 +116,7 @@ static uint8_t inline
 stepgen_loop()
 {
     uint8_t c = CH_CNT;
-    uint32_t tick = 0;
+    uint32_t tick = 0, todo_tick = 0;
     uint8_t work_state = 0;
 
     tick = get_tick();
@@ -125,6 +125,12 @@ stepgen_loop()
     {
         if ( ch[c].enbl )
         {
+            if ( !ch[c].steps_todo )
+            {
+                ch[c].enbl = 0;
+                continue;
+            }
+
             work_state = 1;
 
             if
@@ -138,8 +144,7 @@ stepgen_loop()
                 {
                     clr_bit(ch[c].step_pin, ch[c].step_port_addr);
                     ch[c].step_state = 0;
-                    if ( ch[c].steps_todo ) --ch[c].steps_todo;
-                    else ch[c].enbl = 0;
+                    --ch[c].steps_todo;
                 }
                 else
                 {
@@ -147,8 +152,9 @@ stepgen_loop()
                     ch[c].step_state = 1;
                 }
 
-                ch[c].todo_tick = ch[c].interval + tick;
-                ch[c].todo_tick_ovrfl = ch[c].todo_tick < tick ? 1 : 0;
+                todo_tick = ch[c].todo_tick;
+                ch[c].todo_tick += ch[c].interval;
+                ch[c].todo_tick_ovrfl = ch[c].todo_tick < todo_tick ? 1 : 0;
             }
         }
     }
