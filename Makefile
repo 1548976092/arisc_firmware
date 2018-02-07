@@ -14,7 +14,8 @@ STRIP = $(CROSS_COMPILE)strip
 CFLAGS = -O3 -fno-common -fno-builtin -ffreestanding -fno-exceptions -ffunction-sections -DDEBUG
 
 # Linker flags
-LDFLAGS = -static -nostartfiles -nodefaultlibs -Wl,--gc-sections -Wl,--require-defined=_start $(CFLAGS)
+#LDFLAGS = -static -nostartfiles -nodefaultlibs -Wl,--gc-sections -Wl,--require-defined=_start $(CFLAGS)
+LDFLAGS = -static -nostartfiles -Wl,--gc-sections -Wl,--require-defined=_start $(CFLAGS)
 
 # Sources
 SRC = main.c clk.c uart.c gpio.c debug.c timer.c libgcc.c

@@ -22,6 +22,7 @@ int main(void)
     clk_set_rate(CLK_CPUS, 300000000);
 
 
+    // settings for the test ---------------------------------------------------
     #define CH_CNT 8
 
     struct gpio_t
@@ -44,12 +45,35 @@ int main(void)
     };
 
 
-    // start soft timer
-    timer_start();
-
-    // main loop
-    for(;;)
+    // set channel pin/task, enable channel
+    for( uint8_t c = CH_CNT; c--; )
     {
+        ch_set_step_pin(c, ch_pin[c].bank, ch_pin[c].pin);
+        ch_set_task(c, ch_freq[c], ch_freq[c]);
+        ch_enable(c);
+    }
+
+    timer_start(); // start soft timer
+
+
+    // main loop ---------------------------------------------------------------
+    for (;;)
+    {
+        // if all tasks were done
+        if ( !stepgen_loop() )
+        {
+            timer_stop(); // stop soft timer
+            delay_us(1000000); // wait a second
+
+            // restart all tasks
+            for( uint8_t c = CH_CNT; c--; )
+            {
+                ch_set_task(c, ch_freq[c], ch_freq[c]);
+                ch_enable(c);
+            }
+
+            timer_start(); // start soft timer
+        }
     }
 
 
