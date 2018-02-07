@@ -45,6 +45,8 @@ int main(void)
     };
 
 
+    timer_start(); // start soft timer
+
     // set channel pin/task, enable channel
     for( uint8_t c = CH_CNT; c--; )
     {
@@ -53,17 +55,19 @@ int main(void)
         ch_enable(c);
     }
 
-    timer_start(); // start soft timer
-
 
     // main loop ---------------------------------------------------------------
-    for (;;)
+    for ( uint32_t j = 0; ; )
     {
         // if all tasks were done
         if ( !stepgen_loop() )
         {
+            printf("job %u done\n", j);
+            ++j;
+
             timer_stop(); // stop soft timer
             delay_us(1000000); // wait a second
+            timer_start(); // start soft timer
 
             // restart all tasks
             for( uint8_t c = CH_CNT; c--; )
@@ -71,8 +75,6 @@ int main(void)
                 ch_set_task(c, ch_freq[c], ch_freq[c]);
                 ch_enable(c);
             }
-
-            timer_start(); // start soft timer
         }
     }
 

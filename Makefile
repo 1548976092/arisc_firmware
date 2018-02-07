@@ -11,7 +11,7 @@ SIZE = $(CROSS_COMPILE)size
 STRIP = $(CROSS_COMPILE)strip
 
 # Compiler flags
-CFLAGS = -O3 -fno-common -fno-builtin -ffreestanding -fno-exceptions -ffunction-sections -DDEBUG
+CFLAGS = -Os -fno-common -fno-builtin -ffreestanding -fno-exceptions -ffunction-sections -DDEBUG
 
 # Linker flags
 #LDFLAGS = -static -nostartfiles -nodefaultlibs -Wl,--gc-sections -Wl,--require-defined=_start $(CFLAGS)

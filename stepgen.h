@@ -47,8 +47,8 @@ ch_set_step_pin(uint8_t id, uint8_t bank, uint8_t pin)
 {
     ch[id].step_bank = bank;
     ch[id].step_pin = pin;
-    ch[id].step_port_addr =
-        (GPIO_BANK_L ? R_PIO_BASE : PIO_BASE + bank * BANK_SIZE) + 4 * 4;
+    ch[id].step_port_addr = 16 + (bank == GPIO_BANK_L ? R_PIO_BASE :
+        PIO_BASE + bank * BANK_SIZE);
 
     gpio_set_pincfg(bank, pin, GPIO_FUNC_OUTPUT);
     set_bit(pin, ch[id].step_port_addr);
@@ -123,7 +123,7 @@ stepgen_loop()
 
     for( c = CH_CNT, work_state = 0; c--; )
     {
-        if ( ch_get_state(c) )
+        if ( ch[c].enbl )
         {
             work_state = 1;
 
@@ -136,13 +136,15 @@ stepgen_loop()
             {
                 if ( ch[c].step_state )
                 {
-                    set_bit(ch[c].step_pin, ch[c].step_port_addr);
+                    clr_bit(ch[c].step_pin, ch[c].step_port_addr);
+                    ch[c].step_state = 0;
                     if ( ch[c].steps_todo ) --ch[c].steps_todo;
+                    else ch[c].enbl = 0;
                 }
                 else
                 {
-                    clr_bit(ch[c].step_pin, ch[c].step_port_addr);
-                    if ( !ch[c].steps_todo ) ch_disable(c);
+                    set_bit(ch[c].step_pin, ch[c].step_port_addr);
+                    ch[c].step_state = 1;
                 }
 
                 ch[c].todo_tick = ch[c].interval + tick;
