@@ -6,15 +6,14 @@
 
 #include <or1k-support.h>
 #include <or1k-sprs.h>
-#include "string.h"
+#include <string.h>
 #include "timer.h"
 #include "gpio.h"
 
 
 
 
-#define CH_CNT          8
-#define INTERVAL_LOSS   99 / 100
+#define CH_CNT 8
 
 
 

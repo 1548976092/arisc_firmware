@@ -2,8 +2,9 @@
 #define _TIMER_H
 
 #include <stdint.h>
+#include "cfg.h"
 
-#define TIMER_FREQUENCY 300000000 // 300MHz
+#define TIMER_FREQUENCY CPU_FREQ
 
 void delay_ticks(uint32_t ticks);
 void timer_start(void);

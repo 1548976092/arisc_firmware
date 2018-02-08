@@ -4,6 +4,13 @@
 
 
 
+#include <or1k-support.h>
+#include <or1k-sprs.h>
+#include "debug.h"
+
+
+
+
 void enable_caches(void)
 {
 	for (unsigned addr = 0; addr < 16 * 1024 + 32 * 1024; addr += 16)

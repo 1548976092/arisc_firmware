@@ -3,6 +3,10 @@
 #include <stdint.h>
 #include <string.h>
 
+
+
+
+#include "cfg.h"
 #include "io.h"
 #include "gpio.h"
 #include "debug.h"
@@ -19,7 +23,7 @@ int main(void)
     enable_caches();
     gpio_init();
     uart0_init();
-    clk_set_rate(CLK_CPUS, 300000000);
+    clk_set_rate(CLK_CPUS, CPU_FREQ);
 
 
     // settings for the test ---------------------------------------------------
@@ -31,7 +35,7 @@ int main(void)
         int8_t pin;
     };
 
-    const struct gpio_t ch_pin[CH_CNT] =
+    const struct gpio_t ch_pin[] =
     {
         /* 3*/{GPIO_BANK_A,12}, /* 5*/{GPIO_BANK_A,11},
         /* 7*/{GPIO_BANK_A, 6}, /* 8*/{GPIO_BANK_A,13},
@@ -39,9 +43,10 @@ int main(void)
         /*13*/{GPIO_BANK_A, 0}, /*15*/{GPIO_BANK_A, 3}
     };
 
-    uint32_t ch_freq[CH_CNT] =
+    uint32_t ch_freq[] =
     {
-        198724,121548,44957,25489,12548,6983,1829,933 // Hz
+//        198724,121548,44957,25489,12548,6983,1829,933 // Hz
+        259884,198724,121548,44957,25489,12548,6983,1829 // Hz
     };
 
 
