@@ -3,9 +3,6 @@
 #include <stdint.h>
 #include <string.h>
 
-
-
-
 #include "cfg.h"
 #include "io.h"
 #include "gpio.h"
@@ -13,74 +10,46 @@
 #include "clk.h"
 #include "timer.h"
 #include "sys.h"
+#include "shmem.h"
+#include "gpio_ctrl.h"
 #include "stepgen.h"
+
+
+
+
+extern volatile struct global_shmem_t *shm;
 
 
 
 
 int main(void)
 {
+    // system settings
     enable_caches();
     gpio_init();
     uart0_init();
     clk_set_rate(CLK_CPUS, CPU_FREQ);
+    timer_start();
 
 
-    // settings for the test ---------------------------------------------------
-    #define CH_CNT 8
-
-    struct gpio_t
+    // clean up shared memory
+    for ( int16_t b = sizeof shm; b--; )
     {
-        int8_t bank;
-        int8_t pin;
-    };
-
-    const struct gpio_t ch_pin[] =
-    {
-        /* 3*/{GPIO_BANK_A,12}, /* 5*/{GPIO_BANK_A,11},
-        /* 7*/{GPIO_BANK_A, 6}, /* 8*/{GPIO_BANK_A,13},
-        /*10*/{GPIO_BANK_A,14}, /*11*/{GPIO_BANK_A, 1},
-        /*13*/{GPIO_BANK_A, 0}, /*15*/{GPIO_BANK_A, 3}
-    };
-
-    uint32_t ch_freq[] =
-    {
-//        198724,121548,44957,25489,12548,6983,1829,933 // Hz
-        259884,198724,121548,44957,25489,12548,6983,1829 // Hz
-    };
-
-
-    timer_start(); // start soft timer
-
-    // set channel pin/task, enable channel
-    for( uint8_t c = CH_CNT; c--; )
-    {
-        ch_set_step_pin(c, ch_pin[c].bank, ch_pin[c].pin);
-        ch_set_task(c, ch_freq[c], ch_freq[c]);
-        ch_enable(c);
+        *( (volatile uint8_t *)shm + b ) = 0;
     }
 
 
-    // main loop ---------------------------------------------------------------
-    for ( uint32_t j = 0; ; )
+    // main loop
+    for(;;)
     {
-        // if all tasks were done
-        if ( !stepgen_loop() )
-        {
-            printf("job %u done\n", j);
-            ++j;
+        // ARISC core is alive
+        if ( !shm->arisc_alive ) shm->arisc_alive = 1;
 
-            timer_stop(); // stop soft timer
-            delay_us(1000000); // wait a second
-            timer_start(); // start soft timer
+        // process stepgen thread
+        stepgen_base_thread();
 
-            // restart all tasks
-            for( uint8_t c = CH_CNT; c--; )
-            {
-                ch_set_task(c, ch_freq[c], ch_freq[c]);
-                ch_enable(c);
-            }
-        }
+        // process gpio control thread
+        gpio_ctrl_base_thread();
     }
 
 

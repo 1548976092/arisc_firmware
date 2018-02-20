@@ -10,13 +10,21 @@
 #define CFG_INDEX(pin)  (((pin) & 0x1F) >> 3)
 #define CFG_OFFSET(pin) (((pin) & 0x7) << 2)
 
+#define GPIO_PORTS_CNT 8
+
+enum
+{
+    PA, PB, PC, PD,
+    PE, PF, PG, PL
+};
+
 #define GPIO_BANK_A    0
 #define GPIO_BANK_C    2
 #define GPIO_BANK_D    3
 #define GPIO_BANK_E    4
 #define GPIO_BANK_F    5
 #define GPIO_BANK_G    6
-#define GPIO_BANK_L    11
+#define GPIO_BANK_L    7
 
 #define GPIO_FUNC_INPUT         0
 #define GPIO_FUNC_OUTPUT        1
