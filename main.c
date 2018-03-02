@@ -10,6 +10,7 @@
 #include "clk.h"
 #include "timer.h"
 #include "sys.h"
+// TODO - test these modules
 #include "shmem.h"
 #include "gpio_ctrl.h"
 #include "stepgen.h"
@@ -31,13 +32,8 @@ int main(void)
     clk_set_rate(CLK_CPUS, CPU_FREQ);
     timer_start();
 
-
     // clean up shared memory
-    for ( int16_t b = sizeof shm; b--; )
-    {
-        *( (volatile uint8_t *)shm + b ) = 0;
-    }
-
+    shmem_clear_all();
 
     // main loop
     for(;;)

@@ -14,7 +14,8 @@ extern volatile struct global_shmem_t *shm;
 
 
 
-#define sg                  shm->arisc.stepgen
+#define asg                 shm->arisc.stepgen
+#define lsg                 shm->lcnc.stepgen
 
 #define set_pin(PORT,PIN)   (shm->arisc.gpio_set_ctrl[PORT] |= (1 << PIN))
 #define clr_pin(PORT,PIN)   (shm->arisc.gpio_clr_ctrl[PORT] |= (1 << PIN))
@@ -22,93 +23,225 @@ extern volatile struct global_shmem_t *shm;
 
 
 
-void stepgen_ch_set_step_pin(uint8_t id, uint8_t port, uint8_t pin)
+// prepare channel
+void stepgen_ch_setup(uint8_t c)
 {
-    sg.step_port[id] = port;
-    sg.step_pin[id] = pin;
+    // disable any tasks
+    asg.task[c] = 0;
+    asg.task_steps_todo[c] = 0;
+    asg.dir_setup[c] = 0;
 
-    gpio_set_pincfg(port, pin, GPIO_FUNC_OUTPUT);
-    clr_pin(port, pin);
+    // setup GPIO
+    gpio_set_pincfg(lsg.step_port[c], lsg.step_pin[c], GPIO_FUNC_OUTPUT);
+    gpio_set_pincfg(lsg.dir_port[c],  lsg.dir_pin[c],  GPIO_FUNC_OUTPUT);
+
+    // set GPIO pin states
+    asg.step_state[c] = 0;
+    asg.dir_state[c]  = 0;
+
+    // set step pin
+    if ( asg.step_state[c] ^ lsg.step_inv[c] )
+    {
+        clr_pin(lsg.step_port[c], lsg.step_pin[c]);
+    }
+    else
+    {
+        set_pin(lsg.step_port[c], lsg.step_pin[c]);
+    }
+
+    // set DIR pin
+    if ( asg.dir_state[c] ^ lsg.dir_inv[c] )
+    {
+        clr_pin(lsg.dir_port[c], lsg.dir_pin[c]);
+    }
+    else
+    {
+        set_pin(lsg.dir_port[c], lsg.dir_pin[c]);
+    }
+
+    // setup intervals
+    asg.dirsetup_ticks[c]  = TIMER_FREQUENCY/(1000000000/lsg.dirsetup[c]);
+    asg.dirhold_ticks[c]   = TIMER_FREQUENCY/(1000000000/lsg.dirhold[c]);
+
+    // clear channel setup flag
+    shm->stepgen_ch_setup[c] = 0;
 }
 
 
 
 
-void stepgen_ch_set_task(uint8_t id, uint32_t freq, uint32_t steps)
+// add new task for the channel
+void stepgen_ch_new_task(uint8_t c)
 {
-    sg.task_freq[id] = freq;
-    sg.interval[id] = TIMER_FREQUENCY / freq / 2;
-    sg.task_steps[id] = steps;
-    sg.task_steps_todo[id] = steps;
-    sg.step_state[id] = 0;
-}
+    static uint32_t tick = 0;
 
+    // do nothing if channel is disabled
+    if ( !lsg.ch_enable[c] ) return;
 
-
-
-void stepgen_ch_enable(uint8_t id)
-{
-    uint32_t tick;
-
+    // get current arisc tick
     tick = or1k_mfspr(OR1K_SPR_TICK_TTCR_ADDR);
-    sg.todo_tick[id] = sg.interval[id] + tick;
-    if ( sg.todo_tick[id] < tick ) sg.todo_tick_ovrfl[id] = 1;
 
-    sg.ch_enable[id] = 1;
+    // set steps count
+    asg.task_steps[c] = lsg.task_steps[c];
+    asg.task_steps_todo[c] = lsg.task_steps[c];
+
+    // if new DIR value is same as current
+    if ( asg.dir_state[c] == lsg.task_dir[c] )
+    {
+        // calculate step length ticks
+        asg.step_ticks[c] = TIMER_FREQUENCY
+            / (1000000000/lsg.task_time[c])
+            / asg.task_steps_todo[c]
+            / 2;
+
+        // set tick for the next step toggle
+        asg.todo_tick[c] = tick;
+        asg.todo_tick_ovrfl[c] = 0;
+    }
+    // if new DIR state != current DIR state
+    else
+    {
+        // save new DIR value
+        asg.task_dir[c] = lsg.task_dir[c];
+
+        // calculate step length ticks
+        asg.step_ticks[c] = TIMER_FREQUENCY
+            / (1000000000 / (lsg.task_time[c] - lsg.dirsetup[c] - lsg.dirhold[c]))
+            / asg.task_steps_todo[c]
+            / 2;
+
+        // set tick for the next DIR change
+        asg.dir_setup[c] = 2; // 2 = dir setup, 1 = dir hold
+        asg.todo_tick[c] = tick + asg.dirsetup_ticks[c];
+        asg.todo_tick_ovrfl[c] = asg.todo_tick[c] < tick ? 1 : 0;
+    }
+
+    // clear channel's new task flag
+    shm->stepgen_ch_task_new[c] = 0;
 }
 
-void stepgen_ch_disable(uint8_t id)
-{
-    sg.ch_enable[id] = 0;
-}
-
-uint8_t stepgen_ch_get_state(uint8_t id)
-{
-    return sg.ch_enable[id];
-}
 
 
 
-
-
+// base stepgen cycle
 void stepgen_base_thread()
 {
-    uint8_t c = STEPGEN_CH_CNT;
-    uint32_t tick = 0, todo_tick = 0;
+    static uint8_t c = STEPGEN_CH_CNT;
+    static uint32_t tick = 0, todo_tick = 0;
 
+
+    // get current arisc cpu tick
     tick = or1k_mfspr(OR1K_SPR_TICK_TTCR_ADDR);
 
+
+    // check all channels
     for( c = STEPGEN_CH_CNT; c--; )
     {
-        if ( sg.ch_enable[c] )
+        // if channel setup is needed
+        if ( shm->stepgen_ch_setup[c] ) stepgen_ch_setup(c);
+
+        // run this code only when step is done
+        if ( !asg.step_state[c] )
         {
-            if ( !sg.task_steps_todo[c] )
+            // if we must disable the channel
+            if ( !lsg.ch_enable[c] && asg.task[c] ) asg.task[c] = 0;
+            // if we have new task for the channel
+            else if ( shm->stepgen_ch_task_new[c] ) stepgen_ch_new_task(c);
+        }
+
+        // if channel have no tasks - goto the next channel
+        if ( !asg.task[c] ) continue;
+
+        // if we are working with DIR
+        if ( asg.dir_setup[c] )
+        {
+            // if it's time to make the DIR change
+            if
+            (
+                ( !asg.todo_tick_ovrfl[c] && tick >= asg.todo_tick[c] ) ||
+                ( asg.todo_tick_ovrfl[c] && (UINT32_MAX-tick) >= asg.todo_tick[c])
+            )
             {
-                sg.ch_enable[c] = 0;
+                // if it was DIR setup period
+                if ( asg.dir_setup[c] > 1 )
+                {
+                    // change DIR state
+                    asg.dir_state[c] = asg.task_dir[c];
+
+                    // toggle DIR pin
+                    if ( asg.dir_state[c] ^ lsg.dir_inv[c] )
+                    {
+                        clr_pin(lsg.dir_port[c], lsg.dir_pin[c]);
+                    }
+                    else
+                    {
+                        set_pin(lsg.dir_port[c], lsg.dir_pin[c]);
+                    }
+
+                    // set tick for the DIR hold period
+                    todo_tick = asg.todo_tick[c];
+                    asg.todo_tick[c] += asg.dirhold_ticks[c];
+                    asg.todo_tick_ovrfl[c] = asg.todo_tick[c] < todo_tick ? 1 : 0;
+                }
+                // if it was DIR hold period and we have some steps to do
+                else if ( asg.task_steps_todo[c] )
+                {
+                    // set tick for the next step toggle
+                    asg.todo_tick[c] = tick;
+                    asg.todo_tick_ovrfl[c] = 0;
+                }
+
+                // change DIR setup state
+                --asg.dir_setup[c];
+            }
+        }
+        // if we are working with steps
+        else
+        {
+            // if we have no steps to do
+            if ( !asg.task_steps_todo[c] )
+            {
+                // disable "we have task" flag
+                asg.task[c] = 0;
                 continue;
             }
 
+            // if we must make the step change
             if
             (
-                ( !sg.todo_tick_ovrfl[c] && tick >= sg.todo_tick[c] ) ||
-                ( sg.todo_tick_ovrfl[c] && (UINT32_MAX-tick) >= sg.todo_tick[c])
+                ( !asg.todo_tick_ovrfl[c] && tick >= asg.todo_tick[c] ) ||
+                ( asg.todo_tick_ovrfl[c] && (UINT32_MAX-tick) >= asg.todo_tick[c])
             )
             {
-                if ( sg.step_state[c] )
+                // if current step state is HIGH
+                if ( asg.step_state[c] )
                 {
-                    clr_pin(sg.step_port[c], sg.step_pin[c]);
-                    sg.step_state[c] = 0;
-                    --sg.task_steps_todo[c];
+                    // set step state to LOW
+                    asg.step_state[c] = 0;
+
+                    // decrease number of steps to do
+                    --asg.task_steps_todo[c];
+                }
+                // if current step state is LOW
+                else
+                {
+                    // set step state to HIGH
+                    asg.step_state[c] = 1;
+                }
+
+                // toggle step pin
+                if ( asg.step_state[c] ^ lsg.step_inv[c] )
+                {
+                    clr_pin(lsg.step_port[c], lsg.step_pin[c]);
                 }
                 else
                 {
-                    set_pin(sg.step_port[c], sg.step_pin[c]);
-                    sg.step_state[c] = 1;
+                    set_pin(lsg.step_port[c], lsg.step_pin[c]);
                 }
 
-                todo_tick = sg.todo_tick[c];
-                sg.todo_tick[c] += sg.interval[c];
-                sg.todo_tick_ovrfl[c] = sg.todo_tick[c] < todo_tick ? 1 : 0;
+                todo_tick = asg.todo_tick[c];
+                asg.todo_tick[c] += asg.step_ticks[c];
+                asg.todo_tick_ovrfl[c] = asg.todo_tick[c] < todo_tick ? 1 : 0;
             }
         }
     }
@@ -117,7 +250,8 @@ void stepgen_base_thread()
 
 
 
-#undef sg
+#undef asg
+#undef lsg
 
 #undef set_pin
 #undef clr_pin
