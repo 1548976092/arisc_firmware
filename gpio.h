@@ -10,7 +10,7 @@
 #define CFG_INDEX(pin)  (((pin) & 0x1F) >> 3)
 #define CFG_OFFSET(pin) (((pin) & 0x7) << 2)
 
-#define GPIO_PORTS_CNT 8
+#define GPIO_PORTS_CNT 8 //max = 16
 
 enum
 {

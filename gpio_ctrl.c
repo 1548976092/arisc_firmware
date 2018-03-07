@@ -4,8 +4,6 @@
 
 
 
-extern volatile struct global_shmem_t *shm;
-
 volatile uint32_t * gpio_port_data[GPIO_PORTS_CNT] =
 {
     (volatile uint32_t *) ( (PIO_BASE + PA * BANK_SIZE) + 16 ),
@@ -18,6 +16,10 @@ volatile uint32_t * gpio_port_data[GPIO_PORTS_CNT] =
     (volatile uint32_t *)                ( (R_PIO_BASE) + 16 )
 };
 
+volatile uint32_t gpio_set_ctrl[GPIO_PORTS_CNT] = {0};
+volatile uint32_t gpio_clr_ctrl[GPIO_PORTS_CNT] = {0};
+
+
 
 
 
@@ -26,27 +28,27 @@ void gpio_ctrl_base_thread()
     uint8_t p;
 
     // if LinuxCNC's gpio control data is locked by the LinuxCNC
-    if ( shm->lcnc.gpio_ctrl_locked )
+    if ( shm(gpio_ctrl_locked) )
     {
         // walk through all gpio ports
         for( p = GPIO_PORTS_CNT; p--; )
         {
             // if we need to set some pins
-            if ( shm->arisc.gpio_set_ctrl[p] )
+            if ( gpio_set_ctrl[p] )
             {
                 // set pins
-                *gpio_port_data[p] |= shm->arisc.gpio_set_ctrl[p];
+                *gpio_port_data[p] |= gpio_set_ctrl[p];
                 // clear set control flags
-                shm->arisc.gpio_set_ctrl[p] = 0;
+                gpio_set_ctrl[p] = 0;
             }
 
             // if we need to reset some pins
-            if ( shm->arisc.gpio_clr_ctrl[p] )
+            if ( gpio_clr_ctrl[p] )
             {
                 // reset pins
-                *gpio_port_data[p] &= ~(shm->arisc.gpio_clr_ctrl[p]);
+                *gpio_port_data[p] &= ~(gpio_clr_ctrl[p]);
                 // clear reset control flags
-                shm->arisc.gpio_clr_ctrl[p] = 0;
+                gpio_clr_ctrl[p] = 0;
             }
         }
     }
@@ -64,21 +66,21 @@ void gpio_ctrl_base_thread()
             todo = 0;
 
             // if we need to set some pins
-            if ( shm->arisc.gpio_set_ctrl[p] )
+            if ( gpio_set_ctrl[p] )
             {
                 // update general mask
-                todo |= shm->arisc.gpio_set_ctrl[p];
+                todo |= gpio_set_ctrl[p];
                 // clear set control flags
-                shm->arisc.gpio_set_ctrl[p] = 0;
+                gpio_set_ctrl[p] = 0;
             }
 
             // if LinuxCNC wants to set some pins
-            if ( shm->lcnc.gpio_set_ctrl[p] )
+            if ( shm_a(gpio_set_ctrl,p) )
             {
                 // update general mask
-                todo |= shm->lcnc.gpio_set_ctrl[p];
+                todo |= shm_a(gpio_set_ctrl,p);
                 // clear set control flags
-                shm->lcnc.gpio_set_ctrl[p] = 0;
+                shm_a(gpio_set_ctrl,p) = 0;
             }
 
             // if we finally have some pins to set
@@ -91,21 +93,21 @@ void gpio_ctrl_base_thread()
             }
 
             // if we need to reset some pins
-            if ( shm->arisc.gpio_clr_ctrl[p] )
+            if ( gpio_clr_ctrl[p] )
             {
                 // update general mask
-                todo |= shm->arisc.gpio_clr_ctrl[p];
+                todo |= gpio_clr_ctrl[p];
                 // clear reset flags
-                shm->arisc.gpio_clr_ctrl[p] = 0;
+                gpio_clr_ctrl[p] = 0;
             }
 
             // if LinuxCNC wants to reset some pins
-            if ( shm->lcnc.gpio_clr_ctrl[p] )
+            if ( shm_a(gpio_clr_ctrl,p) )
             {
                 // update general mask
-                todo |= shm->lcnc.gpio_clr_ctrl[p];
+                todo |= shm_a(gpio_clr_ctrl,p);
                 // clear set control flags
-                shm->lcnc.gpio_clr_ctrl[p] = 0;
+                shm_a(gpio_clr_ctrl,p) = 0;
             }
 
             // if we finally have some pins to set

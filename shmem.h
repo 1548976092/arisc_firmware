@@ -11,98 +11,63 @@
 
 
 #define SRAM_A2_SIZE        (48*1024)
-#define SRAM_A2_ADDR        0x00040000
+#define SRAM_A2_ADDR        0x00000000 // for ARM cores - 0x00040000
 #define ARISC_CONF_SIZE     2048
 #define ARISC_CONF_ADDR     (SRAM_A2_ADDR + SRAM_A2_SIZE - ARISC_CONF_SIZE)
-#define ARISC_SHMEM_SIZE    1024
-#define ARISC_SHMEM_ADDR    (ARISC_CONF_ADDR - ARISC_SHMEM_SIZE)
+
+#define SHM_SIZE            2048
+#define SHM_ADDR            (ARISC_CONF_ADDR - SHM_SIZE)
 
 
 
 
-// ARM - Read-only, ARISC - Read/Write
-struct arisc_stepgen_shmem_t
-{
-    uint8_t     step_state[STEPGEN_CH_CNT]; // 0/1
-    uint8_t     dir_state[STEPGEN_CH_CNT]; // 0/1
-    uint8_t     dir_setup[STEPGEN_CH_CNT]; // 2: dir setup, 1: dir hold, 0: step
+#define u32p    (volatile uint32_t*)
 
-    uint8_t     task[STEPGEN_CH_CNT]; // !0 = "we have a task"
-    uint8_t     task_dir[STEPGEN_CH_CNT]; // DIR state to do
-    uint32_t    task_steps[STEPGEN_CH_CNT]; // steps to do by task
-    uint32_t    task_steps_todo[STEPGEN_CH_CNT]; // steps to do, 0 = do nothing
 
-//    uint32_t    steplen_ticks[STEPGEN_CH_CNT]; // arisc cpu ticks
-//    uint32_t    stepspace_ticks[STEPGEN_CH_CNT]; // arisc cpu ticks
-    uint32_t    step_ticks[STEPGEN_CH_CNT]; // arisc cpu ticks
-    uint32_t    dirsetup_ticks[STEPGEN_CH_CNT]; // arisc cpu ticks
-    uint32_t    dirhold_ticks[STEPGEN_CH_CNT]; // arisc cpu ticks
 
-    uint32_t    todo_tick[STEPGEN_CH_CNT]; // timer tick to make pulses
-    uint8_t     todo_tick_ovrfl[STEPGEN_CH_CNT]; // timer ticks overflow flag
-};
 
-// ARM - Read/Write, ARISC - Read-only
-struct lcnc_stepgen_shmem_t
-{
-    uint8_t     step_port[STEPGEN_CH_CNT]; // step pin port ID
-    uint8_t     step_pin[STEPGEN_CH_CNT]; // step pin ID
-    uint8_t     step_inv[STEPGEN_CH_CNT]; // step pin inverted output flag
+// ARM - Read/Write, ARISC - Read/Write
+#define _shm_arisc_alive                   (u32p (SHM_ADDR + 0))   // 4
+#define _shm_lcnc_alive                    (u32p (SHM_ADDR + 4))   // 4
+#define _shm_stepgen_ch_setup              (u32p (SHM_ADDR + 8))   // 4
+#define _shm_stepgen_task_new              (u32p (SHM_ADDR + 12))  // 4
+#define _shm_stepgen_get_task_steps_done   (u32p (SHM_ADDR + 16))  // 4
+//      _shm_<NAME>                        <TYPE><BASE>      <OFFSET>
 
-    uint8_t     dir_port[STEPGEN_CH_CNT];
-    uint8_t     dir_pin[STEPGEN_CH_CNT];
-    uint8_t     dir_inv[STEPGEN_CH_CNT]; // inverted flag
+// ARM - Read-only
+#define _shm_stepgen_task_steps_done       (u32p (SHM_ADDR + 20))  // 64
+//      _shm_<NAME>                        <TYPE><BASE>      <OFFSET>
 
-//    uint32_t    steplen[STEPGEN_CH_CNT]; // ns
-//    uint32_t    stepspace[STEPGEN_CH_CNT]; // ns
-    uint32_t    dirsetup[STEPGEN_CH_CNT]; // ns
-    uint32_t    dirhold[STEPGEN_CH_CNT]; // ns
-//    uint32_t    maxaccel[STEPGEN_CH_CNT]; // steps/s*s
+// ARM - Read/Write
+#define _shm_gpio_ctrl_locked              (u32p (SHM_ADDR + 84))  // 4
+#define _shm_gpio_set_ctrl                 (u32p (SHM_ADDR + 88))  // 64
+#define _shm_gpio_clr_ctrl                 (u32p (SHM_ADDR + 152)) // 64
+//      _shm_<NAME>                        <TYPE><BASE>      <OFFSET>
 
-    uint8_t     task_dir[STEPGEN_CH_CNT];
-    uint32_t    task_steps[STEPGEN_CH_CNT];
-    uint32_t    task_time[STEPGEN_CH_CNT]; // ns
+// ARM - Read/Write
+#define _shm_stepgen_step_port             (u32p (SHM_ADDR + 216)) // 64
+#define _shm_stepgen_step_pin              (u32p (SHM_ADDR + 280)) // 64
+#define _shm_stepgen_step_inv              (u32p (SHM_ADDR + 344)) // 4
+#define _shm_stepgen_dir_port              (u32p (SHM_ADDR + 348)) // 64
+#define _shm_stepgen_dir_pin               (u32p (SHM_ADDR + 412)) // 64
+#define _shm_stepgen_dir_inv               (u32p (SHM_ADDR + 476)) // 4
+#define _shm_stepgen_dirsetup              (u32p (SHM_ADDR + 480)) // 64
+#define _shm_stepgen_dirhold               (u32p (SHM_ADDR + 544)) // 64
+#define _shm_stepgen_task_dir              (u32p (SHM_ADDR + 608)) // 4
+#define _shm_stepgen_task_steps            (u32p (SHM_ADDR + 612)) // 64
+#define _shm_stepgen_task_time             (u32p (SHM_ADDR + 676)) // 64
+#define _shm_stepgen_ch_enable             (u32p (SHM_ADDR + 740)) // 4
+//      shm_<NAME>                        <TYPE><BASE>      <OFFSET>
 
-    uint8_t     ch_enable[STEPGEN_CH_CNT];
-};
 
-// ARM - Read-only, ARISC - Read/Write
-struct arisc_shmem_t
-{
-    uint8_t lcnc_alive_fails;
 
-    uint32_t gpio_set_ctrl[GPIO_PORTS_CNT];
-    uint32_t gpio_clr_ctrl[GPIO_PORTS_CNT];
 
-    struct arisc_stepgen_shmem_t stepgen;
-};
-
-// ARM - Read/Write, ARISC - Read-only
-struct lcnc_shmem_t
-{
-    uint8_t arisc_alive_fails;
-
-    uint8_t gpio_ctrl_locked;
-    uint32_t gpio_set_ctrl[GPIO_PORTS_CNT];
-    uint32_t gpio_clr_ctrl[GPIO_PORTS_CNT];
-
-    struct lcnc_stepgen_shmem_t stepgen;
-};
-
-struct global_shmem_t
-{
-    // ARM - Read/Write, ARISC - Read/Write
-    uint8_t arisc_alive;
-    uint8_t lcnc_alive;
-    uint8_t stepgen_ch_setup[STEPGEN_CH_CNT];
-    uint8_t stepgen_ch_task_new[STEPGEN_CH_CNT];
-
-    // ARM - Read-only, ARISC - Read/Write
-    struct arisc_shmem_t arisc;
-
-    // ARM - Read/Write, ARISC - Read-only
-    struct lcnc_shmem_t lcnc;
-};
+#define shm(NAME)                   (*(_shm_##NAME))
+#define shm_a(NAME,ID)              (*(_shm_##NAME + ID))
+#define shm_bit(NAME,BIT)           (*(_shm_##NAME) & (1 << BIT))
+#define shm_bit_val(NAME,BIT,BITS)  ((uint##BITS##_t)(*(_shm_##NAME) & (1 << BIT)) >> BIT)
+#define shm_bit_set(NAME,BIT)       (*(_shm_##NAME) |= (1 << BIT))
+#define shm_bit_clr(NAME,BIT)       (*(_shm_##NAME) &= ~(1 << BIT))
 
 
 
