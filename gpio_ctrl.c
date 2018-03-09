@@ -25,7 +25,11 @@ volatile uint32_t gpio_clr_ctrl[GPIO_PORTS_CNT] = {0};
 
 void gpio_ctrl_base_thread()
 {
-    uint8_t p;
+    // port id
+    static uint8_t p;
+    // general mask
+    static uint32_t todo;
+
 
     // if LinuxCNC's gpio control data is locked by the LinuxCNC
     if ( shm(gpio_ctrl_locked) )
@@ -56,9 +60,6 @@ void gpio_ctrl_base_thread()
     // we can read which gpio pins LinuxCNC wants to set/reset
     else
     {
-        // general mask
-        uint32_t todo;
-
         // walk through all gpio ports
         for( p = GPIO_PORTS_CNT; p--; )
         {
@@ -110,7 +111,7 @@ void gpio_ctrl_base_thread()
                 shm_a(gpio_clr_ctrl,p) = 0;
             }
 
-            // if we finally have some pins to set
+            // if we finally have some pins to reset
             if ( todo )
             {
                 // reset pins

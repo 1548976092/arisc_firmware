@@ -32,17 +32,17 @@
 #define _shm_stepgen_ch_setup              (u32p (SHM_ADDR + 8))   // 4
 #define _shm_stepgen_task_new              (u32p (SHM_ADDR + 12))  // 4
 #define _shm_stepgen_get_task_steps_done   (u32p (SHM_ADDR + 16))  // 4
-//      _shm_<NAME>                        <TYPE><BASE>      <OFFSET>
+//      _shm_<NAME>                        <TYPE> <BASE>   <OFFSET>
 
 // ARM - Read-only
 #define _shm_stepgen_task_steps_done       (u32p (SHM_ADDR + 20))  // 64
-//      _shm_<NAME>                        <TYPE><BASE>      <OFFSET>
+//      _shm_<NAME>                        <TYPE> <BASE>   <OFFSET>
 
 // ARM - Read/Write
 #define _shm_gpio_ctrl_locked              (u32p (SHM_ADDR + 84))  // 4
 #define _shm_gpio_set_ctrl                 (u32p (SHM_ADDR + 88))  // 64
 #define _shm_gpio_clr_ctrl                 (u32p (SHM_ADDR + 152)) // 64
-//      _shm_<NAME>                        <TYPE><BASE>      <OFFSET>
+//      _shm_<NAME>                        <TYPE> <BASE>   <OFFSET>
 
 // ARM - Read/Write
 #define _shm_stepgen_step_port             (u32p (SHM_ADDR + 216)) // 64
@@ -57,7 +57,7 @@
 #define _shm_stepgen_task_steps            (u32p (SHM_ADDR + 612)) // 64
 #define _shm_stepgen_task_time             (u32p (SHM_ADDR + 676)) // 64
 #define _shm_stepgen_ch_enable             (u32p (SHM_ADDR + 740)) // 4
-//      shm_<NAME>                        <TYPE><BASE>      <OFFSET>
+//      shm_<NAME>                         <TYPE> <BASE>   <OFFSET>
 
 
 
