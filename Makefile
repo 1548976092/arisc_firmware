@@ -23,9 +23,6 @@ COBJ = $(SRC:.c=.o)
 
 all: arisc-fw.code
 
-boot/boot.code:
-	make -C boot
-
 arisc-fw.code: arisc-fw
 	$(OBJCOPY) -O binary --reverse-bytes=4 $< $@
 
@@ -38,10 +35,9 @@ arisc-fw: $(COBJ) start.o
 $(COBJ): %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-start.o: start.S boot/boot.code
+start.o: start.S
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(COBJ) start.o arisc-fw arisc-fw.code arisc-fw.as
-	make -C boot clean
+	rm -rf $(COBJ) arisc-fw arisc-fw.code arisc-fw.as
 
