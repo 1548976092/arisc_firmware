@@ -2,7 +2,7 @@
 *.bin
 *.code
 *.as
-/boot/boot
+/.settings
 /arisc-fw
 .project
 .cproject
