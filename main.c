@@ -22,8 +22,8 @@ int main(void)
 {
     // startup settings
     enable_caches();
-    gpio_ctrl_init();
     clk_set_rate(CLK_CPUS, CPU_FREQ);
+    gpio_ctrl_init();
     timer_start();
 
     // main loop
