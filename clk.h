@@ -1,6 +1,8 @@
 #ifndef __CLK_H__
 #define __CLK_H__
 
+#include "io.h"
+
 #define CLK_UART0 	BIT(0)
 #define CLK_CPUS 	BIT(1)
 #define CLK_R_PIO 	BIT(2)
