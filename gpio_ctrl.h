@@ -5,12 +5,12 @@
 #ifndef _GPIO_CTRL_H
 #define _GPIO_CTRL_H
 
-#define PIO_BASE        0X01C20800
-#define R_PIO_BASE      0x01f02c00
-#define BANK_SIZE       0x24
+#define GPIO_BASE       0X01C20800
+#define GPIO_R_BASE     0x01f02c00
+#define GPIO_BANK_SIZE  0x24
 
-#define CFG_INDEX(pin)  (((pin) & 0x1F) >> 3)
-#define CFG_OFFSET(pin) (((pin) & 0x7) << 2)
+#define GPIO_CFG_INDEX(pin)     (((pin) & 0x1F) >> 3)
+#define GPIO_CFG_OFFSET(pin)    (((pin) & 0x7) << 2)
 
 #define GPIO_PORTS_CNT  8 // max = 16
 
