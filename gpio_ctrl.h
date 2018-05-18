@@ -39,6 +39,12 @@ enum // port names
 #define GPIO_FUNC_BANK_E_I2C2   3
 #define GPIO_FUNC_BANK_L_I2C3   2
 
+// pin states
+enum
+{
+    LOW, HIGH
+};
+
 
 
 
@@ -46,10 +52,17 @@ enum // port names
 
 void gpio_ctrl_init(void);
 void gpio_ctrl_base_thread();
+
 void gpio_pin_setup_for_output(uint32_t port, uint32_t pin);
 void gpio_pin_setup_for_input(uint32_t port, uint32_t pin);
+
+uint32_t gpio_pin_get(uint32_t port, uint32_t pin);
 void gpio_pin_set(uint32_t port, uint32_t pin);
 void gpio_pin_clear(uint32_t port, uint32_t pin);
+
+uint32_t gpio_port_get(uint32_t port);
+void gpio_port_set(uint32_t port, uint32_t mask);
+void gpio_port_clear(uint32_t port, uint32_t mask);
 
 
 
