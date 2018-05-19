@@ -14,6 +14,7 @@
 
 // modules
 #include "gpio_ctrl.h"
+#include "msg_ctrl.h"
 
 
 
@@ -23,13 +24,16 @@ int main(void)
     // startup settings
     enable_caches();
     clk_set_rate(CLK_CPUS, CPU_FREQ);
-    gpio_ctrl_init();
     timer_start();
+
+    // modules init
+    gpio_ctrl_init();
+    msg_ctrl_init();
 
     // main loop
     for(;;)
     {
-        // gpio control module base thread
+        msg_ctrl_base_thread();
         gpio_ctrl_base_thread();
     }
 
