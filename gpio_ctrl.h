@@ -1,6 +1,6 @@
 /*
- * GPIO control module
- */
+    --- GPIO control module -----------------------------------
+*/
 
 #ifndef _GPIO_CTRL_H
 #define _GPIO_CTRL_H
@@ -12,7 +12,8 @@
 #define GPIO_CFG_INDEX(pin)     (((pin) & 0x1F) >> 3)
 #define GPIO_CFG_OFFSET(pin)    (((pin) & 0x7) << 2)
 
-#define GPIO_PORTS_CNT  8 // max = 16
+#define GPIO_PORTS_CNT  8
+#define GPIO_PINS_CNT   32
 
 enum // port names
 {
