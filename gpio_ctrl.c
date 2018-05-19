@@ -122,13 +122,21 @@ uint32_t gpio_pin_get(uint32_t port, uint32_t pin)
 // set pin state to HIGH (1)
 void gpio_pin_set(uint32_t port, uint32_t pin)
 {
-    gpio_set_ctrl[port] |= (1 << pin);
+    static uint32_t pin_mask;
+
+    pin_mask = 1U << pin;
+    gpio_set_ctrl[port] |= pin_mask;
+    gpio_clr_ctrl[port] &= ~pin_mask;
 }
 
 // set pin state to LOW (0)
 void gpio_pin_clear(uint32_t port, uint32_t pin)
 {
-    gpio_clr_ctrl[port] |= (1 << pin);
+    static uint32_t pin_mask;
+
+    pin_mask = 1U << pin;
+    gpio_set_ctrl[port] &= ~pin_mask;
+    gpio_clr_ctrl[port] |= pin_mask;
 }
 
 
@@ -144,10 +152,12 @@ uint32_t gpio_port_get(uint32_t port)
 void gpio_port_set(uint32_t port, uint32_t mask)
 {
     gpio_set_ctrl[port] |= mask;
+    gpio_clr_ctrl[port] &= ~mask;
 }
 
 // set port pins state to LOW (0) by mask
 void gpio_port_clear(uint32_t port, uint32_t mask)
 {
+    gpio_set_ctrl[port] &= ~mask;
     gpio_clr_ctrl[port] |= mask;
 }
