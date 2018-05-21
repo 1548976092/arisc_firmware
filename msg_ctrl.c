@@ -94,7 +94,7 @@ int32_t msg_send(uint8_t type, uint8_t * msg, uint8_t length)
             memcpy(&msg_arisc[m]->msg, msg, length);
 
             // unlock message slot
-            msg_arisc[m]->locked = 1;
+            msg_arisc[m]->locked = 0;
 
             // return `message sent`
             return 0;
