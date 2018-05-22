@@ -54,10 +54,10 @@ struct msg_recv_callback_t
 void msg_ctrl_init(void);
 void msg_ctrl_base_thread(void);
 
-int32_t msg_send(uint8_t type, uint8_t * msg, uint8_t length);
+int8_t msg_send(uint8_t type, uint8_t * msg, uint8_t length);
 
-int32_t msg_add_recv_callback(uint8_t msg_type, int32_t (*func)(uint8_t, uint8_t*, uint8_t));
-int32_t msg_remove_recv_callback(uint8_t msg_type, int32_t (*func)(uint8_t, uint8_t*, uint8_t));
+int8_t msg_add_recv_callback(uint8_t msg_type, int32_t (*func)(uint8_t, uint8_t*, uint8_t));
+int8_t msg_remove_recv_callback(uint8_t callback_id);
 
 
 

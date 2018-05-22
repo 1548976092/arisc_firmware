@@ -74,7 +74,7 @@ void msg_ctrl_base_thread(void)
 
 
 
-int32_t msg_send(uint8_t type, uint8_t * msg, uint8_t length)
+int8_t msg_send(uint8_t type, uint8_t * msg, uint8_t length)
 {
     static uint8_t m;
 
@@ -108,7 +108,7 @@ int32_t msg_send(uint8_t type, uint8_t * msg, uint8_t length)
 
 
 
-int32_t msg_add_recv_callback(uint8_t msg_type, int32_t (*func)(uint8_t, uint8_t*, uint8_t))
+int8_t msg_add_recv_callback(uint8_t msg_type, int32_t (*func)(uint8_t, uint8_t*, uint8_t))
 {
     static uint8_t c;
 
@@ -132,36 +132,22 @@ int32_t msg_add_recv_callback(uint8_t msg_type, int32_t (*func)(uint8_t, uint8_t
     msg_recv_callback[c].msg_type = msg_type;
     msg_recv_callback[c].func = func;
 
-    // return `callback added`
-    return 0;
+    // return callback id
+    return c;
 }
 
-int32_t msg_remove_recv_callback(uint8_t msg_type, int32_t (*func)(uint8_t, uint8_t*, uint8_t))
+int8_t msg_remove_recv_callback(uint8_t callback_id)
 {
-    static uint8_t c;
+    if ( callback_id > msg_recv_callback_max_id ) return -1;
+    if ( !msg_recv_callback[callback_id].used ) return -1;
 
-    // find used callback slot
-    for( c = 0; c <= msg_recv_callback_max_id; ++c )
+    if ( callback_id && callback_id == msg_recv_callback_max_id )
     {
-        if (
-            msg_recv_callback[c].used &&
-            msg_recv_callback[c].msg_type == msg_type &&
-            msg_recv_callback[c].func == func
-        ) {
-            break;
-        }
-    }
-
-    if ( c == msg_recv_callback_max_id )
-    {
-        // return `callback wasn't removed`
-        if ( !msg_recv_callback[c].used ) return -1;
-
-        if ( msg_recv_callback_max_id ) msg_recv_callback_max_id--;
+        msg_recv_callback_max_id--;
     }
 
     // remove callback from the list
-    msg_recv_callback[c].used = 0;
+    msg_recv_callback[callback_id].used = 0;
 
     // return `callback removed`
     return 0;
