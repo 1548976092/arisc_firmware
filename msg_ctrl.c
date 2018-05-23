@@ -1,6 +1,11 @@
-/*
-    --- ARM-ARISC message control module -----------------------------------
-*/
+/**
+ * @file    msg_ctrl.c
+ *
+ * @brief   ARM-ARISC message control module
+ *
+ * This module implements an API to communication
+ * between ARISC and ARM processors
+ */
 
 #include <string.h>
 #include "msg_ctrl.h"
@@ -21,6 +26,11 @@ static uint8_t msg_recv_callback_max_id = 0;
 
 // public methods
 
+/**
+ * @brief   module init
+ * @note    call this function only once before msg_ctrl_base_thread()
+ * @retval  none
+ */
 void msg_ctrl_init(void)
 {
     uint8_t m = 0;
@@ -36,6 +46,11 @@ void msg_ctrl_init(void)
     }
 }
 
+/**
+ * @brief   module base thread
+ * @note    call this function at the top of main loop
+ * @retval  none
+ */
 void msg_ctrl_base_thread(void)
 {
     static uint8_t m;
@@ -74,6 +89,16 @@ void msg_ctrl_base_thread(void)
 
 
 
+/**
+ * @brief   send a message to the ARM cpu
+ *
+ * @param   type    user defined message type (0..0xFF)
+ * @param   msg     pointer to the message buffer
+ * @param   length  the length of a message ( 0 .. (MSG_MAX_LEN-4) )
+ *
+ * @retval   0 (message sent)
+ * @retval  -1 (message not sent)
+ */
 int8_t msg_send(uint8_t type, uint8_t * msg, uint8_t length)
 {
     static uint8_t m;
@@ -108,6 +133,18 @@ int8_t msg_send(uint8_t type, uint8_t * msg, uint8_t length)
 
 
 
+/**
+ * @brief   add the function to the list of "message received callbacks"
+ *
+ * @note    the callback function must have 3 arguments,
+ *          same as for the msg_send() function
+ *
+ * @param   msg_type    user defined message type (0..0xFF)
+ * @param   func        pointer to the callback function
+ *
+ * @retval  0..MSG_RECV_CALLBACK_CNT (callback id)
+ * @retval  -1 (callback wasn't added)
+ */
 int8_t msg_add_recv_callback(uint8_t msg_type, int32_t (*func)(uint8_t, uint8_t*, uint8_t))
 {
     static uint8_t c;
@@ -136,6 +173,15 @@ int8_t msg_add_recv_callback(uint8_t msg_type, int32_t (*func)(uint8_t, uint8_t*
     return c;
 }
 
+/**
+ * @brief   remove the callback function from the list of "message received callbacks"
+ *
+ * @param   callback_id     callback function id (0..MSG_RECV_CALLBACK_CNT)
+ *                          returned by the msg_add_recv_callback()
+ *
+ * @retval   0 (callback removed)
+ * @retval  -1 (callback wasn't removed)
+ */
 int8_t msg_remove_recv_callback(uint8_t callback_id)
 {
     if ( callback_id > msg_recv_callback_max_id ) return -1;
