@@ -1,25 +1,27 @@
-/*
-    --- GPIO control module -----------------------------------
-*/
+/**
+ * @file    gpio_ctrl.h
+ *
+ * @brief   GPIO control module header
+ *
+ * This module implements an API to GPIO functionality for other modules
+ */
+
 
 #ifndef _GPIO_CTRL_H
 #define _GPIO_CTRL_H
 
-#define GPIO_BASE       0X01C20800
-#define GPIO_R_BASE     0x01f02c00
+#define GPIO_BASE       0X01C20800 ///< GPIO registers block start address
+#define GPIO_R_BASE     0x01f02c00 ///< GPIO R registers block start address
 #define GPIO_BANK_SIZE  0x24
 
 #define GPIO_CFG_INDEX(pin)     (((pin) & 0x1F) >> 3)
 #define GPIO_CFG_OFFSET(pin)    (((pin) & 0x7) << 2)
 
-#define GPIO_PORTS_CNT  8
-#define GPIO_PINS_CNT   32
+#define GPIO_PORTS_CNT  8   ///< number of GPIO ports
+#define GPIO_PINS_CNT   32  ///< number of GPIO port pins
 
-enum // port names
-{
-    PA, PB, PC, PD,
-    PE, PF, PG, PL
-};
+/// a GPIO port names
+enum { PA, PB, PC, PD, PE, PF, PG, PL };
 
 // port bank names
 #define GPIO_BANK_A     0
@@ -40,18 +42,15 @@ enum // port names
 #define GPIO_FUNC_BANK_E_I2C2   3
 #define GPIO_FUNC_BANK_L_I2C3   2
 
-// pin states
-enum
-{
-    LOW, HIGH
-};
+/// a GPIO pin states
+enum { LOW, HIGH };
 
 
 
 
 // export public methods
 
-void gpio_ctrl_init(void);
+void gpio_ctrl_init();
 void gpio_ctrl_base_thread();
 
 void gpio_pin_setup_for_output(uint32_t port, uint32_t pin);

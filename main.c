@@ -1,5 +1,17 @@
-/*
- * main file
+/**
+ * @file        main.c
+ *
+ * @mainpage    Firmware for the Allwinner H3 ARISC co-processor
+ *
+ * This firmware for the @b OrangePi boards.
+ *
+ * The firmware uses to help the
+ * <a href="http://linuxcnc.org">LinuxCNC</a> and
+ * <a href="http://machinekit.io">Machinekit</a>
+ * makes a real-time @b GPIO manipulations.
+ *
+ * http://github.com/orangecnc/h3_arisc_firmware
+ *
  */
 
 #include <or1k-support.h>
