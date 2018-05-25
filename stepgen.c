@@ -2,7 +2,7 @@
 #include <or1k-sprs.h>
 
 #include "timer.h"
-#include "gpio.h"
+#include "mod_gpio.h"
 #include "shmem.h"
 #include "stepgen.h"
 
