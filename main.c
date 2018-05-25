@@ -21,7 +21,6 @@
 
 #include "cfg.h"
 #include "clk.h"
-#include "timer.h"
 #include "sys.h"
 
 // modules
@@ -36,7 +35,6 @@ int main(void)
     // startup settings
     enable_caches();
     clk_set_rate(CLK_CPUS, CPU_FREQ);
-    timer_start();
 
     // modules init
     gpio_module_init();
