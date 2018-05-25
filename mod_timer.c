@@ -24,7 +24,7 @@
  */
 void timer_start()
 {
-	// set system timer mode to CONTINUES
+    // set system timer mode to CONTINUES
     or1k_mtspr(OR1K_SPR_TICK_TTMR_ADDR, OR1K_SPR_TICK_TTMR_MODE_SET(0, OR1K_SPR_TICK_TTMR_MODE_CONTINUE));
 }
 
@@ -36,7 +36,7 @@ void timer_start()
 void timer_stop()
 {
     // disable system timer
-	or1k_mtspr(OR1K_SPR_TICK_TTMR_ADDR, 0);
+    or1k_mtspr(OR1K_SPR_TICK_TTMR_ADDR, 0);
 }
 
 /**
