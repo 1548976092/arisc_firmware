@@ -1,5 +1,5 @@
 /**
- * @file    msg_ctrl.c
+ * @file    mod_msg.c
  *
  * @brief   ARM-ARISC message control module
  *
@@ -8,7 +8,7 @@
  */
 
 #include <string.h>
-#include "msg_ctrl.h"
+#include "mod_msg.h"
 
 
 
@@ -28,10 +28,10 @@ static uint8_t msg_recv_callback_max_id = 0;
 
 /**
  * @brief   module init
- * @note    call this function only once before msg_ctrl_base_thread()
+ * @note    call this function only once before msg_module_base_thread()
  * @retval  none
  */
-void msg_ctrl_init(void)
+void msg_module_init(void)
 {
     uint8_t m = 0;
 
@@ -51,7 +51,7 @@ void msg_ctrl_init(void)
  * @note    call this function at the top of main loop
  * @retval  none
  */
-void msg_ctrl_base_thread(void)
+void msg_module_base_thread(void)
 {
     static uint8_t m;
     static uint8_t c;

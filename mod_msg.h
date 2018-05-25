@@ -1,5 +1,5 @@
 /**
- * @file    msg_ctrl.h
+ * @file    mod_msg.h
  *
  * @brief   ARM-ARISC message control module header
  *
@@ -7,8 +7,8 @@
  * between ARISC and ARM processors
  */
 
-#ifndef _MSG_CTRL_H
-#define _MSG_CTRL_H
+#ifndef _MOD_MSG_H
+#define _MOD_MSG_H
 
 #include <stdint.h>
 
@@ -56,8 +56,8 @@ struct msg_recv_callback_t
 
 // export public methods
 
-void msg_ctrl_init(void);
-void msg_ctrl_base_thread(void);
+void msg_module_init(void);
+void msg_module_base_thread(void);
 
 int8_t msg_send(uint8_t type, uint8_t * msg, uint8_t length);
 

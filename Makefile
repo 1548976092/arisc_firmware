@@ -17,7 +17,7 @@ CFLAGS = -Os -fno-common -fno-builtin -ffreestanding -fno-exceptions -ffunction-
 LDFLAGS = -static -nostartfiles -Wl,--gc-sections -Wl,--require-defined=_start $(CFLAGS)
 
 # Sources
-SRC = main.c clk.c timer.c gpio_ctrl.c msg_ctrl.c libgcc.c
+SRC = main.c clk.c timer.c mod_gpio.c mod_msg.c libgcc.c
 COBJ = $(SRC:.c=.o)
 
 all: arisc-fw.code

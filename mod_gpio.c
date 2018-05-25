@@ -1,5 +1,5 @@
 /**
- * @file    gpio_ctrl.c
+ * @file    mod_gpio.c
  *
  * @brief   GPIO control module
  *
@@ -8,7 +8,7 @@
 
 #include "io.h"
 #include "clk.h"
-#include "gpio_ctrl.h"
+#include "mod_gpio.h"
 
 
 
@@ -66,10 +66,10 @@ static inline uint32_t gpio_get_data_addr(uint32_t bank)
 
 /**
  * @brief   module init
- * @note    call this function only once before gpio_ctrl_base_thread()
+ * @note    call this function only once before gpio_module_base_thread()
  * @retval  none
  */
-void gpio_ctrl_init()
+void gpio_module_init()
 {
     clk_enable(CLK_R_PIO);
 }
@@ -79,7 +79,7 @@ void gpio_ctrl_init()
  * @note    call this function in the end of main loop
  * @retval  none
  */
-void gpio_ctrl_base_thread()
+void gpio_module_base_thread()
 {
     // port id
     static uint8_t p;
@@ -231,14 +231,14 @@ void gpio_port_clear(uint32_t port, uint32_t mask)
 
 
 /**
-    @example gpio_ctrl.c
+    @example mod_gpio.c
 
     <b>Usage example 1</b>: single pin toggling:
 
     @code
         int main(void)
         {
-            gpio_ctrl_init(); // module init
+            gpio_module_init(); // module init
 
             gpio_pin_setup_for_output(PA,3); // configure pin PA3 as output
 
@@ -248,7 +248,7 @@ void gpio_port_clear(uint32_t port, uint32_t mask)
                 if ( gpio_pin_get(PA,3) )   gpio_pin_clear(PA,3);
                 else                        gpio_pin_set  (PA,3);
 
-                gpio_ctrl_base_thread(); // real update of pin states
+                gpio_module_base_thread(); // real update of pin states
             }
 
             return 0;
@@ -260,7 +260,7 @@ void gpio_port_clear(uint32_t port, uint32_t mask)
     @code
         int main(void)
         {
-            gpio_ctrl_init(); // module init
+            gpio_module_init(); // module init
 
             // configure whole port A as output
             uint8_t pin;
@@ -275,7 +275,7 @@ void gpio_port_clear(uint32_t port, uint32_t mask)
                 if ( gpio_port_get(PA) )    gpio_port_clear(PA, 0xFFFFFFFF);
                 else                        gpio_port_set  (PA, 0xFFFFFFFF);
 
-                gpio_ctrl_base_thread(); // real update of pin states
+                gpio_module_base_thread(); // real update of pin states
             }
 
             return 0;

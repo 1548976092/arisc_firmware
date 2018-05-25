@@ -1,5 +1,5 @@
 /**
- * @file    gpio_ctrl.h
+ * @file    mod_gpio.h
  *
  * @brief   GPIO control module header
  *
@@ -7,8 +7,8 @@
  */
 
 
-#ifndef _GPIO_CTRL_H
-#define _GPIO_CTRL_H
+#ifndef _MOD_GPIO_H
+#define _MOD_GPIO_H
 
 #define GPIO_BASE       0X01C20800 ///< GPIO registers block start address
 #define GPIO_R_BASE     0x01f02c00 ///< GPIO R registers block start address
@@ -50,8 +50,8 @@ enum { LOW, HIGH };
 
 // export public methods
 
-void gpio_ctrl_init();
-void gpio_ctrl_base_thread();
+void gpio_module_init();
+void gpio_module_base_thread();
 
 void gpio_pin_setup_for_output(uint32_t port, uint32_t pin);
 void gpio_pin_setup_for_input(uint32_t port, uint32_t pin);

@@ -25,8 +25,8 @@
 #include "sys.h"
 
 // modules
-#include "gpio_ctrl.h"
-#include "msg_ctrl.h"
+#include "mod_gpio.h"
+#include "mod_msg.h"
 
 
 
@@ -39,14 +39,14 @@ int main(void)
     timer_start();
 
     // modules init
-    gpio_ctrl_init();
-    msg_ctrl_init();
+    gpio_module_init();
+    msg_module_init();
 
     // main loop
     for(;;)
     {
-        msg_ctrl_base_thread();
-        gpio_ctrl_base_thread();
+        msg_module_base_thread();
+        gpio_module_base_thread();
     }
 
     return 0;
