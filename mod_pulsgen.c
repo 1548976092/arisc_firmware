@@ -1,3 +1,12 @@
+/**
+ * @file    mod_pulsgen.c
+ *
+ * @brief   pulses generator module
+ *
+ * This module implements an API
+ * to make real-time pulses generation using GPIO
+ */
+
 #include "mod_timer.h"
 #include "mod_gpio.h"
 #include "mod_pulsgen.h"
@@ -15,11 +24,21 @@ static struct pulsgen_ch_t gen[PULSGEN_CH_CNT] = {0}; // array of channels data
 
 // public methods
 
+/**
+ * @brief   module init
+ * @note    call this function only once before pulsgen_module_base_thread()
+ * @retval  none
+ */
 void pulsgen_module_init()
 {
     TIMER_START();
 }
 
+/**
+ * @brief   module base thread
+ * @note    call this function in the main loop, before gpio_module_base_thread()
+ * @retval  none
+ */
 void pulsgen_module_base_thread()
 {
     static uint8_t c;
@@ -62,7 +81,7 @@ void pulsgen_module_base_thread()
                 gen[c].todo_tick += gen[c].high_ticks; // set new timestamp
             }
 
-            // set timestamp oferflow flag
+            // set timestamp overflow flag
             gen[c].todo_tick_ovrfl = gen[c].todo_tick < todo_tick ? 1 : 0;
 
             // toggle pin

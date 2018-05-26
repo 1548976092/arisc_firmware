@@ -1,3 +1,12 @@
+/**
+ * @file    mod_pulsgen.h
+ *
+ * @brief   pulses generator module header
+ *
+ * This module implements an API
+ * to make real-time pulses generation using GPIO
+ */
+
 #ifndef _PULSGEN_H
 #define _PULSGEN_H
 
@@ -11,6 +20,7 @@
 
 
 
+/// a channel parameters
 struct pulsgen_ch_t
 {
     uint8_t     port;               // GPIO port number
@@ -32,6 +42,8 @@ struct pulsgen_ch_t
 
 
 
+
+// export public methods
 
 void pulsgen_module_init();
 void pulsgen_module_base_thread();
