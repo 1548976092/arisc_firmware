@@ -14,7 +14,7 @@
 #include <or1k-sprs.h>
 #include <or1k-support.h>
 #include <stdint.h>
-#include "cfg.h"
+#include "sys.h"
 
 
 

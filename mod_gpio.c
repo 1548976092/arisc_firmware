@@ -7,7 +7,7 @@
  */
 
 #include "io.h"
-#include "clk.h"
+#include "sys.h"
 #include "mod_gpio.h"
 
 
@@ -63,16 +63,6 @@ static inline uint32_t gpio_get_data_addr(uint32_t bank)
 
 
 // public methods
-
-/**
- * @brief   module init
- * @note    call this function only once before gpio_module_base_thread()
- * @retval  none
- */
-void gpio_module_init()
-{
-    clk_enable(CLK_R_PIO);
-}
 
 /**
  * @brief   module base thread

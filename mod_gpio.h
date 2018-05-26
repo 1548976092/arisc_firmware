@@ -10,6 +10,11 @@
 #ifndef _MOD_GPIO_H
 #define _MOD_GPIO_H
 
+#include <stdint.h>
+
+
+
+
 #define GPIO_BASE       0X01C20800 ///< GPIO registers block start address
 #define GPIO_R_BASE     0x01f02c00 ///< GPIO R registers block start address
 #define GPIO_BANK_SIZE  0x24
