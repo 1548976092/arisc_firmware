@@ -7,15 +7,16 @@
  * to make real-time pulses generation using GPIO
  */
 
-#ifndef _PULSGEN_H
-#define _PULSGEN_H
+#ifndef _MOD_PULSGEN_H
+#define _MOD_PULSGEN_H
 
 #include <stdint.h>
 
 
 
 
-#define PULSGEN_CH_CNT 32 ///< maximum number of pulse generator channels
+#define PULSGEN_CH_CNT      32  ///< maximum number of pulse generator channels
+#define PULSGEN_MAX_DUTY    100 ///< maximum percent of pulse duty cycle
 
 
 
@@ -29,9 +30,9 @@ struct pulsgen_ch_t
     uint8_t     pin_inverted;       // 0/1
 
     uint8_t     task;               // 0 = "channel disabled"
-    uint8_t     task_infinite;      // 0 = "make task_pulses and disable the channel"
-    uint32_t    task_pulses;        // total number of pulses for the task
-    uint32_t    task_pulses_todo;   // current number of pulses we must to do
+    uint8_t     task_infinite;      // 0 = "make task_toggles and disable the channel"
+    uint32_t    task_toggles;       // total number of pin state changes
+    uint32_t    task_toggles_todo;  // current number of pin state changes we must to do
 
     uint32_t    low_ticks;          // number of CPU ticks when pin must be in LOW state
     uint32_t    high_ticks;         // number of CPU ticks when pin must be in HIGH state
@@ -48,6 +49,13 @@ struct pulsgen_ch_t
 void pulsgen_module_init();
 void pulsgen_module_base_thread();
 
+void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted);
+
+void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint32_t duty, uint8_t infinite);
+void pulsgen_task_abort(uint8_t c);
+
+uint8_t pulsgen_task_state(uint8_t c);
+uint32_t pulsgen_task_toggles(uint8_t c);
 
 
 
