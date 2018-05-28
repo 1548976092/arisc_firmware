@@ -44,14 +44,11 @@ void pulsgen_module_base_thread()
     static uint8_t c;
     static uint32_t tick, todo_tick;
 
-    // do nothing if we have no enabled channels
-    if ( !max_id ) return;
-
     // get current CPU tick
     tick = TIMER_CNT_GET();
 
     // check all working channels
-    for ( c = max_id; c--; )
+    for ( c = max_id + 1; c--; )
     {
         if ( !gen[c].task ) continue; // if channel disabled, goto next channel
 
@@ -199,3 +196,99 @@ uint32_t pulsgen_task_toggles(uint8_t c)
 {
     return gen[c].task_toggles - gen[c].task_toggles_todo;
 }
+
+
+
+
+/**
+    @example mod_pulsgen.c
+
+    <b>Usage example 1</b>: enable infinite PWM signal on GPIO pin PA3
+
+    @code
+        #include <stdint.h>
+        #include "mod_gpio.h"
+        #include "mod_pulsgen.h"
+
+        int main(void)
+        {
+            // module init
+            pulsgen_module_init();
+
+            // use GPIO pin PA3 for the channel 0 output
+            pulsgen_pin_setup(0, PA, 3, 0);
+
+            // enable infinite PWM signal on the channel 0
+            // PWM frequency = 25 kHz, duty cycle = 50%
+            pulsgen_task_setup(0, 25000, 0, 50, 1);
+
+            // main loop
+            for(;;)
+            {
+                // real update of channel states
+                pulsgen_module_base_thread();
+                // real update of pin states
+                gpio_module_base_thread();
+            }
+
+            return 0;
+        }
+    @endcode
+
+    <b>Usage example 2</b>: output of STEP/DIR signal
+
+    @code
+        #include <stdint.h>
+        #include "mod_gpio.h"
+        #include "mod_pulsgen.h"
+
+        #define STEP_CHANNEL 0
+        #define DIR_CHANNEL 1
+
+        int main(void)
+        {
+            // uses to switch between DIR an STEP output
+            uint8_t dir_output = 0; // 0 = STEP output, 1 = DIR output
+
+            // module init
+            pulsgen_module_init();
+
+            // use GPIO pin PA3 for the STEP output on the channel 0
+            pulsgen_pin_setup(STEP_CHANNEL, PA, 3, 0);
+
+            // use GPIO pin PA5 for the DIR output on the channel 1
+            pulsgen_pin_setup(DIR_CHANNEL, PA, 5, 0);
+
+            // main loop
+            for(;;)
+            {
+                if // if both channels aren't busy
+                (
+                    ! pulsgen_task_state(STEP_CHANNEL) &&
+                    ! pulsgen_task_state(DIR_CHANNEL)
+                )
+                {
+                    if ( dir_output ) // if it's time to make a DIR change
+                    {
+                        // make a DIR change with 1 kHz rate and 50% duty cycle
+                        pulsgen_task_setup(DIR_CHANNEL, 1000, 1, 50, 0);
+                        dir_output = 0;
+                    }
+                    else // if it's time to make a STEP output
+                    {
+                        // start output of 1000 steps with 25 kHz rate and 50% duty cycle
+                        pulsgen_task_setup(STEP_CHANNEL, 25000, 2000, 50, 0);
+                        dir_output = 1;
+                    }
+                }
+
+                // real update of channel states
+                pulsgen_module_base_thread();
+                // real update of pin states
+                gpio_module_base_thread();
+            }
+
+            return 0;
+        }
+    @endcode
+*/

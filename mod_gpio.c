@@ -226,6 +226,8 @@ void gpio_port_clear(uint32_t port, uint32_t mask)
     <b>Usage example 1</b>: single pin toggling:
 
     @code
+        #include "mod_gpio.h"
+
         int main(void)
         {
             gpio_module_init(); // module init
@@ -248,6 +250,9 @@ void gpio_port_clear(uint32_t port, uint32_t mask)
     <b>Usage example 2</b>: whole port toggling:
 
     @code
+        #include <stdint.h>
+        #include "mod_gpio.h"
+
         int main(void)
         {
             gpio_module_init(); // module init

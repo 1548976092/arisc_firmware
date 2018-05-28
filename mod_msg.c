@@ -209,6 +209,9 @@ int8_t msg_remove_recv_callback(uint8_t callback_id)
                             with message count limit of 100
 
     @code
+        #include <stdint.h>
+        #include "mod_msg.h"
+
         int callback_id = 0; // messages handler id
         int msg_counter = 0; // messages counter
 

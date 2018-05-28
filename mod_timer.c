@@ -69,30 +69,48 @@ uint32_t timer_cnt_get()
     <b>Usage example 1</b>: get code execution time in CPU ticks
 
     @code
-        uint32_t i, n, ticks;
+        #include <stdint.h>
+        #include "mod_timer.h"
 
-        timer_start(); // start timer
-        timer_cnt_set(0); // reset timer counter
+        int main(void)
+        {
+            uint32_t i, n, ticks;
 
-        // your code
-        for ( i = 0, n = 0; i < 123456; i++ ) n = i*i;
+            timer_start(); // start timer
+            timer_cnt_set(0); // reset timer counter
 
-        ticks = timer_cnt_get(); // get execution time of your code (in CPU ticks)
-        timer_stop(); // stop timer
+            // your code
+            for ( i = 0, n = 0; i < 123456; i++ ) n = i*i;
+
+            ticks = timer_cnt_get(); // get execution time of your code (in CPU ticks)
+            timer_stop(); // stop timer
+
+            return 0;
+        }
     @endcode
 
     <b>Usage example 2</b>: using fast macros to get code execution time in CPU ticks
 
     @code
-        uint32_t i, n, ticks;
+        #include <or1k-sprs.h>
+        #include <or1k-support.h>
+        #include <stdint.h>
+        #include "mod_timer.h"
 
-        TIMER_START(); // start timer
-        TIMER_CNT_SET(0); // reset timer counter
+        int main(void)
+        {
+            uint32_t i, n, ticks;
 
-        // your code
-        for ( i = 0, n = 0; i < 123456; i++ ) n = i*i;
+            TIMER_START(); // start timer
+            TIMER_CNT_SET(0); // reset timer counter
 
-        ticks = TIMER_CNT_SET(); // get execution time of your code (in CPU ticks)
-        TIMER_STOP(); // stop timer
+            // your code
+            for ( i = 0, n = 0; i < 123456; i++ ) n = i*i;
+
+            ticks = TIMER_CNT_SET(); // get execution time of your code (in CPU ticks)
+            TIMER_STOP(); // stop timer
+
+            return 0;
+        }
     @endcode
 */
