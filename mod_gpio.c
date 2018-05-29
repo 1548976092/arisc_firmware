@@ -230,15 +230,13 @@ void gpio_port_clear(uint32_t port, uint32_t mask)
 
         int main(void)
         {
-            gpio_module_init(); // module init
-
-            gpio_pin_setup_for_output(PA,3); // configure pin PA3 as output
+            gpio_pin_setup_for_output(PA,15); // configure pin PA15 (RED led) as output
 
             for(;;) // main loop
             {
-                // PA3 pin toggling
-                if ( gpio_pin_get(PA,3) )   gpio_pin_clear(PA,3);
-                else                        gpio_pin_set  (PA,3);
+                // PA15 pin toggling
+                if ( gpio_pin_get(PA,15) )  gpio_pin_clear(PA,15);
+                else                        gpio_pin_set  (PA,15);
 
                 gpio_module_base_thread(); // real update of pin states
             }
@@ -255,8 +253,6 @@ void gpio_port_clear(uint32_t port, uint32_t mask)
 
         int main(void)
         {
-            gpio_module_init(); // module init
-
             // configure whole port A as output
             uint8_t pin;
             for ( pin = 0; pin < GPIO_PINS_CNT; pin++ )
