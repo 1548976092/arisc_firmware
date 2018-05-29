@@ -15,8 +15,7 @@
 
 #include "sys.h"
 #include "mod_gpio.h"
-#include "mod_msg.h"
-#include "mod_pulsgen.h"
+#include "mod_timer.h"
 
 
 
@@ -27,17 +26,21 @@ int main(void)
     enable_caches();
     clk_set_rate(CPU_FREQ);
 
-    // modules init
-    msg_module_init();
-    pulsgen_module_init();
+    TIMER_START();
 
-    // main loop
-    for(;;)
+    // configure pin PA15 (RED led) as output
+    gpio_pin_setup_for_output(PA,15);
+
+    for(;;) // main loop
     {
-        msg_module_base_thread();
-        pulsgen_module_base_thread();
-        gpio_module_base_thread();
-    }
+        // make the 1s delay
+        TIMER_CNT_SET(0);
+        while ( TIMER_CNT_GET() < (TIMER_FREQUENCY) );
 
-    return 0;
+        // PA15 pin toggling
+        if ( gpio_pin_get(PA,15) )  gpio_pin_clear(PA,15);
+        else                        gpio_pin_set  (PA,15);
+
+        gpio_module_base_thread(); // real update of pin states
+    }
 }
