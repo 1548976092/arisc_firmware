@@ -11,6 +11,9 @@
 #include "mod_gpio.h"
 #include "mod_pulsgen.h"
 
+#include "debug.h"
+#include "uart.h"
+
 
 
 
@@ -41,8 +44,9 @@ void pulsgen_module_init()
  */
 void pulsgen_module_base_thread()
 {
-    static uint8_t c;
-    static uint32_t tick, todo_tick;
+    static uint8_t c = 0;
+    static uint32_t tick = 0;
+    static uint32_t todo_tick = 0;
 
     // get current CPU tick
     tick = TIMER_CNT_GET();
@@ -59,39 +63,65 @@ void pulsgen_module_base_thread()
             continue; // goto next channel
         }
 
-        if // if it's time to make a pulse change
-        (
-            ( !gen[c].todo_tick_ovrfl &&             tick  >= gen[c].todo_tick ) ||
-            (  gen[c].todo_tick_ovrfl && (UINT32_MAX-tick) >= gen[c].todo_tick )
-        )
+        // if isn't a time to make a pulse change
+        if ( gen[c].todo_tick_ovrfl )
         {
-            todo_tick = gen[c].todo_tick; // save current tick value
-
-            if ( gen[c].pin_state ) // if current pin state is HIGH
+            if ( (UINT32_MAX - tick) < gen[c].todo_tick )
             {
-                gen[c].pin_state = 0; // set pin state to LOW
-                gen[c].todo_tick += gen[c].low_ticks; // set new timestamp
-            }
-            else // if current pin state is LOW
-            {
-                gen[c].pin_state = 1; // set step state to HIGH
-                gen[c].todo_tick += gen[c].high_ticks; // set new timestamp
-            }
-
-            // set timestamp overflow flag
-            gen[c].todo_tick_ovrfl = gen[c].todo_tick < todo_tick ? 1 : 0;
-
-            --gen[c].task_toggles_todo; // decrease number of pin changes to do
-
-            // toggle pin
-            if ( gen[c].pin_state ^ gen[c].pin_inverted )
-            {
-                gpio_pin_clear(gen[c].port, gen[c].pin);
+                continue;
             }
             else
             {
-                gpio_pin_set(gen[c].port, gen[c].pin);
+                gen[c].todo_tick_ovrfl = 0;
+                if ( tick < gen[c].todo_tick ) continue;
+//printf("-    (%u) >= %u \n", (UINT32_MAX-tick), gen[c].todo_tick);
             }
+        }
+        else
+        {
+            if ( tick < gen[c].todo_tick )
+            {
+                continue;
+            }
+            else
+            {
+//printf("+    %u >= %u \n", tick, gen[c].todo_tick);
+            }
+        }
+
+//printf("tick = %u \n", tick);
+//printf("gen[%u].todo_tick = %u \n", c, gen[c].todo_tick);
+//printf("gen[%u].pin_state = %u \n", c, gen[c].pin_state);
+
+        todo_tick = gen[c].todo_tick; // save current tick value
+
+        if ( gen[c].pin_state ) // if current pin state is HIGH
+        {
+            gen[c].pin_state = 0; // set pin state to LOW
+            gen[c].todo_tick += gen[c].low_ticks; // set new timestamp
+        }
+        else // if current pin state is LOW
+        {
+            gen[c].pin_state = 1; // set step state to HIGH
+            gen[c].todo_tick += gen[c].high_ticks; // set new timestamp
+        }
+
+//printf("gen[%u].todo_tick = %u \n", c, gen[c].todo_tick);
+//printf("gen[%u].todo_tick_ovrfl = %u \n", c, gen[c].todo_tick_ovrfl);
+
+        // set timestamp overflow flag
+        gen[c].todo_tick_ovrfl = gen[c].todo_tick < todo_tick ? 1 : 0;
+
+        --gen[c].task_toggles_todo; // decrease number of pin changes to do
+
+//printf("gen[%u].task_toggles_todo = %u \n\n", c, gen[c].task_toggles_todo);
+//printf("\n");
+
+        // toggle pin
+        if ( gen[c].pin_state ^ gen[c].pin_inverted ) {
+            gpio_pin_clear(gen[c].port, gen[c].pin);
+        } else {
+            gpio_pin_set(gen[c].port, gen[c].pin);
         }
     }
 }
@@ -116,7 +146,7 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
     gen[c].port = port;
     gen[c].pin = pin;
     gen[c].pin_inverted = inverted;
-    gen[c].pin_state = inverted ? 1 : 0;
+    gen[c].pin_state = 0;
 
     // set pin state
     if ( gen[c].pin_state ^ gen[c].pin_inverted )
@@ -152,8 +182,17 @@ void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint32_
     gen[c].task_toggles = infinite ? UINT32_MAX : toggles;
     gen[c].task_toggles_todo = gen[c].task_toggles;
 
-    gen[c].low_ticks  = TIMER_FREQUENCY / frequency * (PULSGEN_MAX_DUTY - duty) / PULSGEN_MAX_DUTY;
-    gen[c].high_ticks = TIMER_FREQUENCY / frequency *                     duty  / PULSGEN_MAX_DUTY;
+    // uin32_t overflow fix
+    if ( frequency >= PULSGEN_MAX_DUTY )
+    {
+        gen[c].low_ticks  = TIMER_FREQUENCY / frequency * (PULSGEN_MAX_DUTY - duty) / PULSGEN_MAX_DUTY;
+        gen[c].high_ticks = TIMER_FREQUENCY / frequency *                     duty  / PULSGEN_MAX_DUTY;
+    }
+    else
+    {
+        gen[c].low_ticks  = TIMER_FREQUENCY / frequency / PULSGEN_MAX_DUTY * (PULSGEN_MAX_DUTY - duty);
+        gen[c].high_ticks = TIMER_FREQUENCY / frequency / PULSGEN_MAX_DUTY *                     duty ;
+    }
 
     gen[c].todo_tick = TIMER_CNT_GET();
     gen[c].todo_tick_ovrfl = 0;
