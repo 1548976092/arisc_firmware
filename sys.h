@@ -2,6 +2,7 @@
 #define _SYS_H
 
 #include <stdint.h>
+#include "io.h"
 
 
 
@@ -108,13 +109,26 @@
 // ARISC/CPUS and RTC power regulation
 #define VDD_RTC_REG 0x01f00190
 
+#define CLK_UART0   BIT(0)
+#define CLK_CPUS    BIT(1)
+#define CLK_R_PIO   BIT(2)
+#define CLK_THS     BIT(3)
+#define CLK_CPUX    BIT(4)
+#define CLK_CPUX_WRONG  BIT(5)
+#define CLK_MSGBOX  BIT(6)
+#define CLK_I2C0    BIT(7)
+#define CLK_I2C1    BIT(8)
+#define CLK_I2C2    BIT(9)
+#define CLK_I2C3    BIT(10)
+
 
 
 
 void enable_caches(void);
 void reset(void);
 void handle_exception(uint32_t type, uint32_t pc, uint32_t sp);
-void clk_set_rate(uint32_t rate);
+void clk_set_rate(uint32_t clk, uint32_t rate);
+void clk_enable(uint32_t clk);
 
 
 

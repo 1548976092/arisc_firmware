@@ -11,13 +11,13 @@ SIZE = $(CROSS_COMPILE)size
 STRIP = $(CROSS_COMPILE)strip
 
 # Compiler flags
-CFLAGS = -Os -fno-common -fno-builtin -ffreestanding -fno-exceptions -ffunction-sections
+CFLAGS = -Os -fno-common -fno-builtin -ffreestanding -fno-exceptions -ffunction-sections -DDEBUG
 
 # Linker flags
 LDFLAGS = -static -nostartfiles -Wl,--gc-sections -Wl,--require-defined=_start $(CFLAGS)
 
 # Sources
-SRC = main.c sys.c mod_timer.c mod_gpio.c mod_msg.c mod_pulsgen.c libgcc.c
+SRC = main.c sys.c uart.c debug.c mod_timer.c mod_gpio.c mod_msg.c mod_pulsgen.c libgcc.c
 COBJ = $(SRC:.c=.o)
 
 all: arisc-fw.code

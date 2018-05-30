@@ -69,6 +69,11 @@ uint32_t gpio_port_get(uint32_t port);
 void gpio_port_set(uint32_t port, uint32_t mask);
 void gpio_port_clear(uint32_t port, uint32_t mask);
 
+void gpio_set_pincfg(uint32_t bank, uint32_t pin, uint32_t val);
+uint32_t gpio_get_pincfg(uint32_t bank, uint32_t pin);
+uint32_t gpio_get_data_addr(uint32_t bank);
+
+
 
 
 

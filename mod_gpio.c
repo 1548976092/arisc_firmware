@@ -35,7 +35,7 @@ static uint32_t gpio_clr_ctrl[GPIO_PORTS_CNT] = {0};
 
 // private methods
 
-static inline void gpio_set_pincfg(uint32_t bank, uint32_t pin, uint32_t val)
+void gpio_set_pincfg(uint32_t bank, uint32_t pin, uint32_t val)
 {
     uint32_t offset = GPIO_CFG_OFFSET(pin);
     uint32_t addr = (bank == GPIO_BANK_L ? GPIO_R_BASE : GPIO_BASE + bank * GPIO_BANK_SIZE) + GPIO_CFG_INDEX(pin) * 4;
@@ -46,7 +46,7 @@ static inline void gpio_set_pincfg(uint32_t bank, uint32_t pin, uint32_t val)
     writel(cfg, addr);
 }
 
-static inline uint32_t gpio_get_pincfg(uint32_t bank, uint32_t pin)
+uint32_t gpio_get_pincfg(uint32_t bank, uint32_t pin)
 {
     uint32_t offset = GPIO_CFG_OFFSET(pin);
     uint32_t addr = (bank == GPIO_BANK_L ? GPIO_R_BASE : GPIO_BASE + bank * GPIO_BANK_SIZE) + GPIO_CFG_INDEX(pin) * 4;
@@ -54,7 +54,7 @@ static inline uint32_t gpio_get_pincfg(uint32_t bank, uint32_t pin)
     return GET_BITS_AT(readl(addr), 3, offset);
 }
 
-static inline uint32_t gpio_get_data_addr(uint32_t bank)
+uint32_t gpio_get_data_addr(uint32_t bank)
 {
     return (bank == GPIO_BANK_L ? GPIO_R_BASE : GPIO_BASE + bank * GPIO_BANK_SIZE) + 4 * 4;
 }
