@@ -63,6 +63,7 @@ void pulsgen_module_base_thread()
             continue; // goto next channel
         }
 
+        // TODO - this code still have some minor bugs, fix it!
         // if isn't a time to make a pulse change
         if ( gen[c].todo_tick_ovrfl )
         {
