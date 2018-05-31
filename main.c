@@ -37,13 +37,25 @@ int main(void)
     // use GPIO pin PA15 (ERD led) for the channel 0 output
     pulsgen_pin_setup(0, PA, 15, 1);
 
-    // enable infinite PWM signal on the channel 0
-    // PWM frequency = 1Hz, duty cycle = 10%
-    pulsgen_task_setup(0, 1, 0, 10, 1);
+    uint8_t type = 0;
 
     // main loop
     for(;;)
     {
+        if ( ! pulsgen_task_state(0) )
+        {
+            if ( type )
+            {
+                pulsgen_task_setup(0, 1, 5*2, 10, 0);
+                type = 0;
+            }
+            else
+            {
+                pulsgen_task_setup(0, 10, 50*2, 10, 0);
+                type = 1;
+            }
+        }
+
         // real update of channel states
         pulsgen_module_base_thread();
         // real update of pin states
