@@ -42,10 +42,13 @@ void pulsgen_module_init()
 void pulsgen_module_base_thread()
 {
     static uint8_t c;
-    static uint32_t tick, todo_tick;
+    static uint32_t tick = 0, tick_prev = 0, tick_ovrfl = 0, todo_tick = 0;
 
     // get current CPU tick
     tick = TIMER_CNT_GET();
+
+    // tick value overflow check
+    tick_ovrfl = tick < tick_prev ? 1 : 0;
 
     // check all working channels
     for ( c = max_id + 1; c--; )
@@ -62,12 +65,12 @@ void pulsgen_module_base_thread()
         // pulse change time check
         if ( gen[c].todo_tick_ovrfl )
         {
-            if ( tick < gen[c].todo_tick ) gen[c].todo_tick_ovrfl = 0;
+            if ( tick_ovrfl ) gen[c].todo_tick_ovrfl = 0;
             continue;
         }
         else if ( tick < gen[c].todo_tick ) continue;
 
-        todo_tick = gen[c].todo_tick; // save current tick value
+        todo_tick = gen[c].todo_tick; // save current todo tick value
 
         if ( gen[c].pin_state ) // if current pin state is HIGH
         {
@@ -95,6 +98,9 @@ void pulsgen_module_base_thread()
             gpio_pin_set(gen[c].port, gen[c].pin);
         }
     }
+
+    // save current tick value
+    tick_prev = tick;
 }
 
 
