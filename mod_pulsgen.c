@@ -59,19 +59,11 @@ void pulsgen_module_base_thread()
             continue; // goto next channel
         }
 
-        // TODO - this code still have some minor bugs, fix it!
-        // if isn't a time to make a pulse change
+        // pulse change time check
         if ( gen[c].todo_tick_ovrfl )
         {
-            if ( (UINT32_MAX - tick) < gen[c].todo_tick )
-            {
-                continue;
-            }
-            else
-            {
-                gen[c].todo_tick_ovrfl = 0;
-                if ( tick < gen[c].todo_tick ) continue;
-            }
+            if ( tick < gen[c].todo_tick ) gen[c].todo_tick_ovrfl = 0;
+            continue;
         }
         else if ( tick < gen[c].todo_tick ) continue;
 
