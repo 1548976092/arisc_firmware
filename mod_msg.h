@@ -27,28 +27,33 @@
 #define MSG_ARISC_BLOCK_ADDR    (MSG_BLOCK_ADDR + 0)
 #define MSG_ARM_BLOCK_ADDR      (MSG_BLOCK_ADDR + MSG_CPU_BLOCK_SIZE)
 
-#define MSG_MAX_CNT             4
+#define MSG_MAX_CNT             8
 #define MSG_MAX_LEN             (MSG_CPU_BLOCK_SIZE / MSG_MAX_CNT)
+#define MSG_LEN                 (MSG_MAX_LEN - 4)
 
 #define MSG_RECV_CALLBACK_CNT   64
 
 
 
 
+#pragma pack(push, 1)
 struct msg_t
 {
     uint8_t unread;
     uint8_t locked;
     uint8_t type;
     uint8_t length;
-    uint8_t msg[MSG_MAX_LEN - 4];
+    uint8_t msg[MSG_LEN];
 };
+#pragma pack(pop)
+
+typedef int32_t (*msg_recv_func_t)(uint8_t, uint8_t*, uint8_t);
 
 struct msg_recv_callback_t
 {
     uint8_t used;
     uint8_t msg_type;
-    int32_t (*func)(uint8_t, uint8_t*, uint8_t);
+    msg_recv_func_t func;
 };
 
 
@@ -61,8 +66,8 @@ void msg_module_base_thread(void);
 
 int8_t msg_send(uint8_t type, uint8_t * msg, uint8_t length);
 
-int8_t msg_add_recv_callback(uint8_t msg_type, int32_t (*func)(uint8_t, uint8_t*, uint8_t));
-int8_t msg_remove_recv_callback(uint8_t callback_id);
+int8_t msg_recv_callback_add(uint8_t msg_type, msg_recv_func_t func);
+int8_t msg_recv_callback_remove(uint8_t callback_id);
 
 
 
