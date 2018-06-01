@@ -23,6 +23,28 @@
 
 
 
+int callback_id = 0; // messages handler id
+int msg_counter = 0; // messages counter
+
+
+
+
+// handler for the `message received` event
+int msg_received(uint8_t type, uint8_t * msg, uint8_t length)
+{
+    // send mirror message
+    msg_send(type, msg, length);
+
+    // increase messages count
+    msg_counter++;
+
+    // abort messages receiving after 100 incoming messages
+    if ( msg_counter >= 10 ) msg_remove_recv_callback(callback_id);
+}
+
+
+
+
 int main(void)
 {
     // startup settings
@@ -32,35 +54,17 @@ int main(void)
     uart0_init();
 
     // module init
-    pulsgen_module_init();
+     msg_module_init();
 
-    // use GPIO pin PA15 (ERD led) for the channel 0 output
-    pulsgen_pin_setup(0, PA, 15, 1);
+     // assign incoming messages handler for the message type 123
+     callback_id = msg_add_recv_callback(123, (int32_t (*)(uint8_t, uint8_t*, uint8_t)) &msg_received);
 
-    uint8_t type = 0;
+     // main loop
+     for(;;)
+     {
+         // real reading/sending of a messages
+         msg_module_base_thread();
+     }
 
-    // main loop
-    for(;;)
-    {
-        if ( ! pulsgen_task_state(0) )
-        {
-            if ( type )
-            {
-                pulsgen_task_setup(0, 1, 5*2, 10, 0);
-                type = 0;
-            }
-            else
-            {
-                pulsgen_task_setup(0, 10, 50*2, 10, 0);
-                type = 1;
-            }
-        }
-
-        // real update of channel states
-        pulsgen_module_base_thread();
-        // real update of pin states
-        gpio_module_base_thread();
-    }
-
-    return 0;
+     return 0;
 }
