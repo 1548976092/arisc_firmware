@@ -60,29 +60,20 @@ void msg_module_base_thread(void)
     for( m = 0; m < MSG_MAX_CNT; ++m )
     {
         // check for new arm messages
-        if ( msg_arm[m]->unread && !msg_arm[m]->locked )
-        {
-            // walk through all `message received` callbacks
-            for( c = 0; c <= msg_recv_callback_max_id; ++c )
-            {
-                // if received message must be sent to this callback
-                if (
-                    msg_recv_callback[c].used &&
-                    msg_recv_callback[c].msg_type == msg_arm[m]->type
-                ) {
-                    // call function with message data as parameters
-                    (*msg_recv_callback[c].func)
-                    (
-                        msg_arm[m]->type,
-                        msg_arm[m]->msg,
-                        msg_arm[m]->length
-                    );
-                }
-            }
+        if ( !msg_arm[m]->unread || msg_arm[m]->locked ) continue;
 
-            // message read
-            msg_arm[m]->unread = 0;
+        // walk through all `message received` callbacks
+        for( c = 0; c <= msg_recv_callback_max_id; ++c )
+        {
+            // check callback's message type
+            if ( !msg_recv_callback[c].used || msg_recv_callback[c].msg_type != msg_arm[m]->type ) continue;
+
+            // call function with message data as parameters
+            (*msg_recv_callback[c].func)(msg_arm[m]->type, msg_arm[m]->msg, msg_arm[m]->length);
         }
+
+        // message read
+        msg_arm[m]->unread = 0;
     }
 }
 
@@ -116,6 +107,9 @@ int8_t msg_send(uint8_t type, uint8_t * msg, uint8_t length)
             msg_arisc[m]->unread = 1;
             msg_arisc[m]->type   = type;
             msg_arisc[m]->length = length;
+
+            // copy message to the buffer
+            memset( (uint8_t*) ((uint8_t*)&msg_arisc[m]->msg + length/4*4), 0, 4 );
             memcpy(&msg_arisc[m]->msg, msg, length);
 
             // unlock message slot
@@ -145,7 +139,7 @@ int8_t msg_send(uint8_t type, uint8_t * msg, uint8_t length)
  * @retval  0..MSG_RECV_CALLBACK_CNT (callback id)
  * @retval  -1 (callback wasn't added)
  */
-int8_t msg_add_recv_callback(uint8_t msg_type, int32_t (*func)(uint8_t, uint8_t*, uint8_t))
+int8_t msg_recv_callback_add(uint8_t msg_type, msg_recv_func_t func)
 {
     static uint8_t c;
 
@@ -182,7 +176,7 @@ int8_t msg_add_recv_callback(uint8_t msg_type, int32_t (*func)(uint8_t, uint8_t*
  * @retval   0 (callback removed)
  * @retval  -1 (callback wasn't removed)
  */
-int8_t msg_remove_recv_callback(uint8_t callback_id)
+int8_t msg_recv_callback_remove(uint8_t callback_id)
 {
     if ( callback_id > msg_recv_callback_max_id ) return -1;
     if ( !msg_recv_callback[callback_id].used ) return -1;
@@ -212,20 +206,20 @@ int8_t msg_remove_recv_callback(uint8_t callback_id)
         #include <stdint.h>
         #include "mod_msg.h"
 
-        int callback_id = 0; // messages handler id
+        int callback_id = 0; // messages callback id
         int msg_counter = 0; // messages counter
 
-        // handler for the `message received` event
-        int msg_received(uint8_t type, uint8_t * msg, uint8_t length)
+        // callback for the `message received` event
+        int32_t volatile msg_received(uint8_t type, uint8_t * msg, uint8_t length)
         {
             // send mirror message
             msg_send(type, msg, length);
-
             // increase messages count
             msg_counter++;
-
             // abort messages receiving after 100 incoming messages
-            if ( msg_counter >= 100 ) msg_remove_recv_callback(callback_id);
+            if ( msg_counter >= 100 ) msg_recv_callback_remove(callback_id);
+            // normal exit
+            return 0;
         }
 
         int main(void)
@@ -233,8 +227,8 @@ int8_t msg_remove_recv_callback(uint8_t callback_id)
             // module init
             msg_module_init();
 
-            // assign incoming messages handler for the message type 123
-            callback_id = msg_add_recv_callback(123, (int32_t (*)(uint8_t, uint8_t*, uint8_t)) &msg_received);
+            // assign incoming messages callback for the message type 123
+            callback_id = msg_recv_callback_add(123, (msg_recv_func_t) &msg_received);
 
             // main loop
             for(;;)

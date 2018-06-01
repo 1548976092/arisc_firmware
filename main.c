@@ -14,32 +14,32 @@
  */
 
 #include "sys.h"
-#include "mod_gpio.h"
-#include "mod_pulsgen.h"
+#include "mod_msg.h"
 
 #include "debug.h"
 #include "uart.h"
+#include <string.h>
 
 
 
 
-int callback_id = 0; // messages handler id
+int callback_id = 0; // messages callback id
 int msg_counter = 0; // messages counter
 
 
 
 
-// handler for the `message received` event
-int msg_received(uint8_t type, uint8_t * msg, uint8_t length)
+// callback for the `message received` event
+int32_t volatile msg_received(uint8_t type, uint8_t * msg, uint8_t length)
 {
     // send mirror message
     msg_send(type, msg, length);
-
     // increase messages count
     msg_counter++;
-
     // abort messages receiving after 100 incoming messages
-    if ( msg_counter >= 10 ) msg_remove_recv_callback(callback_id);
+    if ( msg_counter >= 10 ) msg_recv_callback_remove(callback_id);
+    // normal exit
+    return 0;
 }
 
 
@@ -54,17 +54,17 @@ int main(void)
     uart0_init();
 
     // module init
-     msg_module_init();
+    msg_module_init();
 
-     // assign incoming messages handler for the message type 123
-     callback_id = msg_add_recv_callback(123, (int32_t (*)(uint8_t, uint8_t*, uint8_t)) &msg_received);
+    // assign incoming messages callback for the message type 123
+    callback_id = msg_recv_callback_add(123, (msg_recv_func_t) &msg_received);
 
-     // main loop
-     for(;;)
-     {
-         // real reading/sending of a messages
-         msg_module_base_thread();
-     }
+    // main loop
+    for(;;)
+    {
+        // real reading/sending of a messages
+        msg_module_base_thread();
+    }
 
-     return 0;
+    return 0;
 }
