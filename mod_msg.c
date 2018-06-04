@@ -63,7 +63,7 @@ void msg_module_base_thread(void)
         if ( !msg_arm[m]->unread || msg_arm[m]->locked ) continue;
 
         // walk through all `message received` callbacks
-        for( c = 0; c <= msg_recv_callback_max_id; ++c )
+        for( c = msg_recv_callback_max_id; c--; )
         {
             // check callback's message type
             if ( !msg_recv_callback[c].used || msg_recv_callback[c].msg_type != msg_arm[m]->type ) continue;
@@ -144,19 +144,16 @@ int8_t msg_recv_callback_add(uint8_t msg_type, msg_recv_func_t func)
     static uint8_t c;
 
     // find free callback slot
-    for( c = 0; c <= msg_recv_callback_max_id; ++c )
+    for( c = 0; c < MSG_RECV_CALLBACK_CNT; ++c )
     {
-        if ( !msg_recv_callback[c].used ) break;
+        if ( msg_recv_callback[c].used ) continue;
     }
 
-    if ( c == msg_recv_callback_max_id )
-    {
-        // return `callback wasn't added` if we have no free slots
-        if ( (c+1) >= MSG_RECV_CALLBACK_CNT ) return -1;
+    // return if there are no free callback slots
+    if ( c >= MSG_RECV_CALLBACK_CNT ) return -1;
 
-        msg_recv_callback_max_id++;
-        c = msg_recv_callback_max_id;
-    }
+    // if needed increase callback max ID
+    if ( c > msg_recv_callback_max_id ) msg_recv_callback_max_id = c;
 
     // add the callback to the list
     msg_recv_callback[c].used = 1;
@@ -178,16 +175,24 @@ int8_t msg_recv_callback_add(uint8_t msg_type, msg_recv_func_t func)
  */
 int8_t msg_recv_callback_remove(uint8_t callback_id)
 {
+    static int8_t c;
+
     if ( callback_id > msg_recv_callback_max_id ) return -1;
     if ( !msg_recv_callback[callback_id].used ) return -1;
 
-    if ( callback_id && callback_id == msg_recv_callback_max_id )
-    {
-        msg_recv_callback_max_id--;
-    }
-
     // remove callback from the list
     msg_recv_callback[callback_id].used = 0;
+
+    // if needed decrease callback max ID
+    if ( callback_id == msg_recv_callback_max_id )
+    {
+        for( c = callback_id; c--; )
+        {
+            if ( !msg_recv_callback[c].used ) continue;
+        }
+
+        msg_recv_callback_max_id = c < 0 ? 0 : c;
+    }
 
     // return `callback removed`
     return 0;
