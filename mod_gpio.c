@@ -8,6 +8,7 @@
 
 #include "io.h"
 #include "sys.h"
+#include "mod_msg.h"
 #include "mod_gpio.h"
 
 
@@ -29,6 +30,8 @@ static uint32_t * gpio_port_data[GPIO_PORTS_CNT] =
 
 static uint32_t gpio_set_ctrl[GPIO_PORTS_CNT] = {0};
 static uint32_t gpio_clr_ctrl[GPIO_PORTS_CNT] = {0};
+
+static uint8_t msg_buf[GPIO_MSG_BUF_LEN] = {0};
 
 
 
@@ -221,16 +224,101 @@ void gpio_port_clear(uint32_t port, uint32_t mask)
 
 
 /**
+ * @brief   "message received" callback
+ *
+ * @note    this function will be called automatically
+ *          when a new message will arrive for this module.
+ *
+ * @param   type    user defined message type (0..0xFF)
+ * @param   msg     pointer to the message buffer
+ * @param   length  the length of a message ( 0 .. (MSG_MAX_LEN-4) )
+ *
+ * @retval   0 (message read)
+ * @retval  -1 (message not read)
+ */
+int8_t volatile gpio_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
+{
+    static uint8_t p = 0;
+    static uint8_t i = 0;
+
+    switch (type)
+    {
+        case GPIO_MSG_GET: // ARM cpu wants to know current port states
+        {
+            // setup output message buffer
+            struct gpio_msg_get_t* port = (struct gpio_msg_get_t*) &msg_buf;
+
+            // get states of all ports
+            for ( p = GPIO_PORTS_CNT; p--; ) port->state[p] = gpio_port_get(p);
+
+            // send an answer with port states
+            msg_send(type, (uint8_t*)&msg_buf, 4*GPIO_PORTS_CNT);
+
+            break;
+        }
+
+        case GPIO_MSG_SET:
+        {
+            // setup input message view
+            struct gpio_msg_set_t* port = (struct gpio_msg_set_t*) msg;
+
+            // set/clear port states
+            for ( p = GPIO_PORTS_CNT; p--; )
+            {
+                if ( port->set_mask[p] )   gpio_port_set  (p, port->set_mask  [p]);
+                if ( port->clear_mask[p] ) gpio_port_clear(p, port->clear_mask[p]);
+            }
+
+            break;
+        }
+
+        case GPIO_MSG_SETUP:
+        {
+            // setup input message view
+            struct gpio_msg_setup_t* port = (struct gpio_msg_setup_t*) msg;
+
+            // setup pin types
+            for ( p = GPIO_PORTS_CNT; p--; )
+            {
+                if ( !port->input_mask[p] && !port->input_mask[p] ) continue;
+
+                for ( i = GPIO_PINS_CNT; i--; )
+                {
+                    if ( port->input_mask[p]  & (1U << i) ) gpio_pin_setup_for_input (p, i);
+                    if ( port->output_mask[p] & (1U << i) ) gpio_pin_setup_for_output(p, i);
+                }
+            }
+
+            break;
+        }
+
+        default: return -1;
+    }
+
+    return 0;
+}
+
+
+
+
+/**
     @example mod_gpio.c
 
     <b>Usage example 1</b>: single pin toggling:
 
     @code
         #include "mod_gpio.h"
+        #include "mod_msg.h"
 
         int main(void)
         {
-            gpio_pin_setup_for_output(PA,15); // configure pin PA15 (RED led) as output
+            // configure pin PA15 (RED led) as output
+            gpio_pin_setup_for_output(PA,15);
+
+            // add message handlers
+            msg_recv_callback_add(GPIO_MSG_GET,     (msg_recv_func_t) gpio_msg_recv);
+            msg_recv_callback_add(GPIO_MSG_SET,     (msg_recv_func_t) gpio_msg_recv);
+            msg_recv_callback_add(GPIO_MSG_SETUP,   (msg_recv_func_t) gpio_msg_recv);
 
             for(;;) // main loop
             {
@@ -249,6 +337,7 @@ void gpio_port_clear(uint32_t port, uint32_t mask)
 
     @code
         #include <stdint.h>
+        #include "mod_msg.h"
         #include "mod_gpio.h"
 
         int main(void)
@@ -259,6 +348,11 @@ void gpio_port_clear(uint32_t port, uint32_t mask)
             {
                 gpio_pin_setup_for_output(PA, pin);
             }
+
+            // add message handlers
+            msg_recv_callback_add(GPIO_MSG_GET,     (msg_recv_func_t) gpio_msg_recv);
+            msg_recv_callback_add(GPIO_MSG_SET,     (msg_recv_func_t) gpio_msg_recv);
+            msg_recv_callback_add(GPIO_MSG_SETUP,   (msg_recv_func_t) gpio_msg_recv);
 
             for(;;) // main loop
             {

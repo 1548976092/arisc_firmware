@@ -31,6 +31,11 @@ int main(void)
     msg_module_init();
     pulsgen_module_init();
 
+    // add message handlers
+    msg_recv_callback_add(GPIO_MSG_GET,     (msg_recv_func_t) gpio_msg_recv);
+    msg_recv_callback_add(GPIO_MSG_SET,     (msg_recv_func_t) gpio_msg_recv);
+    msg_recv_callback_add(GPIO_MSG_SETUP,   (msg_recv_func_t) gpio_msg_recv);
+
     // main loop
     for(;;)
     {

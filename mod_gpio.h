@@ -11,6 +11,7 @@
 #define _MOD_GPIO_H
 
 #include <stdint.h>
+#include "mod_msg.h"
 
 
 
@@ -50,6 +51,35 @@ enum { PA, PB, PC, PD, PE, PF, PG, PL };
 /// a GPIO pin states
 enum { LOW, HIGH };
 
+/// messages types
+enum
+{
+    GPIO_MSG_SETUP = 0x10,
+    GPIO_MSG_GET,
+    GPIO_MSG_SET,
+};
+
+#define GPIO_MSG_BUF_LEN    MSG_LEN
+
+#pragma pack(push, 4)
+struct gpio_msg_setup_t
+{
+    uint32_t input_mask[GPIO_PORTS_CNT];
+    uint32_t output_mask[GPIO_PORTS_CNT];
+};
+
+struct gpio_msg_set_t
+{
+    uint32_t set_mask[GPIO_PORTS_CNT];
+    uint32_t clear_mask[GPIO_PORTS_CNT];
+};
+
+struct gpio_msg_get_t
+{
+    uint32_t state[GPIO_PORTS_CNT];
+};
+#pragma pack(pop)
+
 
 
 
@@ -68,6 +98,8 @@ void gpio_pin_clear(uint32_t port, uint32_t pin);
 uint32_t gpio_port_get(uint32_t port);
 void gpio_port_set(uint32_t port, uint32_t mask);
 void gpio_port_clear(uint32_t port, uint32_t mask);
+
+int8_t volatile gpio_msg_recv(uint8_t type, uint8_t * msg, uint8_t length);
 
 
 
