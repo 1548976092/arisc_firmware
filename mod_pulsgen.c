@@ -149,7 +149,6 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
  * @param   frequency   pin state change frequency (in Hz)
  * @param   toggles     number of pin state changes
  * @param   duty        duty cycle value (0..PULSGEN_MAX_DUTY)
- * @param   infinite    is this task infinite?
  *
  * @retval  none
  */
