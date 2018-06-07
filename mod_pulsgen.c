@@ -255,30 +255,99 @@ int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
     {
         case PULSGEN_MSG_PIN_SETUP:
         {
+            // setup input message view
+            struct pulsgen_msg_pin_setup_t* data = (struct pulsgen_msg_pin_setup_t*) msg;
+
+            // setup channel pins
+            for ( i = PULSGEN_CH_CNT; i--; )
+            {
+                if ( data->channels_mask & (1U << i) )
+                {
+                    pulsgen_pin_setup( i, data->port[i], data->pin[i],
+                        (data->inverted_mask & (1U << i)) ? 1 : 0 );
+                }
+            }
 
             break;
         }
 
         case PULSGEN_MSG_TASK_SETUP:
         {
+            // setup input message view
+            struct pulsgen_msg_task_setup_t* data = (struct pulsgen_msg_task_setup_t*) msg;
+
+            // select channels mask
+            uint32_t mask = data->channels_mask1 ? data->channels_mask1 : data->channels_mask2;
+
+            // setup channel tasks
+            for ( i = PULSGEN_MSG_TASK_SETUP_CH_CNT; i--; )
+            {
+                if ( mask & (1U << i) )
+                {
+                    pulsgen_task_setup
+                    (
+                        data->channels_mask1 ? i : i + PULSGEN_MSG_TASK_SETUP_CH_CNT,
+                        data->period[i], data->toggles[i],
+                        data->duty[i],   data->delay[i]
+                    );
+                }
+            }
 
             break;
         }
 
         case PULSGEN_MSG_TASK_ABORT:
         {
+            // setup input message view
+            struct pulsgen_msg_task_abort_t* data = (struct pulsgen_msg_task_abort_t*) msg;
+
+            // abort tasks
+            for ( i = PULSGEN_CH_CNT; i--; )
+            {
+                if ( data->channels_mask & (1U << i) ) pulsgen_task_abort(i);
+            }
 
             break;
         }
 
         case PULSGEN_MSG_TASK_STATE:
         {
+            // setup messages view
+            struct pulsgen_msg_task_state_t*  in = (struct pulsgen_msg_task_state_t*)  msg;
+            struct pulsgen_msg_task_state_t* out = (struct pulsgen_msg_task_state_t*) &msg_buf;
+
+            out->channels_mask = 0;
+
+            // get task states
+            for ( i = PULSGEN_CH_CNT; i--; )
+            {
+                if ( in->channels_mask & (1U << i) )
+                {
+                    if ( pulsgen_task_state(i) )    out->channels_mask |=  (1U << i);
+                    else                            out->channels_mask &= ~(1U << i);
+                }
+            }
+
+            // send an answer
+            msg_send(type, (uint8_t*)&msg_buf, 4);
 
             break;
         }
 
         case PULSGEN_MSG_TASK_TOGGLES:
         {
+            // setup messages view
+            struct pulsgen_msg_task_toggles_t*  in = (struct pulsgen_msg_task_toggles_t*)  msg;
+            struct pulsgen_msg_task_toggles_t* out = (struct pulsgen_msg_task_toggles_t*) &msg_buf;
+
+            // get task toggles
+            for ( i = PULSGEN_CH_CNT; i--; )
+            {
+                out->toggles[i] = in->toggles[i] ? pulsgen_task_toggles(i) : 0;
+            }
+
+            // send an answer
+            msg_send(type, (uint8_t*)&msg_buf, 4*PULSGEN_CH_CNT);
 
             break;
         }
