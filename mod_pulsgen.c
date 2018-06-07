@@ -155,8 +155,14 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
  */
 void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint8_t duty)
 {
+    static uint32_t tick = 0;
+
+    // get current CPU tick
+    tick = TIMER_CNT_GET();
+
     if ( c > max_id ) ++max_id;
 
+    // set task data
     gen[c].task = 1;
     gen[c].task_infinite = toggles ? 1 : 0;
     gen[c].task_toggles = toggles ? toggles : UINT32_MAX;
@@ -174,9 +180,9 @@ void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint8_t
         gen[c].high_ticks = TIMER_FREQUENCY / frequency / PULSGEN_MAX_DUTY *                     duty ;
     }
 
-    // FIXME - timer counter value can overflow between this two instructions
-    gen[c].todo_tick = TIMER_CNT_GET();
-    gen[c].todo_tick_ovrfl = 0;
+    // setup to do tick
+    gen[c].todo_tick = tick + gen[c].low_ticks;
+    gen[c].todo_tick_ovrfl = gen[c].todo_tick < tick ? 1 : 0;
 }
 
 /**
