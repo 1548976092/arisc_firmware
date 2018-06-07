@@ -140,21 +140,23 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
 
 
 
-// TODO - replace "frequency" parameter with "period" (in microseconds)
 // TODO - add "delay" parameter (in microseconds)
 /**
  * @brief   setup a new task for the selected channel
  *
  * @param   c           channel id
- * @param   frequency   pin state change frequency (in Hz)
+ * @param   period      pin state change period (in microseconds)
  * @param   toggles     number of pin state changes
  * @param   duty        duty cycle value (0..PULSGEN_MAX_DUTY)
  *
  * @retval  none
  */
-void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint8_t duty)
+void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t duty)
 {
-    static uint32_t tick = 0;
+    static uint32_t tick = 0, period_ticks = 0;
+
+    // important checks
+    if ( !period || !duty ) return;
 
     // get current CPU tick
     tick = TIMER_CNT_GET();
@@ -167,17 +169,18 @@ void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint8_t
     gen[c].task_toggles = toggles ? toggles : UINT32_MAX;
     gen[c].task_toggles_todo = gen[c].task_toggles;
 
+    // soft checks
+    if ( period >= PULSGEN_MAX_PERIOD )  period  = PULSGEN_MAX_PERIOD - 1;
+    if ( duty   >= PULSGEN_MAX_DUTY )    duty    = PULSGEN_MAX_DUTY - 1;
+
+    period_ticks = (TIMER_FREQUENCY / 1000000) * period;
+
     // uin32_t overflow fix
-    if ( frequency >= PULSGEN_MAX_DUTY )
-    {
-        gen[c].setup_ticks = TIMER_FREQUENCY / frequency * (PULSGEN_MAX_DUTY - duty) / PULSGEN_MAX_DUTY;
-        gen[c].hold_ticks  = TIMER_FREQUENCY / frequency *                     duty  / PULSGEN_MAX_DUTY;
-    }
-    else
-    {
-        gen[c].setup_ticks = TIMER_FREQUENCY / frequency / PULSGEN_MAX_DUTY * (PULSGEN_MAX_DUTY - duty);
-        gen[c].hold_ticks  = TIMER_FREQUENCY / frequency / PULSGEN_MAX_DUTY *                     duty ;
-    }
+    gen[c].hold_ticks = period_ticks < (UINT32_MAX/PULSGEN_MAX_DUTY) ?
+        period_ticks * duty / PULSGEN_MAX_DUTY :
+        period_ticks / PULSGEN_MAX_DUTY * duty ;
+
+    gen[c].setup_ticks = period_ticks - gen[c].hold_ticks;
 
     // setup to do tick
     gen[c].todo_tick = tick + gen[c].setup_ticks;

@@ -12,12 +12,14 @@
 
 #include <stdint.h>
 #include "mod_msg.h"
+#include "mod_timer.h"
 
 
 
 
 #define PULSGEN_CH_CNT      32  ///< maximum number of pulse generator channels
 #define PULSGEN_MAX_DUTY    100 ///< maximum percent of pulse duty cycle (255 is max)
+#define PULSGEN_MAX_PERIOD  (UINT32_MAX/(TIMER_FREQUENCY/1000000))
 
 
 
@@ -104,7 +106,7 @@ void pulsgen_module_base_thread();
 
 void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted);
 
-void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint8_t duty);
+void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t duty);
 void pulsgen_task_abort(uint8_t c);
 
 uint8_t pulsgen_task_state(uint8_t c);
