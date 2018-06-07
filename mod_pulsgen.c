@@ -76,12 +76,12 @@ void pulsgen_module_base_thread()
         if ( gen[c].pin_state ) // if current pin state is HIGH
         {
             gen[c].pin_state = 0; // set pin state to LOW
-            gen[c].todo_tick += gen[c].low_ticks; // set new timestamp
+            gen[c].todo_tick += gen[c].setup_ticks; // set new timestamp
         }
         else // if current pin state is LOW
         {
             gen[c].pin_state = 1; // set step state to HIGH
-            gen[c].todo_tick += gen[c].high_ticks; // set new timestamp
+            gen[c].todo_tick += gen[c].hold_ticks; // set new timestamp
         }
 
         // set timestamp overflow flag
@@ -171,17 +171,17 @@ void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint8_t
     // uin32_t overflow fix
     if ( frequency >= PULSGEN_MAX_DUTY )
     {
-        gen[c].low_ticks  = TIMER_FREQUENCY / frequency * (PULSGEN_MAX_DUTY - duty) / PULSGEN_MAX_DUTY;
-        gen[c].high_ticks = TIMER_FREQUENCY / frequency *                     duty  / PULSGEN_MAX_DUTY;
+        gen[c].setup_ticks = TIMER_FREQUENCY / frequency * (PULSGEN_MAX_DUTY - duty) / PULSGEN_MAX_DUTY;
+        gen[c].hold_ticks  = TIMER_FREQUENCY / frequency *                     duty  / PULSGEN_MAX_DUTY;
     }
     else
     {
-        gen[c].low_ticks  = TIMER_FREQUENCY / frequency / PULSGEN_MAX_DUTY * (PULSGEN_MAX_DUTY - duty);
-        gen[c].high_ticks = TIMER_FREQUENCY / frequency / PULSGEN_MAX_DUTY *                     duty ;
+        gen[c].setup_ticks = TIMER_FREQUENCY / frequency / PULSGEN_MAX_DUTY * (PULSGEN_MAX_DUTY - duty);
+        gen[c].hold_ticks  = TIMER_FREQUENCY / frequency / PULSGEN_MAX_DUTY *                     duty ;
     }
 
     // setup to do tick
-    gen[c].todo_tick = tick + gen[c].low_ticks;
+    gen[c].todo_tick = tick + gen[c].setup_ticks;
     gen[c].todo_tick_ovrfl = gen[c].todo_tick < tick ? 1 : 0;
 }
 

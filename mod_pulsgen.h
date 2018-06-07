@@ -22,8 +22,6 @@
 
 
 
-// TODO - rename "low_ticks" to the "setup_ticks"
-// TODO - rename "high_ticks" to the "hold_ticks"
 /// a channel parameters
 struct pulsgen_ch_t
 {
@@ -37,8 +35,8 @@ struct pulsgen_ch_t
     uint32_t    task_toggles;       // total number of pin state changes
     uint32_t    task_toggles_todo;  // current number of pin state changes we must to do
 
-    uint32_t    low_ticks;          // number of CPU ticks when pin must be in LOW state
-    uint32_t    high_ticks;         // number of CPU ticks when pin must be in HIGH state
+    uint32_t    setup_ticks;        // number of CPU ticks to prepare pin toggle
+    uint32_t    hold_ticks;         // number of CPU ticks to hold pin state
 
     uint32_t    todo_tick;          // timestamp (in CPU ticks) to change pin state
     uint8_t     todo_tick_ovrfl;    // timestamp overflow flag
