@@ -73,7 +73,8 @@ struct pulsgen_msg_task_setup_t
 {
     uint16_t    channels_mask1; // channels bits from  0 to 15, "0" means "use channels_mask2"
     uint16_t    channels_mask2; // channels bits from 16 to 31
-    uint32_t    frequency[PULSGEN_MSG_TASK_SETUP_CH_CNT];
+    uint32_t    period[PULSGEN_MSG_TASK_SETUP_CH_CNT];
+    uint32_t    delay[PULSGEN_MSG_TASK_SETUP_CH_CNT];
     uint32_t    toggles[PULSGEN_MSG_TASK_SETUP_CH_CNT];
     uint8_t     duty[PULSGEN_MSG_TASK_SETUP_CH_CNT];
     uint32_t    infinite_mask; // "bit 1" means "infinite"
@@ -106,7 +107,7 @@ void pulsgen_module_base_thread();
 
 void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted);
 
-void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t duty);
+void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t duty, uint32_t delay);
 void pulsgen_task_abort(uint8_t c);
 
 uint8_t pulsgen_task_state(uint8_t c);

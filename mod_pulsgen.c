@@ -140,7 +140,6 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
 
 
 
-// TODO - add "delay" parameter (in microseconds)
 /**
  * @brief   setup a new task for the selected channel
  *
@@ -148,10 +147,11 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
  * @param   period      pin state change period (in microseconds)
  * @param   toggles     number of pin state changes
  * @param   duty        duty cycle value (0..PULSGEN_MAX_DUTY)
+ * @param   delay       task start delay (in microseconds)
  *
  * @retval  none
  */
-void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t duty)
+void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t duty, uint32_t delay)
 {
     static uint32_t tick = 0, period_ticks = 0;
 
@@ -170,8 +170,8 @@ void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t du
     gen[c].task_toggles_todo = gen[c].task_toggles;
 
     // soft checks
-    if ( period >= PULSGEN_MAX_PERIOD )  period  = PULSGEN_MAX_PERIOD - 1;
-    if ( duty   >= PULSGEN_MAX_DUTY )    duty    = PULSGEN_MAX_DUTY - 1;
+    if ( period >= PULSGEN_MAX_PERIOD ) period  = PULSGEN_MAX_PERIOD - 1;
+    if ( duty   >= PULSGEN_MAX_DUTY )   duty    = PULSGEN_MAX_DUTY   - 1;
 
     period_ticks = (TIMER_FREQUENCY / 1000000) * period;
 
@@ -181,9 +181,15 @@ void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t du
         period_ticks / PULSGEN_MAX_DUTY * duty ;
 
     gen[c].setup_ticks = period_ticks - gen[c].hold_ticks;
-
-    // setup to do tick
     gen[c].todo_tick = tick + gen[c].setup_ticks;
+
+    // if we need a delay before task start
+    if ( delay )
+    {
+        if ( delay >= PULSGEN_MAX_PERIOD ) delay = PULSGEN_MAX_PERIOD - 1;
+        gen[c].todo_tick += (TIMER_FREQUENCY / 1000000) * delay;
+    }
+
     gen[c].todo_tick_ovrfl = gen[c].todo_tick < tick ? 1 : 0;
 }
 
@@ -305,8 +311,8 @@ int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             pulsgen_pin_setup(0, PA, 3, 0);
 
             // enable infinite PWM signal on the channel 0
-            // PWM frequency = 25 kHz, duty cycle = 50%
-            pulsgen_task_setup(0, 25000, 0, 50, 1);
+            // PWM frequency = 20 kHz, duty cycle = 50%
+            pulsgen_task_setup(0, 50, 0, 50, 0);
 
             // main loop
             for(;;)
@@ -362,8 +368,8 @@ int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
                     }
                     else // if it's time to make a STEP output
                     {
-                        // start output of 1000 steps with 25 kHz rate and 50% duty cycle
-                        pulsgen_task_setup(STEP_CHANNEL, 25000, 2000, 50, 0);
+                        // start output of 1000 steps with 20 kHz rate and 50% duty cycle
+                        pulsgen_task_setup(STEP_CHANNEL, 50, 2000, 50, 0);
                         dir_output = 1;
                     }
                 }
