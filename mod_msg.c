@@ -57,6 +57,8 @@ void msg_module_base_thread(void)
     static uint8_t c;
 
     // walk through all arm messages
+    // TODO - this cycle can cause a problem with messages reading order
+    // TODO - change this type of cycle to FIFO
     for( m = 0; m < MSG_MAX_CNT; ++m )
     {
         // check for new arm messages
@@ -95,6 +97,8 @@ int8_t msg_send(uint8_t type, uint8_t * msg, uint8_t length)
     static uint8_t m;
 
     // walk through all arisc message slots
+    // TODO - this cycle can cause a problem with messages reading order
+    // TODO - change this type of cycle to FIFO
     for( m = 0; m < MSG_MAX_CNT; ++m )
     {
         // if this message slot is free
