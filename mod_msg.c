@@ -53,29 +53,34 @@ void msg_module_init(void)
  */
 void msg_module_base_thread(void)
 {
-    static uint8_t m;
-    static uint8_t c;
+    static uint8_t last = 0;
+    static uint8_t m = 0;
+    static uint8_t i = 0;
 
-    // walk through all arm messages
-    // TODO - this cycle can cause a problem with messages reading order
-    // TODO - change this type of cycle to FIFO
-    for( m = 0; m < MSG_MAX_CNT; ++m )
+    // find next unread message
+    for ( i = MSG_MAX_CNT, m = last; i--; )
     {
-        // check for new arm messages
-        if ( !msg_arm[m]->unread || msg_arm[m]->locked ) continue;
-
-        // walk through all `message received` callbacks
-        for( c = msg_recv_callback_max_id; c--; )
+        // process only one unread message
+        if ( msg_arm[m]->unread )
         {
-            // check callback's message type
-            if ( !msg_recv_callback[c].used || msg_recv_callback[c].msg_type != msg_arm[m]->type ) continue;
+            // walk through all `message received` callbacks
+            for( i = msg_recv_callback_max_id; i--; )
+            {
+                // check callback's message type
+                if ( !msg_recv_callback[i].used || msg_recv_callback[i].msg_type != msg_arm[m]->type ) continue;
 
-            // call function with message data as parameters
-            (*msg_recv_callback[c].func)(msg_arm[m]->type, msg_arm[m]->msg, msg_arm[m]->length);
+                // call function with message data as parameters
+                (*msg_recv_callback[i].func)(msg_arm[m]->type, msg_arm[m]->msg, msg_arm[m]->length);
+            }
+
+            // message read
+            msg_arm[m]->unread = 0;
+            last = m;
+            return;
         }
 
-        // message read
-        msg_arm[m]->unread = 0;
+        ++m;
+        if ( m >= MSG_MAX_CNT ) m = 0;
     }
 }
 
@@ -87,44 +92,42 @@ void msg_module_base_thread(void)
  *
  * @param   type    user defined message type (0..0xFF)
  * @param   msg     pointer to the message buffer
- * @param   length  the length of a message ( 0 .. (MSG_MAX_LEN-4) )
+ * @param   length  the length of a message (0 ..MSG_LEN)
  *
  * @retval   0 (message sent)
  * @retval  -1 (message not sent)
  */
 int8_t msg_send(uint8_t type, uint8_t * msg, uint8_t length)
 {
-    static uint8_t m;
+    static uint8_t last = 0;
+    static uint8_t m = 0;
+    static uint8_t i = 0;
 
-    // walk through all arisc message slots
-    // TODO - this cycle can cause a problem with messages reading order
-    // TODO - change this type of cycle to FIFO
-    for( m = 0; m < MSG_MAX_CNT; ++m )
+    // find next free message slot
+    for ( i = MSG_MAX_CNT, m = last; i--; )
     {
-        // if this message slot is free
+        // sending message
         if ( !msg_arisc[m]->unread )
         {
-            // lock message slot while adding message data
-            msg_arisc[m]->locked = 1;
-
-            // set message data
-            msg_arisc[m]->unread = 1;
-            msg_arisc[m]->type   = type;
-            msg_arisc[m]->length = length;
-
             // copy message to the buffer
             memset( (uint8_t*) ((uint8_t*)&msg_arisc[m]->msg + length/4*4), 0, 4 );
             memcpy(&msg_arisc[m]->msg, msg, length);
 
-            // unlock message slot
-            msg_arisc[m]->locked = 0;
+            // set message data
+            msg_arisc[m]->type   = type;
+            msg_arisc[m]->length = length;
+            msg_arisc[m]->unread = 1;
 
-            // return `message sent`
+            // message sent
+            last = m;
             return 0;
         }
+
+        ++m;
+        if ( m >= MSG_MAX_CNT ) m = 0;
     }
 
-    // return `message not sent`
+    // message not sent
     return -1;
 }
 

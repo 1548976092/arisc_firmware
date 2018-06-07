@@ -40,7 +40,7 @@
 struct msg_t
 {
     uint8_t unread;
-    uint8_t locked;
+    uint8_t locked; // actually not used at this moment
     uint8_t type;
     uint8_t length;
     uint8_t msg[MSG_LEN];
