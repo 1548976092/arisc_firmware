@@ -140,7 +140,6 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
 
 
 
-// TODO - remove "infinite" parameter, "0 toggles" mean "infinite"
 // TODO - replace "frequency" parameter with "period" (in microseconds)
 // TODO - add "delay" parameter (in microseconds)
 /**
@@ -154,13 +153,13 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
  *
  * @retval  none
  */
-void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint8_t duty, uint8_t infinite)
+void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint8_t duty)
 {
     if ( c > max_id ) ++max_id;
 
     gen[c].task = 1;
-    gen[c].task_infinite = infinite;
-    gen[c].task_toggles = infinite ? UINT32_MAX : toggles;
+    gen[c].task_infinite = toggles ? 1 : 0;
+    gen[c].task_toggles = toggles ? toggles : UINT32_MAX;
     gen[c].task_toggles_todo = gen[c].task_toggles;
 
     // uin32_t overflow fix

@@ -22,6 +22,8 @@
 
 
 
+// TODO - rename "low_ticks" to the "setup_ticks"
+// TODO - rename "high_ticks" to the "hold_ticks"
 /// a channel parameters
 struct pulsgen_ch_t
 {
@@ -104,7 +106,7 @@ void pulsgen_module_base_thread();
 
 void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted);
 
-void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint8_t duty, uint8_t infinite);
+void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint8_t duty);
 void pulsgen_task_abort(uint8_t c);
 
 uint8_t pulsgen_task_state(uint8_t c);
