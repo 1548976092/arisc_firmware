@@ -91,8 +91,7 @@ struct pulsgen_msg_task_state_t
 
 struct pulsgen_msg_task_toggles_t
 {
-    uint32_t    channels_mask; // "bit 0" means "don't touch this channel"
-    uint32_t    toggles[PULSGEN_CH_CNT];
+    uint32_t    toggles[PULSGEN_CH_CNT]; // "0" means "don't touch this channel"
 };
 #pragma pack(pop)
 
