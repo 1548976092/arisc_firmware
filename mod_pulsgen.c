@@ -18,6 +18,7 @@
 
 static uint8_t max_id = 0; // maximum channel id
 static struct pulsgen_ch_t gen[PULSGEN_CH_CNT] = {0}; // array of channels data
+static uint8_t msg_buf[PULSGEN_MSG_BUF_LEN] = {0};
 
 
 
@@ -70,7 +71,7 @@ void pulsgen_module_base_thread()
         }
         else if ( tick < gen[c].todo_tick ) continue;
 
-        todo_tick = gen[c].todo_tick; // save current todo tick value
+        todo_tick = gen[c].todo_tick; // save current to do tick value
 
         if ( gen[c].pin_state ) // if current pin state is HIGH
         {
@@ -139,6 +140,9 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
 
 
 
+// TODO - remove "infinite" parameter, "0 toggles" mean "infinite"
+// TODO - replace "frequency" parameter with "period" (in microseconds)
+// TODO - add "delay" parameter (in microseconds)
 /**
  * @brief   setup a new task for the selected channel
  *
@@ -150,7 +154,7 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
  *
  * @retval  none
  */
-void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint32_t duty, uint8_t infinite)
+void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint8_t duty, uint8_t infinite)
 {
     if ( c > max_id ) ++max_id;
 
@@ -171,6 +175,7 @@ void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint32_
         gen[c].high_ticks = TIMER_FREQUENCY / frequency / PULSGEN_MAX_DUTY *                     duty ;
     }
 
+    // FIXME - timer counter value can overflow between this two instructions
     gen[c].todo_tick = TIMER_CNT_GET();
     gen[c].todo_tick_ovrfl = 0;
 }
@@ -211,6 +216,64 @@ uint8_t pulsgen_task_state(uint8_t c)
 uint32_t pulsgen_task_toggles(uint8_t c)
 {
     return gen[c].task_toggles - gen[c].task_toggles_todo;
+}
+
+
+
+
+/**
+ * @brief   "message received" callback
+ *
+ * @note    this function will be called automatically
+ *          when a new message will arrive for this module.
+ *
+ * @param   type    user defined message type (0..0xFF)
+ * @param   msg     pointer to the message buffer
+ * @param   length  the length of a message (0 .. MSG_LEN)
+ *
+ * @retval   0 (message read)
+ * @retval  -1 (message not read)
+ */
+int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
+{
+    static uint8_t i = 0;
+
+    switch (type)
+    {
+        case PULSGEN_MSG_PIN_SETUP:
+        {
+
+            break;
+        }
+
+        case PULSGEN_MSG_TASK_SETUP:
+        {
+
+            break;
+        }
+
+        case PULSGEN_MSG_TASK_ABORT:
+        {
+
+            break;
+        }
+
+        case PULSGEN_MSG_TASK_STATE:
+        {
+
+            break;
+        }
+
+        case PULSGEN_MSG_TASK_TOGGLES:
+        {
+
+            break;
+        }
+
+        default: return -1;
+    }
+
+    return 0;
 }
 
 

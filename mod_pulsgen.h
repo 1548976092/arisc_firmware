@@ -11,12 +11,13 @@
 #define _MOD_PULSGEN_H
 
 #include <stdint.h>
+#include "mod_msg.h"
 
 
 
 
 #define PULSGEN_CH_CNT      32  ///< maximum number of pulse generator channels
-#define PULSGEN_MAX_DUTY    100 ///< maximum percent of pulse duty cycle
+#define PULSGEN_MAX_DUTY    100 ///< maximum percent of pulse duty cycle (255 is max)
 
 
 
@@ -44,6 +45,58 @@ struct pulsgen_ch_t
 
 
 
+/// messages types
+enum
+{
+    PULSGEN_MSG_PIN_SETUP = 0x20,
+    PULSGEN_MSG_TASK_SETUP,
+    PULSGEN_MSG_TASK_ABORT,
+    PULSGEN_MSG_TASK_STATE,
+    PULSGEN_MSG_TASK_TOGGLES
+};
+
+#define PULSGEN_MSG_BUF_LEN             MSG_LEN
+#define PULSGEN_MSG_TASK_SETUP_CH_CNT   16
+
+#pragma pack(push, 1)
+struct pulsgen_msg_pin_setup_t
+{
+    uint32_t    channels_mask; // "bit 0" means "don't touch this channel"
+    uint8_t     port[PULSGEN_CH_CNT];
+    uint8_t     pin[PULSGEN_CH_CNT];
+    uint32_t    inverted_mask; // "bit 1" means "inverted"
+};
+
+struct pulsgen_msg_task_setup_t
+{
+    uint16_t    channels_mask1; // channels bits from  0 to 15, "0" means "use channels_mask2"
+    uint16_t    channels_mask2; // channels bits from 16 to 31
+    uint32_t    frequency[PULSGEN_MSG_TASK_SETUP_CH_CNT];
+    uint32_t    toggles[PULSGEN_MSG_TASK_SETUP_CH_CNT];
+    uint8_t     duty[PULSGEN_MSG_TASK_SETUP_CH_CNT];
+    uint32_t    infinite_mask; // "bit 1" means "infinite"
+};
+
+struct pulsgen_msg_task_abort_t
+{
+    uint32_t    channels_mask; // "bit 0" means "don't touch this channel"
+};
+
+struct pulsgen_msg_task_state_t
+{
+    uint32_t    channels_mask; // "bit 0" means "don't touch this channel"
+};
+
+struct pulsgen_msg_task_toggles_t
+{
+    uint32_t    channels_mask; // "bit 0" means "don't touch this channel"
+    uint32_t    toggles[PULSGEN_CH_CNT];
+};
+#pragma pack(pop)
+
+
+
+
 // export public methods
 
 void pulsgen_module_init();
@@ -51,11 +104,13 @@ void pulsgen_module_base_thread();
 
 void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted);
 
-void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint32_t duty, uint8_t infinite);
+void pulsgen_task_setup(uint8_t c, uint32_t frequency, uint32_t toggles, uint8_t duty, uint8_t infinite);
 void pulsgen_task_abort(uint8_t c);
 
 uint8_t pulsgen_task_state(uint8_t c);
 uint32_t pulsgen_task_toggles(uint8_t c);
+int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length);
+
 
 
 
