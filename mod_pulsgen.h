@@ -77,7 +77,6 @@ struct pulsgen_msg_task_setup_t
     uint32_t    delay[PULSGEN_MSG_TASK_SETUP_CH_CNT];
     uint32_t    toggles[PULSGEN_MSG_TASK_SETUP_CH_CNT];
     uint8_t     duty[PULSGEN_MSG_TASK_SETUP_CH_CNT];
-    uint32_t    infinite_mask; // "bit 1" means "infinite"
 };
 
 struct pulsgen_msg_task_abort_t
