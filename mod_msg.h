@@ -20,10 +20,10 @@
 #define ARISC_CONF_SIZE         2048
 #define ARISC_CONF_ADDR         (SRAM_A2_ADDR + SRAM_A2_SIZE - ARISC_CONF_SIZE)
 
-#define MSG_BLOCK_SIZE          2048
+#define MSG_BLOCK_SIZE          2560
 #define MSG_BLOCK_ADDR          (ARISC_CONF_ADDR - MSG_BLOCK_SIZE)
 
-#define MSG_CPU_BLOCK_SIZE      1024
+#define MSG_CPU_BLOCK_SIZE      1280
 #define MSG_ARISC_BLOCK_ADDR    (MSG_BLOCK_ADDR + 0)
 #define MSG_ARM_BLOCK_ADDR      (MSG_BLOCK_ADDR + MSG_CPU_BLOCK_SIZE)
 
@@ -31,7 +31,7 @@
 #define MSG_MAX_LEN             (MSG_CPU_BLOCK_SIZE / MSG_MAX_CNT)
 #define MSG_LEN                 (MSG_MAX_LEN - 4)
 
-#define MSG_RECV_CALLBACK_CNT   64
+#define MSG_RECV_CALLBACK_CNT   32
 
 
 
