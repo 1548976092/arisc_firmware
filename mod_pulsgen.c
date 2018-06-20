@@ -165,7 +165,7 @@ void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t du
 
     // set task data
     gen[c].task = 1;
-    gen[c].task_infinite = toggles ? 1 : 0;
+    gen[c].task_infinite = toggles ? 0 : 1;
     gen[c].task_toggles = toggles ? toggles : UINT32_MAX;
     gen[c].task_toggles_todo = gen[c].task_toggles;
 
