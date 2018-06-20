@@ -280,7 +280,7 @@ int8_t volatile gpio_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             // setup pin types
             for ( p = GPIO_PORTS_CNT; p--; )
             {
-                if ( !port->input_mask[p] && !port->input_mask[p] ) continue;
+                if ( !port->input_mask[p] && !port->output_mask[p] ) continue;
 
                 for ( i = GPIO_PINS_CNT; i--; )
                 {
