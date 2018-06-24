@@ -231,7 +231,7 @@ void gpio_port_clear(uint32_t port, uint32_t mask)
  *
  * @param   type    user defined message type (0..0xFF)
  * @param   msg     pointer to the message buffer
- * @param   length  the length of a message ( 0 .. (MSG_MAX_LEN-4) )
+ * @param   length  the length of a message (0..MSG_LEN)
  *
  * @retval   0 (message read)
  * @retval  -1 (message not read)
@@ -245,28 +245,25 @@ int8_t volatile gpio_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
     {
         case GPIO_MSG_GET: // ARM cpu wants to know current port states
         {
-            // setup output message buffer
-            struct gpio_msg_get_t* port = (struct gpio_msg_get_t*) &msg_buf;
-
             // get states of all ports
-            for ( p = GPIO_PORTS_CNT; p--; ) port->state[p] = gpio_port_get(p);
+            for ( p = GPIO_PORTS_CNT; p--; )
+            {
+                GPIO_MSG_BUF_SET_MASK(&msg_buf,p) = gpio_port_get(p);
+            }
 
             // send an answer with port states
-            msg_send(type, (uint8_t*)&msg_buf, 4*GPIO_PORTS_CNT);
+            msg_send(type, (uint8_t*)&msg_buf, GPIO_MSG_GET_LEN);
 
             break;
         }
 
         case GPIO_MSG_SET:
         {
-            // setup input message view
-            struct gpio_msg_set_t* port = (struct gpio_msg_set_t*) msg;
-
             // set/clear port states
             for ( p = GPIO_PORTS_CNT; p--; )
             {
-                if ( port->set_mask[p] )   gpio_port_set  (p, port->set_mask  [p]);
-                if ( port->clear_mask[p] ) gpio_port_clear(p, port->clear_mask[p]);
+                if ( GPIO_MSG_BUF_SET_MASK(msg,p) )   gpio_port_set  (p, GPIO_MSG_BUF_INPUT_MASK(msg,p));
+                if ( GPIO_MSG_BUF_CLEAR_MASK(msg,p) ) gpio_port_clear(p, GPIO_MSG_BUF_CLEAR_MASK(msg,p));
             }
 
             break;
@@ -274,18 +271,15 @@ int8_t volatile gpio_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
 
         case GPIO_MSG_SETUP:
         {
-            // setup input message view
-            struct gpio_msg_setup_t* port = (struct gpio_msg_setup_t*) msg;
-
             // setup pin types
             for ( p = GPIO_PORTS_CNT; p--; )
             {
-                if ( !port->input_mask[p] && !port->output_mask[p] ) continue;
+                if ( !GPIO_MSG_BUF_INPUT_MASK(msg,p) && !GPIO_MSG_BUF_OUTPUT_MASK(msg,p) ) continue;
 
                 for ( i = GPIO_PINS_CNT; i--; )
                 {
-                    if ( port->input_mask[p]  & (1U << i) ) gpio_pin_setup_for_input (p, i);
-                    if ( port->output_mask[p] & (1U << i) ) gpio_pin_setup_for_output(p, i);
+                    if ( GPIO_MSG_BUF_INPUT_MASK(msg,p)  & (1U << i) ) gpio_pin_setup_for_input (p, i);
+                    if ( GPIO_MSG_BUF_OUTPUT_MASK(msg,p) & (1U << i) ) gpio_pin_setup_for_output(p, i);
                 }
             }
 

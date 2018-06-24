@@ -48,10 +48,10 @@ enum { PA, PB, PC, PD, PE, PF, PG, PL };
 #define GPIO_FUNC_BANK_E_I2C2   3
 #define GPIO_FUNC_BANK_L_I2C3   2
 
-/// a GPIO pin states
+/// the GPIO pin states
 enum { LOW, HIGH };
 
-/// messages types
+/// the message types
 enum
 {
     GPIO_MSG_SETUP = 0x10,
@@ -59,26 +59,20 @@ enum
     GPIO_MSG_SET,
 };
 
-#define GPIO_MSG_BUF_LEN    MSG_LEN
+/// the message data sizes
+#define GPIO_MSG_BUF_LEN        MSG_LEN
+#define GPIO_MSG_SETUP_LEN      (4*2*GPIO_PORTS_CNT)
+#define GPIO_MSG_GET_LEN        (4*GPIO_PORTS_CNT)
+#define GPIO_MSG_SET_LEN        (4*2*GPIO_PORTS_CNT)
 
-#pragma pack(push, 4)
-struct gpio_msg_setup_t
-{
-    uint32_t input_mask[GPIO_PORTS_CNT];
-    uint32_t output_mask[GPIO_PORTS_CNT];
-};
+/// the message data access
+#define GPIO_MSG_BUF_INPUT_MASK(LINK,PORT)      (*((uint32_t*)(LINK) + PORT))
+#define GPIO_MSG_BUF_OUTPUT_MASK(LINK,PORT)     (*((uint32_t*)(LINK) + PORT + GPIO_PORTS_CNT))
 
-struct gpio_msg_set_t
-{
-    uint32_t set_mask[GPIO_PORTS_CNT];
-    uint32_t clear_mask[GPIO_PORTS_CNT];
-};
+#define GPIO_MSG_BUF_SET_MASK(LINK,PORT)        (*((uint32_t*)(LINK) + PORT))
+#define GPIO_MSG_BUF_CLEAR_MASK(LINK,PORT)      (*((uint32_t*)(LINK) + PORT + GPIO_PORTS_CNT))
 
-struct gpio_msg_get_t
-{
-    uint32_t state[GPIO_PORTS_CNT];
-};
-#pragma pack(pop)
+#define GPIO_MSG_BUF_STATE(LINK,PORT)           (*((uint32_t*)(LINK) + PORT))
 
 
 
