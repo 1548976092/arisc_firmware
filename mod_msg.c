@@ -64,7 +64,7 @@ void msg_module_base_thread(void)
         if ( msg_arm[m]->unread )
         {
             // walk through all `message received` callbacks
-            for( i = msg_recv_callback_max_id; i--; )
+            for( i = msg_recv_callback_max_id + 1; i--; )
             {
                 // check callback's message type
                 if ( !msg_recv_callback[i].used || msg_recv_callback[i].msg_type != msg_arm[m]->type ) continue;
@@ -153,7 +153,7 @@ int8_t msg_recv_callback_add(uint8_t msg_type, msg_recv_func_t func)
     // find free callback slot
     for( c = 0; c < MSG_RECV_CALLBACK_CNT; ++c )
     {
-        if ( msg_recv_callback[c].used ) continue;
+        if ( !msg_recv_callback[c].used ) break;
     }
 
     // return if there are no free callback slots
