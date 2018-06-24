@@ -248,7 +248,7 @@ int8_t volatile gpio_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             // get states of all ports
             for ( p = GPIO_PORTS_CNT; p--; )
             {
-                GPIO_MSG_BUF_SET_MASK(&msg_buf,p) = gpio_port_get(p);
+                GPIO_MSG_BUF_STATE(&msg_buf,p) = gpio_port_get(p);
             }
 
             // send an answer with port states
