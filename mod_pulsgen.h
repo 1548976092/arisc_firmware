@@ -58,42 +58,27 @@ enum
 };
 
 #define PULSGEN_MSG_BUF_LEN             MSG_LEN
-#define PULSGEN_MSG_TASK_SETUP_CH_CNT   16
+#define PULSGEN_MSG_CH_CNT              12
+#define PULSGEN_MSG_PIN_SETUP_LEN       (4*4*PULSGEN_MSG_CH_CNT)
+#define PULSGEN_MSG_TASK_SETUP_LEN      (5*4*PULSGEN_MSG_CH_CNT)
+#define PULSGEN_MSG_TASK_ABORT_LEN      (4)
+#define PULSGEN_MSG_TASK_STATE_LEN      (4)
+#define PULSGEN_MSG_TASK_TOGGLES_LEN    (2*4*PULSGEN_MSG_CH_CNT)
 
-#pragma pack(push, 1)
-struct pulsgen_msg_pin_setup_t
-{
-    uint32_t    channels_mask; // "bit 0" means "don't touch this channel"
-    uint8_t     port[PULSGEN_CH_CNT];
-    uint8_t     pin[PULSGEN_CH_CNT];
-    uint32_t    inverted_mask; // "bit 1" means "inverted"
-};
+/// the message data access
+#define PULSGEN_MSG_BUF_CHANNEL_ID(LINK,SLOT)       (*((uint32_t*)(LINK) + SLOT))
+#define PULSGEN_MSG_BUF_PORT(LINK,SLOT)             (*((uint32_t*)(LINK) + SLOT + 1*PULSGEN_MSG_CH_CNT))
+#define PULSGEN_MSG_BUF_PIN(LINK,SLOT)              (*((uint32_t*)(LINK) + SLOT + 2*PULSGEN_MSG_CH_CNT))
+#define PULSGEN_MSG_BUF_INVERTED(LINK,SLOT)         (*((uint32_t*)(LINK) + SLOT + 3*PULSGEN_MSG_CH_CNT))
 
-struct pulsgen_msg_task_setup_t
-{
-    uint16_t    channels_mask1; // channels bits from  0 to 15, "0" means "use channels_mask2"
-    uint16_t    channels_mask2; // channels bits from 16 to 31
-    uint32_t    period[PULSGEN_MSG_TASK_SETUP_CH_CNT];
-    uint32_t    delay[PULSGEN_MSG_TASK_SETUP_CH_CNT];
-    uint32_t    toggles[PULSGEN_MSG_TASK_SETUP_CH_CNT];
-    uint8_t     duty[PULSGEN_MSG_TASK_SETUP_CH_CNT];
-};
+#define PULSGEN_MSG_BUF_PERIOD(LINK,SLOT)           (*((uint32_t*)(LINK) + SLOT + 1*PULSGEN_MSG_CH_CNT))
+#define PULSGEN_MSG_BUF_DELAY(LINK,SLOT)            (*((uint32_t*)(LINK) + SLOT + 2*PULSGEN_MSG_CH_CNT))
+#define PULSGEN_MSG_BUF_TOGGLES(LINK,SLOT)          (*((uint32_t*)(LINK) + SLOT + 3*PULSGEN_MSG_CH_CNT))
+#define PULSGEN_MSG_BUF_DUTY(LINK,SLOT)             (*((uint32_t*)(LINK) + SLOT + 4*PULSGEN_MSG_CH_CNT))
 
-struct pulsgen_msg_task_abort_t
-{
-    uint32_t    channels_mask; // "bit 0" means "don't touch this channel"
-};
+#define PULSGEN_MSG_BUF_CHANNELS_MASK(LINK)         (*((uint32_t*)(LINK)))
 
-struct pulsgen_msg_task_state_t
-{
-    uint32_t    channels_mask; // "bit 0" means "don't touch this channel"
-};
-
-struct pulsgen_msg_task_toggles_t
-{
-    uint32_t    toggles[PULSGEN_CH_CNT]; // "0" means "don't touch this channel"
-};
-#pragma pack(pop)
+#define PULSGEN_MSG_BUF_TOGGLES_MADE(LINK,SLOT)     (*((uint32_t*)(LINK) + SLOT + 1*PULSGEN_MSG_CH_CNT))
 
 
 
