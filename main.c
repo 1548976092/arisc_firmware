@@ -17,6 +17,7 @@
 #include "mod_gpio.h"
 #include "mod_msg.h"
 #include "mod_pulsgen.h"
+#include "mod_encoder.h"
 
 
 
@@ -43,10 +44,18 @@ int main(void)
     msg_recv_callback_add(PULSGEN_MSG_TASK_STATE,   (msg_recv_func_t) pulsgen_msg_recv);
     msg_recv_callback_add(PULSGEN_MSG_PIN_SETUP,    (msg_recv_func_t) pulsgen_msg_recv);
 
+    // add message handlers for the ENCODER module
+    msg_recv_callback_add(ENCODER_MSG_PINS_SETUP,   (msg_recv_func_t) encoder_msg_recv);
+    msg_recv_callback_add(ENCODER_MSG_SETUP,        (msg_recv_func_t) encoder_msg_recv);
+    msg_recv_callback_add(ENCODER_MSG_COUNTS,       (msg_recv_func_t) encoder_msg_recv);
+    msg_recv_callback_add(ENCODER_MSG_ENABLE,       (msg_recv_func_t) encoder_msg_recv);
+    msg_recv_callback_add(ENCODER_MSG_RESET,        (msg_recv_func_t) encoder_msg_recv);
+
     // main loop
     for(;;)
     {
         msg_module_base_thread();
+        encoder_module_base_thread();
         pulsgen_module_base_thread();
         gpio_module_base_thread();
     }
