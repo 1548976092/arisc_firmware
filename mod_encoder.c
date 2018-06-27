@@ -31,14 +31,70 @@ static uint8_t msg_buf[ENCODER_MSG_BUF_LEN] = {0};
  */
 void encoder_module_base_thread()
 {
-    static uint8_t c;
+    static uint8_t c, phase_A_pin_state, phase_B_pin_state, phase_Z_pin_state;
+    static uint8_t phase_A_changed, phase_B_changed;
 
-    // check all working channels
+    // check all channels
     for ( c = ENCODER_CH_CNT; c--; )
     {
-        if ( !enc[c].enabled ) continue; // if channel disabled, goto next channel
+        // if channel disabled, goto next channel
+        if ( !enc[c].enabled ) continue;
 
-        // TODO - process channel
+        // if we are using ABZ encoder
+        if ( enc[c].using_Z )
+        {
+            phase_Z_pin_state = (uint8_t) gpio_pin_get(enc[c].phase_Z_port, enc[c].phase_Z_pin);
+
+            // on phase Z state change
+            if ( enc[c].phase_Z_pin_state != phase_Z_pin_state )
+            {
+                // reset counter if state of phase Z is HIGH
+                if ( (!enc[c].edge && phase_Z_pin_state) || (enc[c].edge && !phase_Z_pin_state) )
+                {
+                    enc[c].counts = 0;
+                }
+
+                // save phase state for future checks
+                enc[c].phase_Z_pin_state = phase_Z_pin_state;
+            }
+        }
+
+        // get phase A state
+        phase_A_pin_state = (uint8_t) gpio_pin_get(enc[c].phase_A_port, enc[c].phase_A_pin);
+
+        // on phase A state change
+        if ( enc[c].phase_A_pin_state != phase_A_pin_state )
+        {
+            // if we are using AB encoder
+            if ( enc[c].using_B )
+            {
+                // get phase B state
+                phase_B_pin_state = (uint8_t) gpio_pin_get(enc[c].phase_B_port, enc[c].phase_B_pin);
+
+                // on phase A rising edge
+                if ( (!enc[c].edge && phase_A_pin_state) || (enc[c].edge && !phase_A_pin_state) )
+                {
+                    // if state of phase B is LOW, direction = CW
+                    if ( (!enc[c].edge && !phase_B_pin_state) || (enc[c].edge && phase_B_pin_state) )
+                    {
+                        enc[c].counts += enc[c].inverted ? -1 : 1;
+                    }
+                    // if state of phase B is HIGH, direction = CCW
+                    else
+                    {
+                        enc[c].counts += enc[c].inverted ? 1 : -1;
+                    }
+                }
+            }
+            // if we are using A encoder and phase A is HIGH
+            else if ( (!enc[c].edge && phase_A_pin_state) || (enc[c].edge && !phase_A_pin_state) )
+            {
+                enc[c].counts += enc[c].inverted ? -1 : 1;
+            }
+
+            // save phase state for future checks
+            enc[c].phase_A_pin_state = phase_A_pin_state;
+        }
     }
 }
 
@@ -66,7 +122,6 @@ void encoder_pin_setup(uint8_t c, uint8_t phase, uint8_t port, uint8_t pin)
             enc[c].phase_A_port = port;
             enc[c].phase_A_pin = pin;
             enc[c].phase_A_pin_state = 0;
-            gpio_pin_clear(port, pin);
             break;
         }
         case PHASE_B:
@@ -74,7 +129,6 @@ void encoder_pin_setup(uint8_t c, uint8_t phase, uint8_t port, uint8_t pin)
             enc[c].phase_B_port = port;
             enc[c].phase_B_pin = pin;
             enc[c].phase_B_pin_state = 0;
-            gpio_pin_clear(port, pin);
             break;
         }
         case PHASE_Z:
@@ -82,7 +136,6 @@ void encoder_pin_setup(uint8_t c, uint8_t phase, uint8_t port, uint8_t pin)
             enc[c].phase_Z_port = port;
             enc[c].phase_Z_pin = pin;
             enc[c].phase_Z_pin_state = 0;
-            gpio_pin_clear(port, pin);
             break;
         }
     }
