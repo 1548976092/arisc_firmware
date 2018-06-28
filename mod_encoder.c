@@ -170,7 +170,7 @@ void encoder_setup(uint8_t c, uint8_t inverted, uint8_t using_B, uint8_t using_Z
  * @param   c       channel id
  * @retval  none
  */
-void encoder_enable(uint8_t c, uint8_t state)
+void encoder_state_set(uint8_t c, uint8_t state)
 {
     enc[c].enabled = state ? 1 : 0;
 }
@@ -180,7 +180,7 @@ void encoder_enable(uint8_t c, uint8_t state)
  * @param   c       channel id
  * @retval  none
  */
-void encoder_reset(uint8_t c)
+void encoder_counts_reset(uint8_t c)
 {
     enc[c].counts = 0;
 }
@@ -196,7 +196,7 @@ void encoder_reset(uint8_t c)
  * @retval  0   (channel is disabled)
  * @retval  1   (channel is enabled)
  */
-uint8_t encoder_state(uint8_t c)
+uint8_t encoder_state_get(uint8_t c)
 {
     return enc[c].enabled;
 }
@@ -206,7 +206,7 @@ uint8_t encoder_state(uint8_t c)
  * @param   c   channel id
  * @retval  signed 32-bit number
  */
-int32_t encoder_counts(uint8_t c)
+int32_t encoder_counts_get(uint8_t c)
 {
     return enc[c].counts;
 }

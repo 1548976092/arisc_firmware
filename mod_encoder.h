@@ -91,11 +91,11 @@ void encoder_module_base_thread();
 void encoder_pin_setup(uint8_t c, uint8_t phase, uint8_t port, uint8_t pin);
 
 void encoder_setup(uint8_t c, uint8_t inverted, uint8_t using_B, uint8_t using_Z, uint8_t edge);
-void encoder_enable(uint8_t c, uint8_t state);
-void encoder_reset(uint8_t c);
+void encoder_state_set(uint8_t c, uint8_t state);
+void encoder_counts_reset(uint8_t c);
 
-uint8_t encoder_state(uint8_t c);
-int32_t encoder_counts(uint8_t c);
+uint8_t encoder_state_get(uint8_t c);
+int32_t encoder_counts_get(uint8_t c);
 int8_t volatile encoder_msg_recv(uint8_t type, uint8_t * msg, uint8_t length);
 
 
