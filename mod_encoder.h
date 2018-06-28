@@ -25,30 +25,22 @@
 struct encoder_ch_t
 {
     uint8_t     enabled;
-    uint8_t     inverted; // non zero = invert counter direction
     uint8_t     using_B;
     uint8_t     using_Z;
-    uint8_t     edge; // pulse detection type, 0 = rising edge
+
+    uint8_t     port[3];
+    uint8_t     pin[3];
+    uint8_t     state[3];
 
     int32_t     counts;
-
-    uint8_t     phase_A_port;
-    uint8_t     phase_A_pin;
-    uint8_t     phase_A_pin_state;
-
-    uint8_t     phase_B_port;
-    uint8_t     phase_B_pin;
-    uint8_t     phase_B_pin_state;
-
-    uint8_t     phase_Z_port;
-    uint8_t     phase_Z_pin;
-    uint8_t     phase_Z_pin_state;
+    uint8_t     AB_state;
 };
 
 
 
 
 enum { PHASE_A, PHASE_B, PHASE_Z };
+enum { PH_A, PH_B, PH_Z };
 
 /// messages types
 enum
@@ -61,6 +53,8 @@ enum
 };
 
 #define ENCODER_MSG_BUF_LEN             MSG_LEN
+
+// TODO - recalculate
 #define ENCODER_MSG_PINS_SETUP_LEN      (6*4*ENCODER_CH_CNT)
 #define ENCODER_MSG_SETUP_LEN           (4*4)
 #define ENCODER_MSG_COUNTS_LEN          (4*ENCODER_CH_CNT)
@@ -68,6 +62,7 @@ enum
 #define ENCODER_MSG_RESET_LEN           (4)
 
 /// the message data access
+// TODO - recalculate
 #define ENCODER_MSG_BUF_PORT(LINK,CH,PHASE)     (*((uint32_t*)(LINK) + 6*CH + PHASE))
 #define ENCODER_MSG_BUF_PIN(LINK,CH,PHASE)      (*((uint32_t*)(LINK) + 6*CH + PHASE + 3))
 
@@ -90,7 +85,7 @@ void encoder_module_base_thread();
 
 void encoder_pin_setup(uint8_t c, uint8_t phase, uint8_t port, uint8_t pin);
 
-void encoder_setup(uint8_t c, uint8_t inverted, uint8_t using_B, uint8_t using_Z, uint8_t edge);
+void encoder_setup(uint8_t c, uint8_t enabled, uint8_t using_B, uint8_t using_Z);
 void encoder_state_set(uint8_t c, uint8_t state);
 void encoder_counts_reset(uint8_t c);
 
