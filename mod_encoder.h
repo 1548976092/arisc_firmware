@@ -53,23 +53,19 @@ enum
 };
 
 #define ENCODER_MSG_BUF_LEN             MSG_LEN
-
-// TODO - recalculate
-#define ENCODER_MSG_PINS_SETUP_LEN      (6*4*ENCODER_CH_CNT)
-#define ENCODER_MSG_SETUP_LEN           (4*4)
+#define ENCODER_MSG_PINS_SETUP_LEN      (4*6*ENCODER_CH_CNT)
+#define ENCODER_MSG_SETUP_LEN           (4*3*ENCODER_CH_CNT)
 #define ENCODER_MSG_COUNTS_LEN          (4*ENCODER_CH_CNT)
 #define ENCODER_MSG_ENABLE_LEN          (4)
 #define ENCODER_MSG_RESET_LEN           (4)
 
 /// the message data access
-// TODO - recalculate
 #define ENCODER_MSG_BUF_PORT(LINK,CH,PHASE)     (*((uint32_t*)(LINK) + 6*CH + PHASE))
 #define ENCODER_MSG_BUF_PIN(LINK,CH,PHASE)      (*((uint32_t*)(LINK) + 6*CH + PHASE + 3))
 
-#define ENCODER_MSG_BUF_INVERTED(LINK)          (*((uint32_t*)(LINK)))
-#define ENCODER_MSG_BUF_USING_B(LINK)           (*((uint32_t*)(LINK) + 1))
-#define ENCODER_MSG_BUF_USING_Z(LINK)           (*((uint32_t*)(LINK) + 2))
-#define ENCODER_MSG_BUF_EDGE(LINK)              (*((uint32_t*)(LINK) + 3))
+#define ENCODER_MSG_BUF_ENABLED(LINK,CH)        (*((uint32_t*)(LINK) + 3*CH))
+#define ENCODER_MSG_BUF_USING_B(LINK,CH)        (*((uint32_t*)(LINK) + 3*CH + 1))
+#define ENCODER_MSG_BUF_USING_Z(LINK,CH)        (*((uint32_t*)(LINK) + 3*CH + 2))
 
 #define ENCODER_MSG_BUF_COUNTS(LINK,CH)         (*((uint32_t*)(LINK) + CH))
 
