@@ -130,10 +130,9 @@ void encoder_pin_setup(uint8_t c, uint8_t phase, uint8_t port, uint8_t pin)
  * @brief   setup selected channel of encoder counter
  *
  * @param   c           channel id
- * @param   inverted    invert counter direction?
+ * @param   enabled     enable encoder counter right now?
  * @param   using_B     use phase B input?
  * @param   using_Z     use phase Z index input?
- * @param   edge        pulse detection type, 0 = rising edge, 1 = falling edge
  *
  * @retval  none
  */
