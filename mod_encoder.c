@@ -17,8 +17,30 @@
 // private vars
 
 static struct encoder_ch_t enc[ENCODER_CH_CNT] = {0}; // array of channels data
-static uint8_t state_list[5] = {0b00, 0b01, 0b11, 0b10, 0b00};
+
 static uint8_t msg_buf[ENCODER_MSG_BUF_LEN] = {0};
+
+static uint8_t state_list[4] =
+{
+    //      clockwise (CW) direction phase states sequence
+
+    //      AB AB AB AB AB AB AB AB AB AB AB AB AB
+    //      00 01 11 10 00 01 11 10 00 01 11 10 00
+
+    // A    _____|`````|_____|`````|_____|`````|__
+
+    // B    __|`````|_____|`````|_____|`````|_____
+
+    //        AB    AB    AB    AB
+    //      0b00, 0b01, 0b11, 0b10
+
+    // prev    next
+    //   AB      AB
+    /* 0b00 */ 0b01,
+    /* 0b01 */ 0b11,
+    /* 0b10 */ 0b00,
+    /* 0b11 */ 0b10
+};
 
 
 
@@ -58,10 +80,10 @@ void encoder_module_base_thread()
 
             if ( enc[c].state[PH_A] != A || enc[c].state[PH_B] != B ) // on any phase change
             {
-                AB = A | (B << 1); // get encoder state
+                AB = (A << 1) | B; // get encoder state
 
-                if ( state_list[AB] == state_list[enc[c].AB_state+1] ) enc[c].counts += 1;
-                else                                                   enc[c].counts -= 1;
+                if ( state_list[enc[c].AB_state] == AB ) enc[c].counts++; // CW
+                else                                     enc[c].counts--; // CCW
 
                 enc[c].AB_state = AB;
             }
@@ -70,7 +92,7 @@ void encoder_module_base_thread()
         }
         else if ( enc[c].state[PH_A] != A && A ) // if we are using A encoder and phase A is HIGH
         {
-            enc[c].counts += 1;
+            enc[c].counts++; // CW
         }
 
         enc[c].state[PH_A] = A;
@@ -123,7 +145,7 @@ void encoder_setup(uint8_t c, uint8_t enabled, uint8_t using_B, uint8_t using_Z)
     enc[c].using_Z  = using_Z;
 
     // set encoder state
-    enc[c].AB_state = enc[c].state[PH_A] | (enc[c].state[PH_B] << 1);
+    enc[c].AB_state = (enc[c].state[PH_A] << 1) | enc[c].state[PH_B];
 }
 
 /**
