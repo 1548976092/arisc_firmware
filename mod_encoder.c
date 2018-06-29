@@ -7,7 +7,6 @@
  * to make real-time counting of quadrature encoder pulses
  */
 
-#include "mod_timer.h"
 #include "mod_gpio.h"
 #include "mod_encoder.h"
 
