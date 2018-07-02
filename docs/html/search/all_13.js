@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['u32p',['u32p',['../shmem_8h.html#afb3f355c8de4b3d3c035751febb00e6a',1,'shmem.h']]],
+  ['uart_2ec',['uart.c',['../uart_8c.html',1,'']]],
+  ['uart_2eh',['uart.h',['../uart_8h.html',1,'']]],
+  ['uart0_5fbase',['UART0_BASE',['../uart_8c.html#a7a07348b4332ff6b88abf6092347deba',1,'uart.c']]],
+  ['uart0_5fdlh',['UART0_DLH',['../uart_8c.html#a7edf92aa304773fb7c6bd9958b87e25a',1,'uart.c']]],
+  ['uart0_5fdll',['UART0_DLL',['../uart_8c.html#a63129f11021e478d0f8705590d2040cc',1,'uart.c']]],
+  ['uart0_5ffcr',['UART0_FCR',['../uart_8c.html#a19d7784123d2e7bc7037a569c85d3f2d',1,'uart.c']]],
+  ['uart0_5fgating',['UART0_GATING',['../clk_8c.html#a3514019cb4697107d7eced60cc5abcf4',1,'clk.c']]],
+  ['uart0_5fier',['UART0_IER',['../uart_8c.html#ab5e4b21323fa91a46db924fcdef1fdf3',1,'uart.c']]],
+  ['uart0_5fiir',['UART0_IIR',['../uart_8c.html#a570d189615af3f00f9a478bcf5f4ebbb',1,'uart.c']]],
+  ['uart0_5finit',['uart0_init',['../uart_8h.html#a573594235ac1fcbd1039b2c613183b47',1,'uart.h']]],
+  ['uart0_5flcr',['UART0_LCR',['../uart_8c.html#ac13200b4b60619255884eb8c1b3edae4',1,'uart.c']]],
+  ['uart0_5flsr',['UART0_LSR',['../uart_8c.html#ab4a54fef1c42ad111186f998c75df7fc',1,'uart.c']]],
+  ['uart0_5fputc',['uart0_putc',['../uart_8h.html#a99e3da452e0f39baede6a67a6061db94',1,'uart.h']]],
+  ['uart0_5frbr',['UART0_RBR',['../uart_8c.html#aee08b9c575d26e0ae1ac52ab26cc112c',1,'uart.c']]],
+  ['uart0_5frst',['UART0_RST',['../clk_8c.html#a887618b73301247b82f0d0ae88edb898',1,'clk.c']]],
+  ['uart0_5fthr',['UART0_THR',['../uart_8c.html#a268656a67717135f7d9666505ab487f4',1,'uart.c']]],
+  ['unread',['unread',['../structmsg__t.html#a4c4fc7e394bc4eec59d60e3590a1bc98',1,'msg_t']]],
+  ['used',['used',['../structmsg__recv__callback__t.html#a4b1141237b480e4c38afe96a59ca4cad',1,'msg_recv_callback_t']]],
+  ['user0',['USER0',['../msgbox_8c.html#a0eb9589af20acd00528aa8b2b960afaa',1,'msgbox.c']]],
+  ['user0_5firq_5fen_5freg',['USER0_IRQ_EN_REG',['../msgbox_8c.html#a39a577870c9c62bc5dd17eb2cedc2e45',1,'msgbox.c']]],
+  ['user0_5firq_5fstatus_5freg',['USER0_IRQ_STATUS_REG',['../msgbox_8c.html#a61ef9305e7347e4ab184ba3e1f042fec',1,'msgbox.c']]],
+  ['user1',['USER1',['../msgbox_8c.html#a17bc39fc649b20234737a25ead9737df',1,'msgbox.c']]],
+  ['user1_5firq_5fen_5freg',['USER1_IRQ_EN_REG',['../msgbox_8c.html#aa59abf3f8db45cb33289ffd14211d03a',1,'msgbox.c']]],
+  ['user1_5firq_5fstatus_5freg',['USER1_IRQ_STATUS_REG',['../msgbox_8c.html#a2d9e8383156e01df2f22401a94f5a075',1,'msgbox.c']]]
+];
