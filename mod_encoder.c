@@ -210,19 +210,75 @@ int32_t encoder_counts_get(uint8_t c)
  */
 int8_t volatile encoder_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
 {
-    static uint8_t i = 0;
+    static uint8_t c, p;
 
     switch (type)
     {
         case ENCODER_MSG_PINS_SETUP:
         {
-            // setup channel pins
-            for ( i = ENCODER_CH_CNT; i--; )
+            for ( c = ENCODER_CH_CNT; c--; )
             {
-                // TODO
+                if ( (uint8_t) ENCODER_MSG_BUF_PORT(msg,c,PH_A) >= GPIO_PORTS_CNT ) continue;
+
+                for ( p = ENCODER_PH_CNT; p--; )
+                {
+                    encoder_pin_setup( c, p,
+                        (uint8_t) ENCODER_MSG_BUF_PORT(msg,c,p),
+                        (uint8_t) ENCODER_MSG_BUF_PIN (msg,c,p)
+                    );
+                }
             }
 
-            // TODO
+            break;
+        }
+
+        case ENCODER_MSG_SETUP:
+        {
+            for ( c = ENCODER_CH_CNT; c--; )
+            {
+                if ( (uint8_t) ENCODER_MSG_BUF_ENABLED(msg,c) > 1 ) continue;
+
+                encoder_setup( c,
+                    (uint8_t) ENCODER_MSG_BUF_ENABLED(msg,c),
+                    (uint8_t) ENCODER_MSG_BUF_USING_B(msg,c),
+                    (uint8_t) ENCODER_MSG_BUF_USING_Z(msg,c)
+                );
+            }
+
+            break;
+        }
+
+        case ENCODER_MSG_COUNTS:
+        {
+            for ( c = ENCODER_CH_CNT; c--; )
+            {
+                ENCODER_MSG_BUF_COUNTS(&msg_buf,c) = ENCODER_MSG_BUF_COUNTS(msg,c) ?
+                    encoder_counts_get(c) :
+                    0 ;
+            }
+
+            msg_send(type, (uint8_t*)&msg_buf, ENCODER_MSG_COUNTS_LEN);
+
+            break;
+        }
+
+        case ENCODER_MSG_ENABLE:
+        {
+            for ( c = ENCODER_CH_CNT; c--; )
+            {
+                if ( ENCODER_MSG_BUF_ENABLE(msg) & (1U << c) )  encoder_state_set(c, 1);
+                else                                            encoder_state_set(c, 0);
+            }
+
+            break;
+        }
+
+        case ENCODER_MSG_RESET:
+        {
+            for ( c = ENCODER_CH_CNT; c--; )
+            {
+                if ( ENCODER_MSG_BUF_RESET(msg) & (1U << c) ) encoder_counts_reset(c);
+            }
 
             break;
         }
