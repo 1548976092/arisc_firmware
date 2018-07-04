@@ -2,6 +2,7 @@ var mod__encoder_8h =
 [
     [ "encoder_ch_t", "structencoder__ch__t.html", "structencoder__ch__t" ],
     [ "ENCODER_CH_CNT", "mod__encoder_8h.html#ab01f0417d475385286c7e2ed25db2df6", null ],
+    [ "ENCODER_PH_CNT", "mod__encoder_8h.html#a529d576743c8f1445934b6388be2e537", null ],
     [ "ENCODER_MSG_BUF_LEN", "mod__encoder_8h.html#a971a04d1eb01bc0e177aa6f9d4a03ea0", null ],
     [ "ENCODER_MSG_PINS_SETUP_LEN", "mod__encoder_8h.html#abfc9441381f692cff42f7a02488c25f0", null ],
     [ "ENCODER_MSG_SETUP_LEN", "mod__encoder_8h.html#ac27040eb259f69f283e05ef659703a98", null ],

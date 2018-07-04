@@ -14,5 +14,6 @@ var searchData=
   ['encoder_5fmsg_5fenable_5flen',['ENCODER_MSG_ENABLE_LEN',['../mod__encoder_8h.html#ad777b7e55c819e47db4ece692fec0302',1,'mod_encoder.h']]],
   ['encoder_5fmsg_5fpins_5fsetup_5flen',['ENCODER_MSG_PINS_SETUP_LEN',['../mod__encoder_8h.html#abfc9441381f692cff42f7a02488c25f0',1,'mod_encoder.h']]],
   ['encoder_5fmsg_5freset_5flen',['ENCODER_MSG_RESET_LEN',['../mod__encoder_8h.html#a1d175c6a5cf471be52c0ab4bdcf03fc5',1,'mod_encoder.h']]],
-  ['encoder_5fmsg_5fsetup_5flen',['ENCODER_MSG_SETUP_LEN',['../mod__encoder_8h.html#ac27040eb259f69f283e05ef659703a98',1,'mod_encoder.h']]]
+  ['encoder_5fmsg_5fsetup_5flen',['ENCODER_MSG_SETUP_LEN',['../mod__encoder_8h.html#ac27040eb259f69f283e05ef659703a98',1,'mod_encoder.h']]],
+  ['encoder_5fph_5fcnt',['ENCODER_PH_CNT',['../mod__encoder_8h.html#a529d576743c8f1445934b6388be2e537',1,'mod_encoder.h']]]
 ];
