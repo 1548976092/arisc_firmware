@@ -295,19 +295,33 @@ int8_t volatile encoder_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
 /**
     @example mod_encoder.c
 
-    <b>Usage example 1</b>: UJHHJBHBKJN
-
     @code
         #include <stdint.h>
+        #include "mod_gpio.h"
         #include "mod_encoder.h"
 
         int main(void)
         {
+            // setup phase pins of the channel 0
+            encoder_pin_setup(0, PHASE_A, PA, 3);
+            encoder_pin_setup(0, PHASE_B, PA, 5);
+            encoder_pin_setup(0, PHASE_Z, PA, 8);
 
+            // setup channel 0 parameters
+            encoder_setup(0, 0, 1, 1);
+
+            // reset counter value of the channel 0
+            if ( encoder_counts_get(0) ) encoder_counts_reset(0);
+
+            // enable channel 0
+            if ( !encoder_state_get(0) ) encoder_state_set(0, 1);
 
             // main loop
             for(;;)
             {
+                // reset channel 0 counts after real 100 counts
+                if ( encoder_counts_get(0) > 100 ) encoder_counts_reset(0);
+
                 // real update of channel states
                 encoder_module_base_thread();
             }
