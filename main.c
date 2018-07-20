@@ -1,7 +1,7 @@
 /**
  * @file        main.c
  *
- * @mainpage    Firmware for the Allwinner H3 ARISC co-processor
+ * @mainpage    CNC firmware for the Allwinner H3 ARISC co-processor
  *
  * The firmware uses by Orange Pi boards to help the
  *      <a href="http://linuxcnc.org">LinuxCNC</a>
