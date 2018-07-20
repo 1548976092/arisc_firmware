@@ -68,6 +68,22 @@ static inline uint32_t gpio_get_data_addr(uint32_t bank)
 // public methods
 
 /**
+ * @brief   module init
+ * @note    call this function only once before gpio_module_base_thread()
+ * @retval  none
+ */
+void gpio_module_init()
+{
+    uint8_t i = 0;
+
+    // add message handlers
+    for ( i = GPIO_MSG_SETUP_FOR_OUTPUT; i <= GPIO_MSG_PORT_CLEAR; i++ )
+    {
+        msg_recv_callback_add(i, (msg_recv_func_t) gpio_msg_recv);
+    }
+}
+
+/**
  * @brief   module base thread
  * @note    call this function in the end of main loop
  * @retval  none
@@ -238,51 +254,60 @@ void gpio_port_clear(uint32_t port, uint32_t mask)
  */
 int8_t volatile gpio_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
 {
-    static uint8_t p = 0;
-    static uint8_t i = 0;
-
     switch (type)
     {
-        case GPIO_MSG_GET: // ARM cpu wants to know current port states
+        case GPIO_MSG_SETUP_FOR_OUTPUT:
         {
-            // get states of all ports
-            for ( p = GPIO_PORTS_CNT; p--; )
-            {
-                GPIO_MSG_BUF_STATE(&msg_buf,p) = gpio_port_get(p);
-            }
-
-            // send an answer with port states
-            msg_send(type, (uint8_t*)&msg_buf, GPIO_MSG_GET_LEN);
-
+            struct gpio_msg_port_pin_t in = *((struct gpio_msg_port_pin_t *) msg);
+            gpio_pin_setup_for_output(in.port, in.pin);
+            break;
+        }
+        case GPIO_MSG_SETUP_FOR_INPUT:
+        {
+            struct gpio_msg_port_pin_t in = *((struct gpio_msg_port_pin_t *) msg);
+            gpio_pin_setup_for_input(in.port, in.pin);
             break;
         }
 
-        case GPIO_MSG_SET:
+        case GPIO_MSG_PIN_GET:
         {
-            // set/clear port states
-            for ( p = GPIO_PORTS_CNT; p--; )
-            {
-                if ( GPIO_MSG_BUF_SET_MASK(msg,p) )   gpio_port_set  (p, GPIO_MSG_BUF_INPUT_MASK(msg,p));
-                if ( GPIO_MSG_BUF_CLEAR_MASK(msg,p) ) gpio_port_clear(p, GPIO_MSG_BUF_CLEAR_MASK(msg,p));
-            }
-
+            struct gpio_msg_port_pin_t in = *((struct gpio_msg_port_pin_t *) msg);
+            struct gpio_msg_state_t out = *((struct gpio_msg_state_t *) &msg_buf);
+            out.state = gpio_pin_get(in.port, in.pin);
+            msg_send(type, (uint8_t*)&msg_buf, 4);
+            break;
+        }
+        case GPIO_MSG_PIN_SET:
+        {
+            struct gpio_msg_port_pin_t in = *((struct gpio_msg_port_pin_t *) msg);
+            gpio_pin_set(in.port, in.pin);
+            break;
+        }
+        case GPIO_MSG_PIN_CLEAR:
+        {
+            struct gpio_msg_port_pin_t in = *((struct gpio_msg_port_pin_t *) msg);
+            gpio_pin_clear(in.port, in.pin);
             break;
         }
 
-        case GPIO_MSG_SETUP:
+        case GPIO_MSG_PORT_GET:
         {
-            // setup pin types
-            for ( p = GPIO_PORTS_CNT; p--; )
-            {
-                if ( !GPIO_MSG_BUF_INPUT_MASK(msg,p) && !GPIO_MSG_BUF_OUTPUT_MASK(msg,p) ) continue;
-
-                for ( i = GPIO_PINS_CNT; i--; )
-                {
-                    if ( GPIO_MSG_BUF_INPUT_MASK(msg,p)  & (1U << i) ) gpio_pin_setup_for_input (p, i);
-                    if ( GPIO_MSG_BUF_OUTPUT_MASK(msg,p) & (1U << i) ) gpio_pin_setup_for_output(p, i);
-                }
-            }
-
+            struct gpio_msg_port_t in = *((struct gpio_msg_port_t *) msg);
+            struct gpio_msg_state_t out = *((struct gpio_msg_state_t *) &msg_buf);
+            out.state = gpio_port_get(in.port);
+            msg_send(type, (uint8_t*)&msg_buf, 4);
+            break;
+        }
+        case GPIO_MSG_PORT_SET:
+        {
+            struct gpio_msg_port_mask_t in = *((struct gpio_msg_port_mask_t *) msg);
+            gpio_port_set(in.port, in.mask);
+            break;
+        }
+        case GPIO_MSG_PORT_CLEAR:
+        {
+            struct gpio_msg_port_mask_t in = *((struct gpio_msg_port_mask_t *) msg);
+            gpio_port_clear(in.port, in.mask);
             break;
         }
 
@@ -306,13 +331,11 @@ int8_t volatile gpio_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
 
         int main(void)
         {
+            // module init
+            gpio_module_init();
+
             // configure pin PA15 (RED led) as output
             gpio_pin_setup_for_output(PA,15);
-
-            // add message handlers
-            msg_recv_callback_add(GPIO_MSG_GET,     (msg_recv_func_t) gpio_msg_recv);
-            msg_recv_callback_add(GPIO_MSG_SET,     (msg_recv_func_t) gpio_msg_recv);
-            msg_recv_callback_add(GPIO_MSG_SETUP,   (msg_recv_func_t) gpio_msg_recv);
 
             for(;;) // main loop
             {
@@ -336,17 +359,15 @@ int8_t volatile gpio_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
 
         int main(void)
         {
+            // module init
+            gpio_module_init();
+
             // configure whole port A as output
             uint8_t pin;
             for ( pin = 0; pin < GPIO_PINS_CNT; pin++ )
             {
                 gpio_pin_setup_for_output(PA, pin);
             }
-
-            // add message handlers
-            msg_recv_callback_add(GPIO_MSG_GET,     (msg_recv_func_t) gpio_msg_recv);
-            msg_recv_callback_add(GPIO_MSG_SET,     (msg_recv_func_t) gpio_msg_recv);
-            msg_recv_callback_add(GPIO_MSG_SETUP,   (msg_recv_func_t) gpio_msg_recv);
 
             for(;;) // main loop
             {

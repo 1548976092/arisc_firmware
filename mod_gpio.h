@@ -54,25 +54,26 @@ enum { LOW, HIGH };
 /// the message types
 enum
 {
-    GPIO_MSG_SETUP = 0x10,
-    GPIO_MSG_GET,
-    GPIO_MSG_SET,
+    GPIO_MSG_SETUP_FOR_OUTPUT = 0x10,
+    GPIO_MSG_SETUP_FOR_INPUT,
+
+    GPIO_MSG_PIN_GET,
+    GPIO_MSG_PIN_SET,
+    GPIO_MSG_PIN_CLEAR,
+
+    GPIO_MSG_PORT_GET,
+    GPIO_MSG_PORT_SET,
+    GPIO_MSG_PORT_CLEAR
 };
 
 /// the message data sizes
-#define GPIO_MSG_BUF_LEN        MSG_LEN
-#define GPIO_MSG_SETUP_LEN      (4*2*GPIO_PORTS_CNT)
-#define GPIO_MSG_GET_LEN        (4*GPIO_PORTS_CNT)
-#define GPIO_MSG_SET_LEN        (4*2*GPIO_PORTS_CNT)
+#define GPIO_MSG_BUF_LEN MSG_LEN
 
 /// the message data access
-#define GPIO_MSG_BUF_INPUT_MASK(LINK,PORT)      (*((uint32_t*)(LINK) + PORT))
-#define GPIO_MSG_BUF_OUTPUT_MASK(LINK,PORT)     (*((uint32_t*)(LINK) + PORT + GPIO_PORTS_CNT))
-
-#define GPIO_MSG_BUF_SET_MASK(LINK,PORT)        (*((uint32_t*)(LINK) + PORT))
-#define GPIO_MSG_BUF_CLEAR_MASK(LINK,PORT)      (*((uint32_t*)(LINK) + PORT + GPIO_PORTS_CNT))
-
-#define GPIO_MSG_BUF_STATE(LINK,PORT)           (*((uint32_t*)(LINK) + PORT))
+struct gpio_msg_port_t      { uint32_t port; };
+struct gpio_msg_port_pin_t  { uint32_t port; uint32_t pin;  };
+struct gpio_msg_port_mask_t { uint32_t port; uint32_t mask; };
+struct gpio_msg_state_t     { uint32_t state; };
 
 
 
