@@ -32,7 +32,16 @@ static uint8_t msg_buf[PULSGEN_MSG_BUF_LEN] = {0};
  */
 void pulsgen_module_init()
 {
+    uint8_t i = 0;
+
+    // start sys timer
     TIMER_START();
+
+    // add message handlers
+    for ( i = PULSGEN_MSG_PIN_SETUP; i <= PULSGEN_MSG_TASK_TOGGLES; i++ )
+    {
+        msg_recv_callback_add(i, (msg_recv_func_t) pulsgen_msg_recv);
+    }
 }
 
 /**
@@ -255,97 +264,36 @@ int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
     {
         case PULSGEN_MSG_PIN_SETUP:
         {
-            // setup channel pins
-            for ( i = PULSGEN_MSG_CH_CNT; i--; )
-            {
-                if ( PULSGEN_MSG_BUF_CHANNEL_ID(msg,i) < PULSGEN_CH_CNT )
-                {
-                    pulsgen_pin_setup(
-                        (uint8_t) PULSGEN_MSG_BUF_CHANNEL_ID(msg,i),
-                        (uint8_t) PULSGEN_MSG_BUF_PORT(msg,i),
-                        (uint8_t) PULSGEN_MSG_BUF_PIN(msg,i),
-                        (uint8_t) PULSGEN_MSG_BUF_INVERTED(msg,i)
-                    );
-                }
-            }
-
+            struct pulsgen_msg_pin_setup_t in = *((struct pulsgen_msg_pin_setup_t *) msg);
+            pulsgen_pin_setup(in.ch, in.port, in.pin, in.inverted);
             break;
         }
-
         case PULSGEN_MSG_TASK_SETUP:
         {
-            // setup channel tasks
-            for ( i = PULSGEN_MSG_CH_CNT; i--; )
-            {
-                if ( PULSGEN_MSG_BUF_CHANNEL_ID(msg,i) < PULSGEN_CH_CNT )
-                {
-                    pulsgen_task_setup(
-                        (uint8_t) PULSGEN_MSG_BUF_CHANNEL_ID(msg,i),
-                        (uint32_t) PULSGEN_MSG_BUF_PERIOD(msg,i),
-                        (uint32_t) PULSGEN_MSG_BUF_TOGGLES(msg,i),
-                        (uint8_t) PULSGEN_MSG_BUF_DUTY(msg,i),
-                        (uint32_t) PULSGEN_MSG_BUF_DELAY(msg,i)
-                    );
-                }
-            }
-
+            struct pulsgen_msg_task_setup_t in = *((struct pulsgen_msg_task_setup_t *) msg);
+            pulsgen_task_setup(in.ch, in.period, in.toggles, in.duty, in.delay);
             break;
         }
-
         case PULSGEN_MSG_TASK_ABORT:
         {
-            // abort tasks
-            for ( i = PULSGEN_CH_CNT; i--; )
-            {
-                if ( PULSGEN_MSG_BUF_CHANNELS_MASK(msg) & (1U << i) ) pulsgen_task_abort(i);
-            }
-
+            struct pulsgen_msg_ch_t in = *((struct pulsgen_msg_ch_t *) msg);
+            pulsgen_task_abort(in.ch);
             break;
         }
-
         case PULSGEN_MSG_TASK_STATE:
         {
-            PULSGEN_MSG_BUF_CHANNELS_MASK(&msg_buf) = 0;
-
-            // get task states
-            for ( i = PULSGEN_CH_CNT; i--; )
-            {
-                if ( PULSGEN_MSG_BUF_CHANNELS_MASK(msg) & (1U << i) )
-                {
-                    if ( pulsgen_task_state(i) )
-                    {
-                        PULSGEN_MSG_BUF_CHANNELS_MASK(&msg_buf) |=  (1U << i);
-                    }
-                    else
-                    {
-                        PULSGEN_MSG_BUF_CHANNELS_MASK(&msg_buf) &= ~(1U << i);
-                    }
-                }
-            }
-
-            // send an answer
-            msg_send(type, (uint8_t*)&msg_buf, PULSGEN_MSG_TASK_STATE_LEN);
-
+            struct pulsgen_msg_ch_t in = *((struct pulsgen_msg_ch_t *) msg);
+            struct pulsgen_msg_state_t out = *((struct pulsgen_msg_state_t *) msg);
+            out.state = pulsgen_task_state(in.ch);
+            msg_send(type, (uint8_t*)&msg_buf, 4);
             break;
         }
-
         case PULSGEN_MSG_TASK_TOGGLES:
         {
-            // get task toggles
-            for ( i = PULSGEN_MSG_CH_CNT; i--; )
-            {
-                if ( PULSGEN_MSG_BUF_CHANNEL_ID(msg,i) < PULSGEN_CH_CNT )
-                {
-                    PULSGEN_MSG_BUF_TOGGLES_MADE(&msg_buf,i) =
-                        pulsgen_task_toggles(
-                            (uint8_t) PULSGEN_MSG_BUF_CHANNEL_ID(msg,i)
-                        );
-                }
-            }
-
-            // send an answer
-            msg_send(type, (uint8_t*)&msg_buf, PULSGEN_MSG_TASK_TOGGLES_LEN);
-
+            struct pulsgen_msg_ch_t in = *((struct pulsgen_msg_ch_t *) msg);
+            struct pulsgen_msg_toggles_t out = *((struct pulsgen_msg_toggles_t *) msg);
+            out.toggles = pulsgen_task_toggles(in.ch);
+            msg_send(type, (uint8_t*)&msg_buf, 4);
             break;
         }
 

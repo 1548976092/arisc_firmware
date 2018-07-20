@@ -57,28 +57,15 @@ enum
     PULSGEN_MSG_TASK_TOGGLES
 };
 
-#define PULSGEN_MSG_BUF_LEN             MSG_LEN
-#define PULSGEN_MSG_CH_CNT              12
-#define PULSGEN_MSG_PIN_SETUP_LEN       (4*4*PULSGEN_MSG_CH_CNT)
-#define PULSGEN_MSG_TASK_SETUP_LEN      (5*4*PULSGEN_MSG_CH_CNT)
-#define PULSGEN_MSG_TASK_ABORT_LEN      (4)
-#define PULSGEN_MSG_TASK_STATE_LEN      (4)
-#define PULSGEN_MSG_TASK_TOGGLES_LEN    (2*4*PULSGEN_MSG_CH_CNT)
+/// the message data sizes
+#define PULSGEN_MSG_BUF_LEN MSG_LEN
 
 /// the message data access
-#define PULSGEN_MSG_BUF_CHANNEL_ID(LINK,SLOT)       (*((uint32_t*)(LINK) + SLOT))
-#define PULSGEN_MSG_BUF_PORT(LINK,SLOT)             (*((uint32_t*)(LINK) + SLOT + 1*PULSGEN_MSG_CH_CNT))
-#define PULSGEN_MSG_BUF_PIN(LINK,SLOT)              (*((uint32_t*)(LINK) + SLOT + 2*PULSGEN_MSG_CH_CNT))
-#define PULSGEN_MSG_BUF_INVERTED(LINK,SLOT)         (*((uint32_t*)(LINK) + SLOT + 3*PULSGEN_MSG_CH_CNT))
-
-#define PULSGEN_MSG_BUF_PERIOD(LINK,SLOT)           (*((uint32_t*)(LINK) + SLOT + 1*PULSGEN_MSG_CH_CNT))
-#define PULSGEN_MSG_BUF_DELAY(LINK,SLOT)            (*((uint32_t*)(LINK) + SLOT + 2*PULSGEN_MSG_CH_CNT))
-#define PULSGEN_MSG_BUF_TOGGLES(LINK,SLOT)          (*((uint32_t*)(LINK) + SLOT + 3*PULSGEN_MSG_CH_CNT))
-#define PULSGEN_MSG_BUF_DUTY(LINK,SLOT)             (*((uint32_t*)(LINK) + SLOT + 4*PULSGEN_MSG_CH_CNT))
-
-#define PULSGEN_MSG_BUF_CHANNELS_MASK(LINK)         (*((uint32_t*)(LINK)))
-
-#define PULSGEN_MSG_BUF_TOGGLES_MADE(LINK,SLOT)     (*((uint32_t*)(LINK) + SLOT + 1*PULSGEN_MSG_CH_CNT))
+struct pulsgen_msg_pin_setup_t { uint32_t ch; uint32_t port; uint32_t pin; uint32_t inverted; };
+struct pulsgen_msg_task_setup_t { uint32_t ch; uint32_t period; uint32_t toggles; uint32_t duty; uint32_t delay; };
+struct pulsgen_msg_ch_t { uint32_t ch; };
+struct pulsgen_msg_state_t { uint32_t state; };
+struct pulsgen_msg_toggles_t { uint32_t toggles; };
 
 
 
