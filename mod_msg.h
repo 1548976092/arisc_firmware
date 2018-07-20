@@ -27,7 +27,7 @@
 #define MSG_ARISC_BLOCK_ADDR    (MSG_BLOCK_ADDR + 0)
 #define MSG_ARM_BLOCK_ADDR      (MSG_BLOCK_ADDR + MSG_CPU_BLOCK_SIZE)
 
-#define MSG_MAX_CNT             8
+#define MSG_MAX_CNT             32
 #define MSG_MAX_LEN             (MSG_CPU_BLOCK_SIZE / MSG_MAX_CNT)
 #define MSG_LEN                 (MSG_MAX_LEN - 4)
 
