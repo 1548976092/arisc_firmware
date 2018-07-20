@@ -119,6 +119,9 @@ $(document).ready(function(){initNavTree('mod__gpio_8c.html','');});
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:add17353cd876e503abc3fa755f5baca7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8c.html#add17353cd876e503abc3fa755f5baca7">gpio_module_init</a> ()</td></tr>
+<tr class="memdesc:add17353cd876e503abc3fa755f5baca7"><td class="mdescLeft">&#160;</td><td class="mdescRight">module init  <a href="#add17353cd876e503abc3fa755f5baca7">More...</a><br /></td></tr>
+<tr class="separator:add17353cd876e503abc3fa755f5baca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b9c32f68920e472b165ff4301a53236"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8c.html#a8b9c32f68920e472b165ff4301a53236">gpio_module_base_thread</a> ()</td></tr>
 <tr class="memdesc:a8b9c32f68920e472b165ff4301a53236"><td class="mdescLeft">&#160;</td><td class="mdescRight">module base thread  <a href="#a8b9c32f68920e472b165ff4301a53236">More...</a><br /></td></tr>
 <tr class="separator:a8b9c32f68920e472b165ff4301a53236"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,6 +157,31 @@ Functions</h2></td></tr>
 <div class="textblock"><p>GPIO control module. </p>
 <p>This module implements an API to GPIO functionality for other modules </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="add17353cd876e503abc3fa755f5baca7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gpio_module_init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>module init </p>
+<dl class="section note"><dt>Note</dt><dd>call this function only once before <a class="el" href="mod__gpio_8c.html#a8b9c32f68920e472b165ff4301a53236" title="module base thread ">gpio_module_base_thread()</a> </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">none</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a1">mod_gpio.c</a>.</dd>
+</dl>
+</div>
+</div>
 <a class="anchor" id="a8b9c32f68920e472b165ff4301a53236"></a>
 <div class="memitem">
 <div class="memproto">
@@ -175,7 +203,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a12">mod_gpio.c</a>, and <a class="el" href="mod_pulsgen_8c-example.html#a6">mod_pulsgen.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a7">mod_gpio.c</a>, and <a class="el" href="mod_pulsgen_8c-example.html#a6">mod_pulsgen.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -217,7 +245,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a1">mod_gpio.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a2">mod_gpio.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -301,7 +329,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a9">mod_gpio.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a4">mod_gpio.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -343,7 +371,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a11">mod_gpio.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a6">mod_gpio.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -385,7 +413,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a10">mod_gpio.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a5">mod_gpio.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -417,7 +445,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a14">mod_gpio.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a9">mod_gpio.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -465,7 +493,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a16">mod_gpio.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a11">mod_gpio.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -513,7 +541,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a15">mod_gpio.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a10">mod_gpio.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -564,8 +592,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a6">mod_gpio.c</a>.</dd>
-</dl>
+
 </div>
 </div>
 </div><!-- contents -->

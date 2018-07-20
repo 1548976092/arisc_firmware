@@ -5,5 +5,6 @@ var searchData=
   ['clr_5fbit',['clr_bit',['../io_8h.html#adbf4e1afa46bb31a1287930b97daf0a7',1,'io.h']]],
   ['counts',['counts',['../structencoder__ch__t.html#ad81accb2d92fb90d570962574dbcb1ff',1,'encoder_ch_t']]],
   ['cpu_5ffreq',['CPU_FREQ',['../sys_8h.html#ab6b652797b16c31087c6e7fef45cc175',1,'sys.h']]],
-  ['cpux_5faxi_5fcfg_5freg',['CPUX_AXI_CFG_REG',['../sys_8h.html#a804771b9e4ebc24911e128e10db4d18a',1,'sys.h']]]
+  ['cpux_5faxi_5fcfg_5freg',['CPUX_AXI_CFG_REG',['../sys_8h.html#a804771b9e4ebc24911e128e10db4d18a',1,'sys.h']]],
+  ['cnc_20firmware_20for_20the_20allwinner_20h3_20arisc_20co_2dprocessor',['CNC firmware for the Allwinner H3 ARISC co-processor',['../index.html',1,'']]]
 ];

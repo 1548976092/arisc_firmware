@@ -104,6 +104,7 @@ $(document).ready(function(){initNavTree('mod__gpio_8h.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
@@ -119,6 +120,18 @@ $(document).ready(function(){initNavTree('mod__gpio_8h.html','');});
 </div>
 <p><a href="mod__gpio_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgpio__msg__port__t.html">gpio_msg_port_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">the message data access  <a href="structgpio__msg__port__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgpio__msg__port__pin__t.html">gpio_msg_port_pin_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgpio__msg__port__mask__t.html">gpio_msg_port_mask_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgpio__msg__state__t.html">gpio_msg_state_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:acce3b8a909ed8b957b4e411dfb7cbd91"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#acce3b8a909ed8b957b4e411dfb7cbd91">GPIO_BASE</a>&#160;&#160;&#160;0X01C20800</td></tr>
@@ -172,23 +185,6 @@ Macros</h2></td></tr>
 <tr class="memitem:a1c56baf8691304743f5a5a9667703056"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#a1c56baf8691304743f5a5a9667703056">GPIO_MSG_BUF_LEN</a>&#160;&#160;&#160;<a class="el" href="mod__msg_8h.html#a1f15293623649a310a7c68ff240f9647">MSG_LEN</a></td></tr>
 <tr class="memdesc:a1c56baf8691304743f5a5a9667703056"><td class="mdescLeft">&#160;</td><td class="mdescRight">the message data sizes  <a href="#a1c56baf8691304743f5a5a9667703056">More...</a><br /></td></tr>
 <tr class="separator:a1c56baf8691304743f5a5a9667703056"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d971c81db3a24339f0a904b6c65ec36"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#a2d971c81db3a24339f0a904b6c65ec36">GPIO_MSG_SETUP_LEN</a>&#160;&#160;&#160;(4*2*<a class="el" href="mod__gpio_8h.html#a188c33baad9a9f4dffd2ed5040b274c7">GPIO_PORTS_CNT</a>)</td></tr>
-<tr class="separator:a2d971c81db3a24339f0a904b6c65ec36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0f82274bd2d13fc3ac782e593a2f8ed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#af0f82274bd2d13fc3ac782e593a2f8ed">GPIO_MSG_GET_LEN</a>&#160;&#160;&#160;(4*<a class="el" href="mod__gpio_8h.html#a188c33baad9a9f4dffd2ed5040b274c7">GPIO_PORTS_CNT</a>)</td></tr>
-<tr class="separator:af0f82274bd2d13fc3ac782e593a2f8ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a084bd6426d223975786b2532a41a13eb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#a084bd6426d223975786b2532a41a13eb">GPIO_MSG_SET_LEN</a>&#160;&#160;&#160;(4*2*<a class="el" href="mod__gpio_8h.html#a188c33baad9a9f4dffd2ed5040b274c7">GPIO_PORTS_CNT</a>)</td></tr>
-<tr class="separator:a084bd6426d223975786b2532a41a13eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1e87674676aa0bfe8ee8b194e10b171"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#af1e87674676aa0bfe8ee8b194e10b171">GPIO_MSG_BUF_INPUT_MASK</a>(LINK,  PORT)&#160;&#160;&#160;(*((uint32_t*)(LINK) + PORT))</td></tr>
-<tr class="memdesc:af1e87674676aa0bfe8ee8b194e10b171"><td class="mdescLeft">&#160;</td><td class="mdescRight">the message data access  <a href="#af1e87674676aa0bfe8ee8b194e10b171">More...</a><br /></td></tr>
-<tr class="separator:af1e87674676aa0bfe8ee8b194e10b171"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae33667598ed5eed23ace6c88fafa4a44"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#ae33667598ed5eed23ace6c88fafa4a44">GPIO_MSG_BUF_OUTPUT_MASK</a>(LINK,  PORT)&#160;&#160;&#160;(*((uint32_t*)(LINK) + PORT + <a class="el" href="mod__gpio_8h.html#a188c33baad9a9f4dffd2ed5040b274c7">GPIO_PORTS_CNT</a>))</td></tr>
-<tr class="separator:ae33667598ed5eed23ace6c88fafa4a44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c3f7807e9ec4f5813e6d5b005ddc920"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#a6c3f7807e9ec4f5813e6d5b005ddc920">GPIO_MSG_BUF_SET_MASK</a>(LINK,  PORT)&#160;&#160;&#160;(*((uint32_t*)(LINK) + PORT))</td></tr>
-<tr class="separator:a6c3f7807e9ec4f5813e6d5b005ddc920"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29ce05404d3826f0e4fc0233ceabbd30"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#a29ce05404d3826f0e4fc0233ceabbd30">GPIO_MSG_BUF_CLEAR_MASK</a>(LINK,  PORT)&#160;&#160;&#160;(*((uint32_t*)(LINK) + PORT + <a class="el" href="mod__gpio_8h.html#a188c33baad9a9f4dffd2ed5040b274c7">GPIO_PORTS_CNT</a>))</td></tr>
-<tr class="separator:a29ce05404d3826f0e4fc0233ceabbd30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55837e7dcaf71b9b148deb6923694d1d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#a55837e7dcaf71b9b148deb6923694d1d">GPIO_MSG_BUF_STATE</a>(LINK,  PORT)&#160;&#160;&#160;(*((uint32_t*)(LINK) + PORT))</td></tr>
-<tr class="separator:a55837e7dcaf71b9b148deb6923694d1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -211,9 +207,17 @@ Enumerations</h2></td></tr>
  }<tr class="memdesc:adc29c2ff13d900c2f185ee95427fb06c"><td class="mdescLeft">&#160;</td><td class="mdescRight">the GPIO pin states  <a href="mod__gpio_8h.html#adc29c2ff13d900c2f185ee95427fb06c">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:adc29c2ff13d900c2f185ee95427fb06c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61dadd085c1777f559549e05962b2c9e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="mod__gpio_8h.html#a61dadd085c1777f559549e05962b2c9ea310fa393ba788a6e3a32afaeec8ffbfa">GPIO_MSG_SETUP</a> = 0x10, 
-<a class="el" href="mod__gpio_8h.html#a61dadd085c1777f559549e05962b2c9ea8a52c7f2ddc086d8294cd6a56cfdbce4">GPIO_MSG_GET</a>, 
-<a class="el" href="mod__gpio_8h.html#a61dadd085c1777f559549e05962b2c9eabadf8ec1db104302d212ded819cb7e24">GPIO_MSG_SET</a>
+<tr class="memitem:a61dadd085c1777f559549e05962b2c9e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
+&#160;&#160;<a class="el" href="mod__gpio_8h.html#a61dadd085c1777f559549e05962b2c9ea19cd694d120965ce04c92e191b9293be">GPIO_MSG_SETUP_FOR_OUTPUT</a> = 0x10, 
+<a class="el" href="mod__gpio_8h.html#a61dadd085c1777f559549e05962b2c9ea2816789db9d2ecab74a75e65c2c3c809">GPIO_MSG_SETUP_FOR_INPUT</a>, 
+<a class="el" href="mod__gpio_8h.html#a61dadd085c1777f559549e05962b2c9ea71db0b0a2e2485c03ac4971b77f3d967">GPIO_MSG_PIN_GET</a>, 
+<a class="el" href="mod__gpio_8h.html#a61dadd085c1777f559549e05962b2c9eadc8da2c38813caae013bd7933f64b7cb">GPIO_MSG_PIN_SET</a>, 
+<br />
+&#160;&#160;<a class="el" href="mod__gpio_8h.html#a61dadd085c1777f559549e05962b2c9ea0da1eb91407dd15e92705aeddf94f277">GPIO_MSG_PIN_CLEAR</a>, 
+<a class="el" href="mod__gpio_8h.html#a61dadd085c1777f559549e05962b2c9ea97e2d0b679905eaa1c48068c2bf7ed7c">GPIO_MSG_PORT_GET</a>, 
+<a class="el" href="mod__gpio_8h.html#a61dadd085c1777f559549e05962b2c9eae1d94321b43efb28bc2316670f43fd9a">GPIO_MSG_PORT_SET</a>, 
+<a class="el" href="mod__gpio_8h.html#a61dadd085c1777f559549e05962b2c9eaf9b1ca8fbf09ee6def630e34ea3328fd">GPIO_MSG_PORT_CLEAR</a>
+<br />
  }<tr class="memdesc:a61dadd085c1777f559549e05962b2c9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">the message types  <a href="mod__gpio_8h.html#a61dadd085c1777f559549e05962b2c9e">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a61dadd085c1777f559549e05962b2c9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -221,6 +225,7 @@ Enumerations</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:add17353cd876e503abc3fa755f5baca7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#add17353cd876e503abc3fa755f5baca7">gpio_module_init</a> ()</td></tr>
+<tr class="memdesc:add17353cd876e503abc3fa755f5baca7"><td class="mdescLeft">&#160;</td><td class="mdescRight">module init  <a href="#add17353cd876e503abc3fa755f5baca7">More...</a><br /></td></tr>
 <tr class="separator:add17353cd876e503abc3fa755f5baca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b9c32f68920e472b165ff4301a53236"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#a8b9c32f68920e472b165ff4301a53236">gpio_module_base_thread</a> ()</td></tr>
 <tr class="memdesc:a8b9c32f68920e472b165ff4301a53236"><td class="mdescLeft">&#160;</td><td class="mdescRight">module base thread  <a href="#a8b9c32f68920e472b165ff4301a53236">More...</a><br /></td></tr>
@@ -354,7 +359,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>number of GPIO port pins </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a13">mod_gpio.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_gpio_8c-example.html#a8">mod_gpio.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -552,174 +557,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a2d971c81db3a24339f0a904b6c65ec36"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define GPIO_MSG_SETUP_LEN&#160;&#160;&#160;(4*2*<a class="el" href="mod__gpio_8h.html#a188c33baad9a9f4dffd2ed5040b274c7">GPIO_PORTS_CNT</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="af0f82274bd2d13fc3ac782e593a2f8ed"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define GPIO_MSG_GET_LEN&#160;&#160;&#160;(4*<a class="el" href="mod__gpio_8h.html#a188c33baad9a9f4dffd2ed5040b274c7">GPIO_PORTS_CNT</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a084bd6426d223975786b2532a41a13eb"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define GPIO_MSG_SET_LEN&#160;&#160;&#160;(4*2*<a class="el" href="mod__gpio_8h.html#a188c33baad9a9f4dffd2ed5040b274c7">GPIO_PORTS_CNT</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="af1e87674676aa0bfe8ee8b194e10b171"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define GPIO_MSG_BUF_INPUT_MASK</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">LINK, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">PORT&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(*((uint32_t*)(LINK) + PORT))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>the message data access </p>
-
-</div>
-</div>
-<a class="anchor" id="ae33667598ed5eed23ace6c88fafa4a44"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define GPIO_MSG_BUF_OUTPUT_MASK</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">LINK, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">PORT&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(*((uint32_t*)(LINK) + PORT + <a class="el" href="mod__gpio_8h.html#a188c33baad9a9f4dffd2ed5040b274c7">GPIO_PORTS_CNT</a>))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a6c3f7807e9ec4f5813e6d5b005ddc920"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define GPIO_MSG_BUF_SET_MASK</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">LINK, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">PORT&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(*((uint32_t*)(LINK) + PORT))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a29ce05404d3826f0e4fc0233ceabbd30"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define GPIO_MSG_BUF_CLEAR_MASK</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">LINK, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">PORT&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(*((uint32_t*)(LINK) + PORT + <a class="el" href="mod__gpio_8h.html#a188c33baad9a9f4dffd2ed5040b274c7">GPIO_PORTS_CNT</a>))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a55837e7dcaf71b9b148deb6923694d1d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define GPIO_MSG_BUF_STATE</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">LINK, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">PORT&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(*((uint32_t*)(LINK) + PORT))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a class="anchor" id="abc6126af1d45847bc59afa0aa3216b04"></a>
 <div class="memitem">
@@ -785,11 +622,21 @@ Functions</h2></td></tr>
 
 <p>the message types </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a61dadd085c1777f559549e05962b2c9ea310fa393ba788a6e3a32afaeec8ffbfa"></a>GPIO_MSG_SETUP&#160;</td><td class="fielddoc">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a61dadd085c1777f559549e05962b2c9ea19cd694d120965ce04c92e191b9293be"></a>GPIO_MSG_SETUP_FOR_OUTPUT&#160;</td><td class="fielddoc">
 </td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a61dadd085c1777f559549e05962b2c9ea8a52c7f2ddc086d8294cd6a56cfdbce4"></a>GPIO_MSG_GET&#160;</td><td class="fielddoc">
+<tr><td class="fieldname"><a class="anchor" id="a61dadd085c1777f559549e05962b2c9ea2816789db9d2ecab74a75e65c2c3c809"></a>GPIO_MSG_SETUP_FOR_INPUT&#160;</td><td class="fielddoc">
 </td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a61dadd085c1777f559549e05962b2c9eabadf8ec1db104302d212ded819cb7e24"></a>GPIO_MSG_SET&#160;</td><td class="fielddoc">
+<tr><td class="fieldname"><a class="anchor" id="a61dadd085c1777f559549e05962b2c9ea71db0b0a2e2485c03ac4971b77f3d967"></a>GPIO_MSG_PIN_GET&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a61dadd085c1777f559549e05962b2c9eadc8da2c38813caae013bd7933f64b7cb"></a>GPIO_MSG_PIN_SET&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a61dadd085c1777f559549e05962b2c9ea0da1eb91407dd15e92705aeddf94f277"></a>GPIO_MSG_PIN_CLEAR&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a61dadd085c1777f559549e05962b2c9ea97e2d0b679905eaa1c48068c2bf7ed7c"></a>GPIO_MSG_PORT_GET&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a61dadd085c1777f559549e05962b2c9eae1d94321b43efb28bc2316670f43fd9a"></a>GPIO_MSG_PORT_SET&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a61dadd085c1777f559549e05962b2c9eaf9b1ca8fbf09ee6def630e34ea3328fd"></a>GPIO_MSG_PORT_CLEAR&#160;</td><td class="fielddoc">
 </td></tr>
 </table>
 
@@ -808,6 +655,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>module init </p>
+<dl class="section note"><dt>Note</dt><dd>call this function only once before <a class="el" href="mod__gpio_8c.html#a8b9c32f68920e472b165ff4301a53236" title="module base thread ">gpio_module_base_thread()</a> </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">none</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
