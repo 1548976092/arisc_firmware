@@ -32,13 +32,7 @@ int main(void)
     msg_module_init();
     gpio_module_init();
     pulsgen_module_init();
-
-    // add message handlers for the ENCODER module
-    msg_recv_callback_add(ENCODER_MSG_PINS_SETUP,   (msg_recv_func_t) encoder_msg_recv);
-    msg_recv_callback_add(ENCODER_MSG_SETUP,        (msg_recv_func_t) encoder_msg_recv);
-    msg_recv_callback_add(ENCODER_MSG_COUNTS,       (msg_recv_func_t) encoder_msg_recv);
-    msg_recv_callback_add(ENCODER_MSG_ENABLE,       (msg_recv_func_t) encoder_msg_recv);
-    msg_recv_callback_add(ENCODER_MSG_RESET,        (msg_recv_func_t) encoder_msg_recv);
+    encoder_module_init();
 
     // main loop
     for(;;)

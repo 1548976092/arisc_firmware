@@ -47,6 +47,22 @@ static uint8_t state_list[4] =
 // public methods
 
 /**
+ * @brief   module init
+ * @note    call this function only once before encoder_module_base_thread()
+ * @retval  none
+ */
+void encoder_module_init()
+{
+    uint8_t i = 0;
+
+    // add message handlers
+    for ( i = ENCODER_MSG_PIN_SETUP; i <= ENCODER_MSG_COUNTS_GET; i++ )
+    {
+        msg_recv_callback_add(i, (msg_recv_func_t) encoder_msg_recv);
+    }
+}
+
+/**
  * @brief   module base thread
  * @note    call this function anywhere in the main loop
  * @retval  none
@@ -129,16 +145,14 @@ void encoder_pin_setup(uint8_t c, uint8_t phase, uint8_t port, uint8_t pin)
  * @brief   setup selected channel of encoder counter
  *
  * @param   c           channel id
- * @param   enabled     enable encoder counter right now?
  * @param   using_B     use phase B input?
  * @param   using_Z     use phase Z index input?
  *
  * @retval  none
  */
-void encoder_setup(uint8_t c, uint8_t enabled, uint8_t using_B, uint8_t using_Z)
+void encoder_setup(uint8_t c, uint8_t using_B, uint8_t using_Z)
 {
     // set channel parameters
-    enc[c].enabled  = enabled;
     enc[c].using_B  = using_B;
     enc[c].using_Z  = using_Z;
 
@@ -157,13 +171,14 @@ void encoder_state_set(uint8_t c, uint8_t state)
 }
 
 /**
- * @brief   reset number of counts for the selected channel
+ * @brief   change number of counts for the selected channel
  * @param   c       channel id
+ * @param   counts  new value for encoder channel counts
  * @retval  none
  */
-void encoder_counts_reset(uint8_t c)
+void encoder_counts_set(uint8_t c, int32_t counts)
 {
-    enc[c].counts = 0;
+    enc[c].counts = counts;
 }
 
 
@@ -210,76 +225,48 @@ int32_t encoder_counts_get(uint8_t c)
  */
 int8_t volatile encoder_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
 {
-    static uint8_t c, p;
-
     switch (type)
     {
-        case ENCODER_MSG_PINS_SETUP:
+        case ENCODER_MSG_PIN_SETUP:
         {
-            for ( c = ENCODER_CH_CNT; c--; )
-            {
-                if ( (uint8_t) ENCODER_MSG_BUF_PORT(msg,c,PH_A) >= GPIO_PORTS_CNT ) continue;
-
-                for ( p = ENCODER_PH_CNT; p--; )
-                {
-                    encoder_pin_setup( c, p,
-                        (uint8_t) ENCODER_MSG_BUF_PORT(msg,c,p),
-                        (uint8_t) ENCODER_MSG_BUF_PIN (msg,c,p)
-                    );
-                }
-            }
-
+            struct encoder_msg_pin_setup_t in = *((struct encoder_msg_pin_setup_t *) msg);
+            encoder_pin_setup(in.ch, in.phase, in.port, in.pin);
             break;
         }
-
         case ENCODER_MSG_SETUP:
         {
-            for ( c = ENCODER_CH_CNT; c--; )
-            {
-                if ( (uint8_t) ENCODER_MSG_BUF_ENABLED(msg,c) > 1 ) continue;
-
-                encoder_setup( c,
-                    (uint8_t) ENCODER_MSG_BUF_ENABLED(msg,c),
-                    (uint8_t) ENCODER_MSG_BUF_USING_B(msg,c),
-                    (uint8_t) ENCODER_MSG_BUF_USING_Z(msg,c)
-                );
-            }
-
+            struct encoder_msg_setup_t in = *((struct encoder_msg_setup_t *) msg);
+            encoder_setup(in.ch, in.using_B, in.using_Z);
             break;
         }
 
-        case ENCODER_MSG_COUNTS:
+        case ENCODER_MSG_STATE_SET:
         {
-            for ( c = ENCODER_CH_CNT; c--; )
-            {
-                ENCODER_MSG_BUF_COUNTS(&msg_buf,c) = ENCODER_MSG_BUF_COUNTS(msg,c) ?
-                    encoder_counts_get(c) :
-                    0 ;
-            }
-
-            msg_send(type, (uint8_t*)&msg_buf, ENCODER_MSG_COUNTS_LEN);
-
+            struct encoder_msg_state_set_t in = *((struct encoder_msg_state_set_t *) msg);
+            encoder_state_set(in.ch, in.state);
+            break;
+        }
+        case ENCODER_MSG_STATE_GET:
+        {
+            struct encoder_msg_ch_t in = *((struct encoder_msg_ch_t *) msg);
+            struct encoder_msg_state_get_t out = *((struct encoder_msg_state_get_t *) msg);
+            out.state = encoder_state_get(in.ch);
+            msg_send(type, (uint8_t*)&msg_buf, 4);
             break;
         }
 
-        case ENCODER_MSG_ENABLE:
+        case ENCODER_MSG_COUNTS_SET:
         {
-            for ( c = ENCODER_CH_CNT; c--; )
-            {
-                if ( ENCODER_MSG_BUF_ENABLE(msg) & (1U << c) )  encoder_state_set(c, 1);
-                else                                            encoder_state_set(c, 0);
-            }
-
+            struct encoder_msg_counts_set_t in = *((struct encoder_msg_counts_set_t *) msg);
+            encoder_counts_set(in.ch, in.counts);
             break;
         }
-
-        case ENCODER_MSG_RESET:
+        case ENCODER_MSG_COUNTS_GET:
         {
-            for ( c = ENCODER_CH_CNT; c--; )
-            {
-                if ( ENCODER_MSG_BUF_RESET(msg) & (1U << c) ) encoder_counts_reset(c);
-            }
-
+            struct encoder_msg_ch_t in = *((struct encoder_msg_ch_t *) msg);
+            struct encoder_msg_counts_get_t out = *((struct encoder_msg_counts_get_t *) msg);
+            out.counts = encoder_counts_get(in.ch);
+            msg_send(type, (uint8_t*)&msg_buf, 4);
             break;
         }
 
@@ -302,16 +289,19 @@ int8_t volatile encoder_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
 
         int main(void)
         {
+            // module init
+            encoder_module_init();
+
             // setup phase pins of the channel 0
             encoder_pin_setup(0, PHASE_A, PA, 3);
             encoder_pin_setup(0, PHASE_B, PA, 5);
             encoder_pin_setup(0, PHASE_Z, PA, 8);
 
             // setup channel 0 parameters
-            encoder_setup(0, 0, 1, 1);
+            encoder_setup(0, 1, 1);
 
             // reset counter value of the channel 0
-            if ( encoder_counts_get(0) ) encoder_counts_reset(0);
+            if ( encoder_counts_get(0) ) encoder_counts_set(0, 0);
 
             // enable channel 0
             if ( !encoder_state_get(0) ) encoder_state_set(0, 1);
@@ -319,8 +309,8 @@ int8_t volatile encoder_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             // main loop
             for(;;)
             {
-                // reset channel 0 counts after real 100 counts
-                if ( encoder_counts_get(0) > 100 ) encoder_counts_reset(0);
+                // reset channel 0 counts after 100 CW counts
+                if ( encoder_counts_get(0) > 100 ) encoder_counts_set(0, 0);
 
                 // real update of channel states
                 encoder_module_base_thread();
