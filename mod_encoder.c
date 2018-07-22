@@ -249,9 +249,9 @@ int8_t volatile encoder_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
         case ENCODER_MSG_STATE_GET:
         {
             struct encoder_msg_ch_t in = *((struct encoder_msg_ch_t *) msg);
-            struct encoder_msg_state_get_t out = *((struct encoder_msg_state_get_t *) msg);
+            struct encoder_msg_state_get_t out = *((struct encoder_msg_state_get_t *) &msg_buf);
             out.state = encoder_state_get(in.ch);
-            msg_send(type, (uint8_t*)&msg_buf, 4);
+            msg_send(type, (uint8_t*)&out, 4);
             break;
         }
 
@@ -264,9 +264,9 @@ int8_t volatile encoder_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
         case ENCODER_MSG_COUNTS_GET:
         {
             struct encoder_msg_ch_t in = *((struct encoder_msg_ch_t *) msg);
-            struct encoder_msg_counts_get_t out = *((struct encoder_msg_counts_get_t *) msg);
+            struct encoder_msg_counts_get_t out = *((struct encoder_msg_counts_get_t *) &msg_buf);
             out.counts = encoder_counts_get(in.ch);
-            msg_send(type, (uint8_t*)&msg_buf, 4);
+            msg_send(type, (uint8_t*)&out, 4);
             break;
         }
 

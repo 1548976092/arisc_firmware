@@ -283,17 +283,17 @@ int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
         case PULSGEN_MSG_TASK_STATE:
         {
             struct pulsgen_msg_ch_t in = *((struct pulsgen_msg_ch_t *) msg);
-            struct pulsgen_msg_state_t out = *((struct pulsgen_msg_state_t *) msg);
+            struct pulsgen_msg_state_t out = *((struct pulsgen_msg_state_t *) &msg_buf);
             out.state = pulsgen_task_state(in.ch);
-            msg_send(type, (uint8_t*)&msg_buf, 4);
+            msg_send(type, (uint8_t*)&out, 4);
             break;
         }
         case PULSGEN_MSG_TASK_TOGGLES:
         {
             struct pulsgen_msg_ch_t in = *((struct pulsgen_msg_ch_t *) msg);
-            struct pulsgen_msg_toggles_t out = *((struct pulsgen_msg_toggles_t *) msg);
+            struct pulsgen_msg_toggles_t out = *((struct pulsgen_msg_toggles_t *) &msg_buf);
             out.toggles = pulsgen_task_toggles(in.ch);
-            msg_send(type, (uint8_t*)&msg_buf, 4);
+            msg_send(type, (uint8_t*)&out, 4);
             break;
         }
 

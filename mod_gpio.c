@@ -274,7 +274,7 @@ int8_t volatile gpio_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             struct gpio_msg_port_pin_t in = *((struct gpio_msg_port_pin_t *) msg);
             struct gpio_msg_state_t out = *((struct gpio_msg_state_t *) &msg_buf);
             out.state = gpio_pin_get(in.port, in.pin);
-            msg_send(type, (uint8_t*)&msg_buf, 4);
+            msg_send(type, (uint8_t*)&out, 4);
             break;
         }
         case GPIO_MSG_PIN_SET:
@@ -295,7 +295,7 @@ int8_t volatile gpio_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             struct gpio_msg_port_t in = *((struct gpio_msg_port_t *) msg);
             struct gpio_msg_state_t out = *((struct gpio_msg_state_t *) &msg_buf);
             out.state = gpio_port_get(in.port);
-            msg_send(type, (uint8_t*)&msg_buf, 4);
+            msg_send(type, (uint8_t*)&out, 4);
             break;
         }
         case GPIO_MSG_PORT_SET:
