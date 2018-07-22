@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['unread',['unread',['../structmsg__t.html#a4c4fc7e394bc4eec59d60e3590a1bc98',1,'msg_t']]],
-  ['used',['used',['../structmsg__recv__callback__t.html#a4b1141237b480e4c38afe96a59ca4cad',1,'msg_recv_callback_t']]],
-  ['using_5fb',['using_B',['../structencoder__ch__t.html#a6f1249576f73ee4de5341db86bc46844',1,'encoder_ch_t']]],
-  ['using_5fz',['using_Z',['../structencoder__ch__t.html#a194ff8527e51fd9226d3dfe87e57c728',1,'encoder_ch_t']]]
+  ['setup_5fticks',['setup_ticks',['../structpulsgen__ch__t.html#a5923fa6a48da93d9579b7d027124a322',1,'pulsgen_ch_t']]],
+  ['state',['state',['../structencoder__ch__t.html#a808f7fd31fe1c59b7d5d9860326dc7d0',1,'encoder_ch_t::state()'],['../structencoder__msg__state__set__t.html#a1b0c7bd4d79798ef4e0ce23894c9aeb2',1,'encoder_msg_state_set_t::state()'],['../structencoder__msg__state__get__t.html#a1b0c7bd4d79798ef4e0ce23894c9aeb2',1,'encoder_msg_state_get_t::state()'],['../structgpio__msg__state__t.html#a1b0c7bd4d79798ef4e0ce23894c9aeb2',1,'gpio_msg_state_t::state()'],['../structpulsgen__msg__state__t.html#a1b0c7bd4d79798ef4e0ce23894c9aeb2',1,'pulsgen_msg_state_t::state()']]]
 ];

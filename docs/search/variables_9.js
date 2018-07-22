@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['setup_5fticks',['setup_ticks',['../structpulsgen__ch__t.html#a5923fa6a48da93d9579b7d027124a322',1,'pulsgen_ch_t']]],
-  ['state',['state',['../structencoder__ch__t.html#a808f7fd31fe1c59b7d5d9860326dc7d0',1,'encoder_ch_t::state()'],['../structgpio__msg__state__t.html#a1b0c7bd4d79798ef4e0ce23894c9aeb2',1,'gpio_msg_state_t::state()']]]
+  ['period',['period',['../structpulsgen__msg__task__setup__t.html#a81b43df06332b4fef558297592bb7ff1',1,'pulsgen_msg_task_setup_t']]],
+  ['phase',['phase',['../structencoder__msg__pin__setup__t.html#a589421fe5ccbd2621e7f17ea192701af',1,'encoder_msg_pin_setup_t']]],
+  ['pin',['pin',['../structencoder__ch__t.html#afde516354967f03e957e1cd2fad26749',1,'encoder_ch_t::pin()'],['../structencoder__msg__pin__setup__t.html#a2e63015a6d5134e2f8d58e171e163c4c',1,'encoder_msg_pin_setup_t::pin()'],['../structgpio__msg__port__pin__t.html#a2e63015a6d5134e2f8d58e171e163c4c',1,'gpio_msg_port_pin_t::pin()'],['../structpulsgen__ch__t.html#ab40a673fb19c1e650e1f79de91788aa5',1,'pulsgen_ch_t::pin()'],['../structpulsgen__msg__pin__setup__t.html#a2e63015a6d5134e2f8d58e171e163c4c',1,'pulsgen_msg_pin_setup_t::pin()']]],
+  ['pin_5finverted',['pin_inverted',['../structpulsgen__ch__t.html#a66bc67f6022425d5bba8e7d65db71591',1,'pulsgen_ch_t']]],
+  ['pin_5fstate',['pin_state',['../structpulsgen__ch__t.html#a82e9f9e095228d77050862b5eb05c878',1,'pulsgen_ch_t']]],
+  ['port',['port',['../structencoder__ch__t.html#a9068272b97c7b328f9a5f1f6d3d7e0ee',1,'encoder_ch_t::port()'],['../structencoder__msg__pin__setup__t.html#a83a04ad582de2b7d36b96f9db429c2c6',1,'encoder_msg_pin_setup_t::port()'],['../structgpio__msg__port__t.html#a83a04ad582de2b7d36b96f9db429c2c6',1,'gpio_msg_port_t::port()'],['../structgpio__msg__port__pin__t.html#a83a04ad582de2b7d36b96f9db429c2c6',1,'gpio_msg_port_pin_t::port()'],['../structgpio__msg__port__mask__t.html#a83a04ad582de2b7d36b96f9db429c2c6',1,'gpio_msg_port_mask_t::port()'],['../structpulsgen__ch__t.html#a2fa54f9024782843172506fadbee2ac8',1,'pulsgen_ch_t::port()'],['../structpulsgen__msg__pin__setup__t.html#a83a04ad582de2b7d36b96f9db429c2c6',1,'pulsgen_msg_pin_setup_t::port()']]]
 ];

@@ -17,21 +17,5 @@ var searchData=
   ['pulsgen_5fch_5fcnt',['PULSGEN_CH_CNT',['../mod__pulsgen_8h.html#a301a90fda88beb1da30012ca6b9c11e4',1,'mod_pulsgen.h']]],
   ['pulsgen_5fmax_5fduty',['PULSGEN_MAX_DUTY',['../mod__pulsgen_8h.html#abc8a86b202b9117b0783d463e395ffde',1,'mod_pulsgen.h']]],
   ['pulsgen_5fmax_5fperiod',['PULSGEN_MAX_PERIOD',['../mod__pulsgen_8h.html#a1887b5aaca7372337091089d4d9199f9',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5fbuf_5fchannel_5fid',['PULSGEN_MSG_BUF_CHANNEL_ID',['../mod__pulsgen_8h.html#a827885d653dd5b7c2e8f4bd31778bae8',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5fbuf_5fchannels_5fmask',['PULSGEN_MSG_BUF_CHANNELS_MASK',['../mod__pulsgen_8h.html#ac68e8265a8ff76d87357423440325715',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5fbuf_5fdelay',['PULSGEN_MSG_BUF_DELAY',['../mod__pulsgen_8h.html#ac34482e3be65457af749902540a6bf61',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5fbuf_5fduty',['PULSGEN_MSG_BUF_DUTY',['../mod__pulsgen_8h.html#acfd75b0c3d22f945c5674424e72f6eb3',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5fbuf_5finverted',['PULSGEN_MSG_BUF_INVERTED',['../mod__pulsgen_8h.html#a00c4354302c8706808941cf1acf41e1e',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5fbuf_5flen',['PULSGEN_MSG_BUF_LEN',['../mod__pulsgen_8h.html#a0b184ac62abfc34423ece76aa7b648dc',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5fbuf_5fperiod',['PULSGEN_MSG_BUF_PERIOD',['../mod__pulsgen_8h.html#a653c00459635534d80d21b7536957072',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5fbuf_5fpin',['PULSGEN_MSG_BUF_PIN',['../mod__pulsgen_8h.html#a8f4018070f849371581746e3ca4d9f88',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5fbuf_5fport',['PULSGEN_MSG_BUF_PORT',['../mod__pulsgen_8h.html#aa4716ea3581473c4f8235aefd6e2e389',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5fbuf_5ftoggles',['PULSGEN_MSG_BUF_TOGGLES',['../mod__pulsgen_8h.html#af1a3195593a7a41c051b5cb2540c2bf1',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5fbuf_5ftoggles_5fmade',['PULSGEN_MSG_BUF_TOGGLES_MADE',['../mod__pulsgen_8h.html#a3f5f369a144fa72bdf2b40559e8ea0fa',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5fch_5fcnt',['PULSGEN_MSG_CH_CNT',['../mod__pulsgen_8h.html#a681ce43ff98a4167cf31988435776a6e',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5fpin_5fsetup_5flen',['PULSGEN_MSG_PIN_SETUP_LEN',['../mod__pulsgen_8h.html#a77e9d0ba17115f405fa8a6e38de9462a',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5ftask_5fabort_5flen',['PULSGEN_MSG_TASK_ABORT_LEN',['../mod__pulsgen_8h.html#a683eb585727c80ca4157f47186f70ea9',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5ftask_5fsetup_5flen',['PULSGEN_MSG_TASK_SETUP_LEN',['../mod__pulsgen_8h.html#aa907081a3e697426255d058a3fe3a816',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5ftask_5fstate_5flen',['PULSGEN_MSG_TASK_STATE_LEN',['../mod__pulsgen_8h.html#a4fa3c3cc9d1da23775f0276604fe699b',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5ftask_5ftoggles_5flen',['PULSGEN_MSG_TASK_TOGGLES_LEN',['../mod__pulsgen_8h.html#a8f84a0a542ed685e4064cffd383538da',1,'mod_pulsgen.h']]]
+  ['pulsgen_5fmsg_5fbuf_5flen',['PULSGEN_MSG_BUF_LEN',['../mod__pulsgen_8h.html#a0b184ac62abfc34423ece76aa7b648dc',1,'mod_pulsgen.h']]]
 ];

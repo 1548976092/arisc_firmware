@@ -125,6 +125,21 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structencoder__ch__t.html">encoder_ch_t</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">a channel parameters  <a href="structencoder__ch__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structencoder__msg__ch__t.html">encoder_msg_ch_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">the message data access  <a href="structencoder__msg__ch__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structencoder__msg__pin__setup__t.html">encoder_msg_pin_setup_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structencoder__msg__setup__t.html">encoder_msg_setup_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structencoder__msg__state__set__t.html">encoder_msg_state_set_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structencoder__msg__counts__set__t.html">encoder_msg_counts_set_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structencoder__msg__state__get__t.html">encoder_msg_state_get_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structencoder__msg__counts__get__t.html">encoder_msg_counts_get_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
@@ -135,34 +150,8 @@ Macros</h2></td></tr>
 <tr class="memdesc:a529d576743c8f1445934b6388be2e537"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of encoder phases  <a href="#a529d576743c8f1445934b6388be2e537">More...</a><br /></td></tr>
 <tr class="separator:a529d576743c8f1445934b6388be2e537"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a971a04d1eb01bc0e177aa6f9d4a03ea0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#a971a04d1eb01bc0e177aa6f9d4a03ea0">ENCODER_MSG_BUF_LEN</a>&#160;&#160;&#160;<a class="el" href="mod__msg_8h.html#a1f15293623649a310a7c68ff240f9647">MSG_LEN</a></td></tr>
+<tr class="memdesc:a971a04d1eb01bc0e177aa6f9d4a03ea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">the message data sizes  <a href="#a971a04d1eb01bc0e177aa6f9d4a03ea0">More...</a><br /></td></tr>
 <tr class="separator:a971a04d1eb01bc0e177aa6f9d4a03ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfc9441381f692cff42f7a02488c25f0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#abfc9441381f692cff42f7a02488c25f0">ENCODER_MSG_PINS_SETUP_LEN</a>&#160;&#160;&#160;(4*6*<a class="el" href="mod__encoder_8h.html#ab01f0417d475385286c7e2ed25db2df6">ENCODER_CH_CNT</a>)</td></tr>
-<tr class="separator:abfc9441381f692cff42f7a02488c25f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac27040eb259f69f283e05ef659703a98"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#ac27040eb259f69f283e05ef659703a98">ENCODER_MSG_SETUP_LEN</a>&#160;&#160;&#160;(4*3*<a class="el" href="mod__encoder_8h.html#ab01f0417d475385286c7e2ed25db2df6">ENCODER_CH_CNT</a>)</td></tr>
-<tr class="separator:ac27040eb259f69f283e05ef659703a98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af706655fa5fa4f1f64e92f52d391cc71"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#af706655fa5fa4f1f64e92f52d391cc71">ENCODER_MSG_COUNTS_LEN</a>&#160;&#160;&#160;(4*<a class="el" href="mod__encoder_8h.html#ab01f0417d475385286c7e2ed25db2df6">ENCODER_CH_CNT</a>)</td></tr>
-<tr class="separator:af706655fa5fa4f1f64e92f52d391cc71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad777b7e55c819e47db4ece692fec0302"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#ad777b7e55c819e47db4ece692fec0302">ENCODER_MSG_ENABLE_LEN</a>&#160;&#160;&#160;(4)</td></tr>
-<tr class="separator:ad777b7e55c819e47db4ece692fec0302"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d175c6a5cf471be52c0ab4bdcf03fc5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#a1d175c6a5cf471be52c0ab4bdcf03fc5">ENCODER_MSG_RESET_LEN</a>&#160;&#160;&#160;(4)</td></tr>
-<tr class="separator:a1d175c6a5cf471be52c0ab4bdcf03fc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b8b7d4453cf11858a723555aecf47f4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#a5b8b7d4453cf11858a723555aecf47f4">ENCODER_MSG_BUF_PORT</a>(LINK,  CH,  PHASE)&#160;&#160;&#160;(*((uint32_t*)(LINK) + 6*CH + PHASE))</td></tr>
-<tr class="memdesc:a5b8b7d4453cf11858a723555aecf47f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">the message data access  <a href="#a5b8b7d4453cf11858a723555aecf47f4">More...</a><br /></td></tr>
-<tr class="separator:a5b8b7d4453cf11858a723555aecf47f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa30a12361c00d2b1e8658d28e8246d2f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#aa30a12361c00d2b1e8658d28e8246d2f">ENCODER_MSG_BUF_PIN</a>(LINK,  CH,  PHASE)&#160;&#160;&#160;(*((uint32_t*)(LINK) + 6*CH + PHASE + 3))</td></tr>
-<tr class="separator:aa30a12361c00d2b1e8658d28e8246d2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a2b09e525e21703d69e2783364ad0df"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#a8a2b09e525e21703d69e2783364ad0df">ENCODER_MSG_BUF_ENABLED</a>(LINK,  CH)&#160;&#160;&#160;(*((uint32_t*)(LINK) + 3*CH))</td></tr>
-<tr class="separator:a8a2b09e525e21703d69e2783364ad0df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8bebd93b465d079dd546056ab0b6b43"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#aa8bebd93b465d079dd546056ab0b6b43">ENCODER_MSG_BUF_USING_B</a>(LINK,  CH)&#160;&#160;&#160;(*((uint32_t*)(LINK) + 3*CH + 1))</td></tr>
-<tr class="separator:aa8bebd93b465d079dd546056ab0b6b43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9394bd0f89d2d2530828aac2a00b8a29"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#a9394bd0f89d2d2530828aac2a00b8a29">ENCODER_MSG_BUF_USING_Z</a>(LINK,  CH)&#160;&#160;&#160;(*((uint32_t*)(LINK) + 3*CH + 2))</td></tr>
-<tr class="separator:a9394bd0f89d2d2530828aac2a00b8a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef1c9a911f6fad313ab09b589e69dba4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#aef1c9a911f6fad313ab09b589e69dba4">ENCODER_MSG_BUF_COUNTS</a>(LINK,  CH)&#160;&#160;&#160;(*((uint32_t*)(LINK) + CH))</td></tr>
-<tr class="separator:aef1c9a911f6fad313ab09b589e69dba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cfa57bab0aa39db6be4432204eb6676"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#a1cfa57bab0aa39db6be4432204eb6676">ENCODER_MSG_BUF_ENABLE</a>(LINK)&#160;&#160;&#160;(*((uint32_t*)(LINK)))</td></tr>
-<tr class="separator:a1cfa57bab0aa39db6be4432204eb6676"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d05679f12e88a7e6ea8e5b3aec48df7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#a7d05679f12e88a7e6ea8e5b3aec48df7">ENCODER_MSG_BUF_RESET</a>(LINK)&#160;&#160;&#160;(*((uint32_t*)(LINK)))</td></tr>
-<tr class="separator:a7d05679f12e88a7e6ea8e5b3aec48df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -177,12 +166,13 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="separator:adf764cbdea00d65edcd07bb9953ad2b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99fb83031ce9923c84392b4e92f956b5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
-&#160;&#160;<a class="el" href="mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5a6248958bf2ce7f04e49a77f948bdeb7d">ENCODER_MSG_PINS_SETUP</a> = 0x30, 
+&#160;&#160;<a class="el" href="mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5a45dfbc0d65eeec037718d8a04cda7d25">ENCODER_MSG_PIN_SETUP</a> = 0x30, 
 <a class="el" href="mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5a8352d211b3265700c3f9fc31bab282ee">ENCODER_MSG_SETUP</a>, 
-<a class="el" href="mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5a73d0382ba8049060ef85a26f135f9b1b">ENCODER_MSG_COUNTS</a>, 
-<a class="el" href="mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5a5857482a895fa5d958659d54754ad95e">ENCODER_MSG_ENABLE</a>, 
+<a class="el" href="mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5a4daa0092415e82851b395a93a9134b8a">ENCODER_MSG_STATE_SET</a>, 
+<a class="el" href="mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5af927605f0292235e9f81f184c98e814a">ENCODER_MSG_STATE_GET</a>, 
 <br />
-&#160;&#160;<a class="el" href="mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5a39753254864a159615356b7b4ba3e3ad">ENCODER_MSG_RESET</a>
+&#160;&#160;<a class="el" href="mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5a7f0292af39bc92d567e41163e2586263">ENCODER_MSG_COUNTS_SET</a>, 
+<a class="el" href="mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5a5a8518f6c75332143ab3e7b29e2953f0">ENCODER_MSG_COUNTS_GET</a>
 <br />
  }<tr class="memdesc:a99fb83031ce9923c84392b4e92f956b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">messages types  <a href="mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5">More...</a><br /></td></tr>
 </td></tr>
@@ -190,21 +180,24 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a3e267babdd4cad47d79ea2dc77e05d22"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#a3e267babdd4cad47d79ea2dc77e05d22">encoder_module_init</a> ()</td></tr>
+<tr class="memdesc:a3e267babdd4cad47d79ea2dc77e05d22"><td class="mdescLeft">&#160;</td><td class="mdescRight">module init  <a href="#a3e267babdd4cad47d79ea2dc77e05d22">More...</a><br /></td></tr>
+<tr class="separator:a3e267babdd4cad47d79ea2dc77e05d22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac45cc4e8609d98b53513be7d101e2e92"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#ac45cc4e8609d98b53513be7d101e2e92">encoder_module_base_thread</a> ()</td></tr>
 <tr class="memdesc:ac45cc4e8609d98b53513be7d101e2e92"><td class="mdescLeft">&#160;</td><td class="mdescRight">module base thread  <a href="#ac45cc4e8609d98b53513be7d101e2e92">More...</a><br /></td></tr>
 <tr class="separator:ac45cc4e8609d98b53513be7d101e2e92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9c08aae4548498e0ef296e28ff95139"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#aa9c08aae4548498e0ef296e28ff95139">encoder_pin_setup</a> (uint8_t c, uint8_t phase, uint8_t port, uint8_t pin)</td></tr>
 <tr class="memdesc:aa9c08aae4548498e0ef296e28ff95139"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup encoder pin for the selected channel and phase  <a href="#aa9c08aae4548498e0ef296e28ff95139">More...</a><br /></td></tr>
 <tr class="separator:aa9c08aae4548498e0ef296e28ff95139"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5934f25ee0893f99a1eceb94777a2ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#aa5934f25ee0893f99a1eceb94777a2ac">encoder_setup</a> (uint8_t c, uint8_t enabled, uint8_t using_B, uint8_t using_Z)</td></tr>
-<tr class="memdesc:aa5934f25ee0893f99a1eceb94777a2ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup selected channel of encoder counter  <a href="#aa5934f25ee0893f99a1eceb94777a2ac">More...</a><br /></td></tr>
-<tr class="separator:aa5934f25ee0893f99a1eceb94777a2ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab19f3851f6b2768f91e08d066f15fa0c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#ab19f3851f6b2768f91e08d066f15fa0c">encoder_setup</a> (uint8_t c, uint8_t using_B, uint8_t using_Z)</td></tr>
+<tr class="memdesc:ab19f3851f6b2768f91e08d066f15fa0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup selected channel of encoder counter  <a href="#ab19f3851f6b2768f91e08d066f15fa0c">More...</a><br /></td></tr>
+<tr class="separator:ab19f3851f6b2768f91e08d066f15fa0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c121071467f9a1943fddc473873b7ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#a1c121071467f9a1943fddc473873b7ed">encoder_state_set</a> (uint8_t c, uint8_t state)</td></tr>
 <tr class="memdesc:a1c121071467f9a1943fddc473873b7ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">enable/disable selected channel of encoder counter  <a href="#a1c121071467f9a1943fddc473873b7ed">More...</a><br /></td></tr>
 <tr class="separator:a1c121071467f9a1943fddc473873b7ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaaa1106c59aabdf8b386a8c61fca6ca0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#aaaa1106c59aabdf8b386a8c61fca6ca0">encoder_counts_reset</a> (uint8_t c)</td></tr>
-<tr class="memdesc:aaaa1106c59aabdf8b386a8c61fca6ca0"><td class="mdescLeft">&#160;</td><td class="mdescRight">reset number of counts for the selected channel  <a href="#aaaa1106c59aabdf8b386a8c61fca6ca0">More...</a><br /></td></tr>
-<tr class="separator:aaaa1106c59aabdf8b386a8c61fca6ca0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e82c8d10ee1a0ef53521a8c7d4a0e23"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#a0e82c8d10ee1a0ef53521a8c7d4a0e23">encoder_counts_set</a> (uint8_t c, int32_t counts)</td></tr>
+<tr class="memdesc:a0e82c8d10ee1a0ef53521a8c7d4a0e23"><td class="mdescLeft">&#160;</td><td class="mdescRight">change number of counts for the selected channel  <a href="#a0e82c8d10ee1a0ef53521a8c7d4a0e23">More...</a><br /></td></tr>
+<tr class="separator:a0e82c8d10ee1a0ef53521a8c7d4a0e23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a377ac7de3373ddb7f8410560a2b7ad95"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__encoder_8h.html#a377ac7de3373ddb7f8410560a2b7ad95">encoder_state_get</a> (uint8_t c)</td></tr>
 <tr class="memdesc:a377ac7de3373ddb7f8410560a2b7ad95"><td class="mdescLeft">&#160;</td><td class="mdescRight">get state for the selected channel  <a href="#a377ac7de3373ddb7f8410560a2b7ad95">More...</a><br /></td></tr>
 <tr class="separator:a377ac7de3373ddb7f8410560a2b7ad95"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -257,267 +250,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a class="anchor" id="abfc9441381f692cff42f7a02488c25f0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ENCODER_MSG_PINS_SETUP_LEN&#160;&#160;&#160;(4*6*<a class="el" href="mod__encoder_8h.html#ab01f0417d475385286c7e2ed25db2df6">ENCODER_CH_CNT</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ac27040eb259f69f283e05ef659703a98"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ENCODER_MSG_SETUP_LEN&#160;&#160;&#160;(4*3*<a class="el" href="mod__encoder_8h.html#ab01f0417d475385286c7e2ed25db2df6">ENCODER_CH_CNT</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="af706655fa5fa4f1f64e92f52d391cc71"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ENCODER_MSG_COUNTS_LEN&#160;&#160;&#160;(4*<a class="el" href="mod__encoder_8h.html#ab01f0417d475385286c7e2ed25db2df6">ENCODER_CH_CNT</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ad777b7e55c819e47db4ece692fec0302"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ENCODER_MSG_ENABLE_LEN&#160;&#160;&#160;(4)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a1d175c6a5cf471be52c0ab4bdcf03fc5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ENCODER_MSG_RESET_LEN&#160;&#160;&#160;(4)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a5b8b7d4453cf11858a723555aecf47f4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ENCODER_MSG_BUF_PORT</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">LINK, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">CH, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">PHASE&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(*((uint32_t*)(LINK) + 6*CH + PHASE))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>the message data access </p>
-
-</div>
-</div>
-<a class="anchor" id="aa30a12361c00d2b1e8658d28e8246d2f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ENCODER_MSG_BUF_PIN</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">LINK, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">CH, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">PHASE&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(*((uint32_t*)(LINK) + 6*CH + PHASE + 3))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a8a2b09e525e21703d69e2783364ad0df"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ENCODER_MSG_BUF_ENABLED</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">LINK, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">CH&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(*((uint32_t*)(LINK) + 3*CH))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="aa8bebd93b465d079dd546056ab0b6b43"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ENCODER_MSG_BUF_USING_B</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">LINK, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">CH&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(*((uint32_t*)(LINK) + 3*CH + 1))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a9394bd0f89d2d2530828aac2a00b8a29"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ENCODER_MSG_BUF_USING_Z</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">LINK, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">CH&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(*((uint32_t*)(LINK) + 3*CH + 2))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="aef1c9a911f6fad313ab09b589e69dba4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ENCODER_MSG_BUF_COUNTS</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">LINK, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">CH&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(*((uint32_t*)(LINK) + CH))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a1cfa57bab0aa39db6be4432204eb6676"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ENCODER_MSG_BUF_ENABLE</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">LINK</td><td>)</td>
-          <td>&#160;&#160;&#160;(*((uint32_t*)(LINK)))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a7d05679f12e88a7e6ea8e5b3aec48df7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ENCODER_MSG_BUF_RESET</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">LINK</td><td>)</td>
-          <td>&#160;&#160;&#160;(*((uint32_t*)(LINK)))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>the message data sizes </p>
 
 </div>
 </div>
@@ -574,21 +307,47 @@ Functions</h2></td></tr>
 
 <p>messages types </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a99fb83031ce9923c84392b4e92f956b5a6248958bf2ce7f04e49a77f948bdeb7d"></a>ENCODER_MSG_PINS_SETUP&#160;</td><td class="fielddoc">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a99fb83031ce9923c84392b4e92f956b5a45dfbc0d65eeec037718d8a04cda7d25"></a>ENCODER_MSG_PIN_SETUP&#160;</td><td class="fielddoc">
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a99fb83031ce9923c84392b4e92f956b5a8352d211b3265700c3f9fc31bab282ee"></a>ENCODER_MSG_SETUP&#160;</td><td class="fielddoc">
 </td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a99fb83031ce9923c84392b4e92f956b5a73d0382ba8049060ef85a26f135f9b1b"></a>ENCODER_MSG_COUNTS&#160;</td><td class="fielddoc">
+<tr><td class="fieldname"><a class="anchor" id="a99fb83031ce9923c84392b4e92f956b5a4daa0092415e82851b395a93a9134b8a"></a>ENCODER_MSG_STATE_SET&#160;</td><td class="fielddoc">
 </td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a99fb83031ce9923c84392b4e92f956b5a5857482a895fa5d958659d54754ad95e"></a>ENCODER_MSG_ENABLE&#160;</td><td class="fielddoc">
+<tr><td class="fieldname"><a class="anchor" id="a99fb83031ce9923c84392b4e92f956b5af927605f0292235e9f81f184c98e814a"></a>ENCODER_MSG_STATE_GET&#160;</td><td class="fielddoc">
 </td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a99fb83031ce9923c84392b4e92f956b5a39753254864a159615356b7b4ba3e3ad"></a>ENCODER_MSG_RESET&#160;</td><td class="fielddoc">
+<tr><td class="fieldname"><a class="anchor" id="a99fb83031ce9923c84392b4e92f956b5a7f0292af39bc92d567e41163e2586263"></a>ENCODER_MSG_COUNTS_SET&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a99fb83031ce9923c84392b4e92f956b5a5a8518f6c75332143ab3e7b29e2953f0"></a>ENCODER_MSG_COUNTS_GET&#160;</td><td class="fielddoc">
 </td></tr>
 </table>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a3e267babdd4cad47d79ea2dc77e05d22"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void encoder_module_init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>module init </p>
+<dl class="section note"><dt>Note</dt><dd>call this function only once before <a class="el" href="mod__encoder_8c.html#ac45cc4e8609d98b53513be7d101e2e92" title="module base thread ">encoder_module_base_thread()</a> </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">none</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ac45cc4e8609d98b53513be7d101e2e92"></a>
 <div class="memitem">
 <div class="memproto">
@@ -668,7 +427,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa5934f25ee0893f99a1eceb94777a2ac"></a>
+<a class="anchor" id="ab19f3851f6b2768f91e08d066f15fa0c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -677,12 +436,6 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>c</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>enabled</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -708,7 +461,6 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>channel id </td></tr>
-    <tr><td class="paramname">enabled</td><td>enable encoder counter right now? </td></tr>
     <tr><td class="paramname">using_B</td><td>use phase B input? </td></tr>
     <tr><td class="paramname">using_Z</td><td>use phase Z index input?</td></tr>
   </table>
@@ -763,24 +515,35 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aaaa1106c59aabdf8b386a8c61fca6ca0"></a>
+<a class="anchor" id="a0e82c8d10ee1a0ef53521a8c7d4a0e23"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void encoder_counts_reset </td>
+          <td class="memname">void encoder_counts_set </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>c</em></td><td>)</td>
+          <td class="paramname"><em>c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>counts</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>reset number of counts for the selected channel </p>
+<p>change number of counts for the selected channel </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>channel id </td></tr>
+    <tr><td class="paramname">counts</td><td>new value for encoder channel counts </td></tr>
   </table>
   </dd>
 </dl>

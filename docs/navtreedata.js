@@ -28,7 +28,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a4ed5c026688964b55d300395c7b3ed81"
+"mod__timer_8h.html#a150e4f9c8426a49d5153393b6612ef9e"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

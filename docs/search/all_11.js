@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['writel',['writel',['../io_8h.html#ab90b1d3d9044f8445e52de3289a02342',1,'io.h']]]
+  ['vdd_5frtc_5freg',['VDD_RTC_REG',['../sys_8h.html#a862629a59ac3d2e7d95806773affdede',1,'sys.h']]]
 ];

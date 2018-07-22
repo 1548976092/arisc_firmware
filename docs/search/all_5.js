@@ -1,5 +1,31 @@
 var searchData=
 [
-  ['func',['func',['../structmsg__recv__callback__t.html#a65e2b84d41477ba7b77197006bbe1cce',1,'msg_recv_callback_t']]],
-  ['fw',['fw',['../arisc-fw_8as.html#a4f1351642d0221c1022b23d3fd064a3c',1,'arisc-fw.as']]]
+  ['enable_5fcaches',['enable_caches',['../sys_8c.html#aa0dc7fa903cefe8f15538560fa39b3e6',1,'enable_caches(void):&#160;sys.c'],['../sys_8h.html#aa0dc7fa903cefe8f15538560fa39b3e6',1,'enable_caches(void):&#160;sys.c']]],
+  ['enabled',['enabled',['../structencoder__ch__t.html#a071e5007ca753b83d24505a6b6daba5c',1,'encoder_ch_t']]],
+  ['encoder_5fch_5fcnt',['ENCODER_CH_CNT',['../mod__encoder_8h.html#ab01f0417d475385286c7e2ed25db2df6',1,'mod_encoder.h']]],
+  ['encoder_5fch_5ft',['encoder_ch_t',['../structencoder__ch__t.html',1,'']]],
+  ['encoder_5fcounts_5fget',['encoder_counts_get',['../mod__encoder_8c.html#a288e61e725e822b6827ff2052ad38c63',1,'encoder_counts_get(uint8_t c):&#160;mod_encoder.c'],['../mod__encoder_8h.html#a288e61e725e822b6827ff2052ad38c63',1,'encoder_counts_get(uint8_t c):&#160;mod_encoder.c']]],
+  ['encoder_5fcounts_5fset',['encoder_counts_set',['../mod__encoder_8c.html#a0e82c8d10ee1a0ef53521a8c7d4a0e23',1,'encoder_counts_set(uint8_t c, int32_t counts):&#160;mod_encoder.c'],['../mod__encoder_8h.html#a0e82c8d10ee1a0ef53521a8c7d4a0e23',1,'encoder_counts_set(uint8_t c, int32_t counts):&#160;mod_encoder.c']]],
+  ['encoder_5fmodule_5fbase_5fthread',['encoder_module_base_thread',['../mod__encoder_8c.html#ac45cc4e8609d98b53513be7d101e2e92',1,'encoder_module_base_thread():&#160;mod_encoder.c'],['../mod__encoder_8h.html#ac45cc4e8609d98b53513be7d101e2e92',1,'encoder_module_base_thread():&#160;mod_encoder.c']]],
+  ['encoder_5fmodule_5finit',['encoder_module_init',['../mod__encoder_8c.html#a3e267babdd4cad47d79ea2dc77e05d22',1,'encoder_module_init():&#160;mod_encoder.c'],['../mod__encoder_8h.html#a3e267babdd4cad47d79ea2dc77e05d22',1,'encoder_module_init():&#160;mod_encoder.c']]],
+  ['encoder_5fmsg_5fbuf_5flen',['ENCODER_MSG_BUF_LEN',['../mod__encoder_8h.html#a971a04d1eb01bc0e177aa6f9d4a03ea0',1,'mod_encoder.h']]],
+  ['encoder_5fmsg_5fch_5ft',['encoder_msg_ch_t',['../structencoder__msg__ch__t.html',1,'']]],
+  ['encoder_5fmsg_5fcounts_5fget',['ENCODER_MSG_COUNTS_GET',['../mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5a5a8518f6c75332143ab3e7b29e2953f0',1,'mod_encoder.h']]],
+  ['encoder_5fmsg_5fcounts_5fget_5ft',['encoder_msg_counts_get_t',['../structencoder__msg__counts__get__t.html',1,'']]],
+  ['encoder_5fmsg_5fcounts_5fset',['ENCODER_MSG_COUNTS_SET',['../mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5a7f0292af39bc92d567e41163e2586263',1,'mod_encoder.h']]],
+  ['encoder_5fmsg_5fcounts_5fset_5ft',['encoder_msg_counts_set_t',['../structencoder__msg__counts__set__t.html',1,'']]],
+  ['encoder_5fmsg_5fpin_5fsetup',['ENCODER_MSG_PIN_SETUP',['../mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5a45dfbc0d65eeec037718d8a04cda7d25',1,'mod_encoder.h']]],
+  ['encoder_5fmsg_5fpin_5fsetup_5ft',['encoder_msg_pin_setup_t',['../structencoder__msg__pin__setup__t.html',1,'']]],
+  ['encoder_5fmsg_5frecv',['encoder_msg_recv',['../mod__encoder_8c.html#a3416779bfce857e32d619f9cb039138a',1,'encoder_msg_recv(uint8_t type, uint8_t *msg, uint8_t length):&#160;mod_encoder.c'],['../mod__encoder_8h.html#a3416779bfce857e32d619f9cb039138a',1,'encoder_msg_recv(uint8_t type, uint8_t *msg, uint8_t length):&#160;mod_encoder.c']]],
+  ['encoder_5fmsg_5fsetup',['ENCODER_MSG_SETUP',['../mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5a8352d211b3265700c3f9fc31bab282ee',1,'mod_encoder.h']]],
+  ['encoder_5fmsg_5fsetup_5ft',['encoder_msg_setup_t',['../structencoder__msg__setup__t.html',1,'']]],
+  ['encoder_5fmsg_5fstate_5fget',['ENCODER_MSG_STATE_GET',['../mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5af927605f0292235e9f81f184c98e814a',1,'mod_encoder.h']]],
+  ['encoder_5fmsg_5fstate_5fget_5ft',['encoder_msg_state_get_t',['../structencoder__msg__state__get__t.html',1,'']]],
+  ['encoder_5fmsg_5fstate_5fset',['ENCODER_MSG_STATE_SET',['../mod__encoder_8h.html#a99fb83031ce9923c84392b4e92f956b5a4daa0092415e82851b395a93a9134b8a',1,'mod_encoder.h']]],
+  ['encoder_5fmsg_5fstate_5fset_5ft',['encoder_msg_state_set_t',['../structencoder__msg__state__set__t.html',1,'']]],
+  ['encoder_5fph_5fcnt',['ENCODER_PH_CNT',['../mod__encoder_8h.html#a529d576743c8f1445934b6388be2e537',1,'mod_encoder.h']]],
+  ['encoder_5fpin_5fsetup',['encoder_pin_setup',['../mod__encoder_8c.html#aa9c08aae4548498e0ef296e28ff95139',1,'encoder_pin_setup(uint8_t c, uint8_t phase, uint8_t port, uint8_t pin):&#160;mod_encoder.c'],['../mod__encoder_8h.html#aa9c08aae4548498e0ef296e28ff95139',1,'encoder_pin_setup(uint8_t c, uint8_t phase, uint8_t port, uint8_t pin):&#160;mod_encoder.c']]],
+  ['encoder_5fsetup',['encoder_setup',['../mod__encoder_8c.html#ab19f3851f6b2768f91e08d066f15fa0c',1,'encoder_setup(uint8_t c, uint8_t using_B, uint8_t using_Z):&#160;mod_encoder.c'],['../mod__encoder_8h.html#ab19f3851f6b2768f91e08d066f15fa0c',1,'encoder_setup(uint8_t c, uint8_t using_B, uint8_t using_Z):&#160;mod_encoder.c']]],
+  ['encoder_5fstate_5fget',['encoder_state_get',['../mod__encoder_8c.html#a377ac7de3373ddb7f8410560a2b7ad95',1,'encoder_state_get(uint8_t c):&#160;mod_encoder.c'],['../mod__encoder_8h.html#a377ac7de3373ddb7f8410560a2b7ad95',1,'encoder_state_get(uint8_t c):&#160;mod_encoder.c']]],
+  ['encoder_5fstate_5fset',['encoder_state_set',['../mod__encoder_8c.html#a1c121071467f9a1943fddc473873b7ed',1,'encoder_state_set(uint8_t c, uint8_t state):&#160;mod_encoder.c'],['../mod__encoder_8h.html#a1c121071467f9a1943fddc473873b7ed',1,'encoder_state_set(uint8_t c, uint8_t state):&#160;mod_encoder.c']]]
 ];
