@@ -63,7 +63,10 @@ enum
 
     GPIO_MSG_PORT_GET,
     GPIO_MSG_PORT_SET,
-    GPIO_MSG_PORT_CLEAR
+    GPIO_MSG_PORT_CLEAR,
+
+    GPIO_MSG_MODULE_STATE_SET,
+    GPIO_MSG_MODULE_STATE_GET
 };
 
 /// the message data sizes
@@ -81,6 +84,7 @@ struct gpio_msg_state_t     { uint32_t state; };
 // export public methods
 
 void gpio_module_init();
+void gpio_module_deinit();
 void gpio_module_base_thread();
 
 void gpio_pin_setup_for_output(uint32_t port, uint32_t pin);

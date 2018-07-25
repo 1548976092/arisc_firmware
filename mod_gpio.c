@@ -33,6 +33,11 @@ static uint32_t gpio_clr_ctrl[GPIO_PORTS_CNT] = {0};
 
 static uint8_t msg_buf[GPIO_MSG_BUF_LEN] = {0};
 
+static int32_t callback_id[0xF] = {0};
+
+static uint32_t module_enabled = 0;
+static uint32_t module_first_init = 1;
+
 
 
 
@@ -69,18 +74,54 @@ static inline uint32_t gpio_get_data_addr(uint32_t bank)
 
 /**
  * @brief   module init
- * @note    call this function only once before gpio_module_base_thread()
+ * @note    call this function to enable this module
  * @retval  none
  */
 void gpio_module_init()
 {
-    uint8_t i = 0;
+    if ( module_enabled ) return;
+
+    // do this only once
+    if ( module_first_init )
+    {
+        callback_id[0] = msg_recv_callback_add(
+            GPIO_MSG_MODULE_STATE_SET,
+            (msg_recv_func_t) gpio_msg_recv);
+
+        callback_id[1] = msg_recv_callback_add(
+            GPIO_MSG_MODULE_STATE_GET,
+            (msg_recv_func_t) gpio_msg_recv);
+
+        module_first_init = 0;
+    }
 
     // add message handlers
-    for ( i = GPIO_MSG_SETUP_FOR_OUTPUT; i <= GPIO_MSG_PORT_CLEAR; i++ )
+    uint8_t i, c;
+    for ( i = GPIO_MSG_SETUP_FOR_OUTPUT, c = 2; i <= GPIO_MSG_PORT_CLEAR; i++, c++ )
     {
-        msg_recv_callback_add(i, (msg_recv_func_t) gpio_msg_recv);
+        callback_id[c] = msg_recv_callback_add(i, (msg_recv_func_t) gpio_msg_recv);
     }
+
+    module_enabled = 1;
+}
+
+/**
+ * @brief   module de-init
+ * @note    call this function to disable this module
+ * @retval  none
+ */
+void gpio_module_deinit()
+{
+    if ( !module_enabled ) return;
+
+    // remove message handlers
+    uint8_t i, c;
+    for ( i = GPIO_MSG_SETUP_FOR_OUTPUT, c = 2; i <= GPIO_MSG_PORT_CLEAR; i++, c++ )
+    {
+        msg_recv_callback_remove(callback_id[c]);
+    }
+
+    module_enabled = 0;
 }
 
 /**
@@ -92,6 +133,8 @@ void gpio_module_base_thread()
 {
     // port id
     static uint8_t p;
+
+    if ( !module_enabled ) return;
 
     // walk through all gpio ports
     for( p = GPIO_PORTS_CNT; p--; )
@@ -127,6 +170,7 @@ void gpio_module_base_thread()
  */
 void gpio_pin_setup_for_output(uint32_t port, uint32_t pin)
 {
+    if ( !module_enabled ) return;
     gpio_set_pincfg(port, pin, GPIO_FUNC_OUTPUT);
 }
 
@@ -138,6 +182,7 @@ void gpio_pin_setup_for_output(uint32_t port, uint32_t pin)
  */
 void gpio_pin_setup_for_input(uint32_t port, uint32_t pin)
 {
+    if ( !module_enabled ) return;
     gpio_set_pincfg(port, pin, GPIO_FUNC_INPUT);
 }
 
@@ -153,6 +198,7 @@ void gpio_pin_setup_for_input(uint32_t port, uint32_t pin)
  */
 uint32_t gpio_pin_get(uint32_t port, uint32_t pin)
 {
+    if ( !module_enabled ) return 0;
     return (*gpio_port_data[port] & (1 << pin)) ? HIGH : LOW;
 }
 
@@ -165,6 +211,8 @@ uint32_t gpio_pin_get(uint32_t port, uint32_t pin)
 void gpio_pin_set(uint32_t port, uint32_t pin)
 {
     static uint32_t pin_mask;
+
+    if ( !module_enabled ) return;
 
     pin_mask = 1U << pin;
     gpio_set_ctrl[port] |= pin_mask;
@@ -180,6 +228,8 @@ void gpio_pin_set(uint32_t port, uint32_t pin)
 void gpio_pin_clear(uint32_t port, uint32_t pin)
 {
     static uint32_t pin_mask;
+
+    if ( !module_enabled ) return;
 
     pin_mask = 1U << pin;
     gpio_set_ctrl[port] &= ~pin_mask;
@@ -197,6 +247,7 @@ void gpio_pin_clear(uint32_t port, uint32_t pin)
  */
 uint32_t gpio_port_get(uint32_t port)
 {
+    if ( !module_enabled ) return 0;
     return *gpio_port_data[port];
 }
 
@@ -214,6 +265,7 @@ uint32_t gpio_port_get(uint32_t port)
  */
 void gpio_port_set(uint32_t port, uint32_t mask)
 {
+    if ( !module_enabled ) return;
     gpio_set_ctrl[port] |= mask;
     gpio_clr_ctrl[port] &= ~mask;
 }
@@ -232,6 +284,7 @@ void gpio_port_set(uint32_t port, uint32_t mask)
  */
 void gpio_port_clear(uint32_t port, uint32_t mask)
 {
+    if ( !module_enabled ) return;
     gpio_set_ctrl[port] &= ~mask;
     gpio_clr_ctrl[port] |= mask;
 }
@@ -308,6 +361,21 @@ int8_t volatile gpio_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
         {
             struct gpio_msg_port_mask_t in = *((struct gpio_msg_port_mask_t *) msg);
             gpio_port_clear(in.port, in.mask);
+            break;
+        }
+
+        case GPIO_MSG_MODULE_STATE_SET:
+        {
+            struct gpio_msg_state_t in = *((struct gpio_msg_state_t *) msg);
+            if (in.state) gpio_module_init();
+            else gpio_module_deinit();
+            break;
+        }
+        case GPIO_MSG_MODULE_STATE_GET:
+        {
+            struct gpio_msg_state_t out = *((struct gpio_msg_state_t *) &msg_buf);
+            out.state = module_enabled;
+            msg_send(type, (uint8_t*)&out, 4);
             break;
         }
 
