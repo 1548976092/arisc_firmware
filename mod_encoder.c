@@ -41,6 +41,11 @@ static uint8_t state_list[4] =
     /* 0b11 */ 0b10
 };
 
+static int32_t callback_id[0xF] = {0};
+
+static uint32_t module_enabled = 0;
+static uint32_t module_first_init = 1;
+
 
 
 
@@ -48,18 +53,54 @@ static uint8_t state_list[4] =
 
 /**
  * @brief   module init
- * @note    call this function only once before encoder_module_base_thread()
+ * @note    call this function to enable this module
  * @retval  none
  */
 void encoder_module_init()
 {
-    uint8_t i = 0;
+    if ( module_enabled ) return;
+
+    // do this only once
+    if ( module_first_init )
+    {
+        callback_id[0] = msg_recv_callback_add(
+            ENCODER_MSG_MODULE_STATE_SET,
+            (msg_recv_func_t) encoder_msg_recv);
+
+        callback_id[1] = msg_recv_callback_add(
+            ENCODER_MSG_MODULE_STATE_GET,
+            (msg_recv_func_t) encoder_msg_recv);
+
+        module_first_init = 0;
+    }
 
     // add message handlers
-    for ( i = ENCODER_MSG_PIN_SETUP; i <= ENCODER_MSG_COUNTS_GET; i++ )
+    uint8_t i, c;
+    for ( i = ENCODER_MSG_PIN_SETUP, c = 2; i <= ENCODER_MSG_COUNTS_GET; i++, c++ )
     {
-        msg_recv_callback_add(i, (msg_recv_func_t) encoder_msg_recv);
+        callback_id[c] = msg_recv_callback_add(i, (msg_recv_func_t) encoder_msg_recv);
     }
+
+    module_enabled = 1;
+}
+
+/**
+ * @brief   module de-init
+ * @note    call this function to disable this module
+ * @retval  none
+ */
+void encoder_module_deinit()
+{
+    if ( !module_enabled ) return;
+
+    // remove message handlers
+    uint8_t i, c;
+    for ( i = ENCODER_MSG_PIN_SETUP, c = 2; i <= ENCODER_MSG_COUNTS_GET; i++, c++ )
+    {
+        msg_recv_callback_remove(callback_id[c]);
+    }
+
+    module_enabled = 0;
 }
 
 /**
@@ -70,6 +111,8 @@ void encoder_module_init()
 void encoder_module_base_thread()
 {
     static uint8_t c, A, B, Z, AB;
+
+    if ( !module_enabled ) return;
 
     // check all channels
     for ( c = ENCODER_CH_CNT; c--; )
@@ -129,6 +172,8 @@ void encoder_module_base_thread()
  */
 void encoder_pin_setup(uint8_t c, uint8_t phase, uint8_t port, uint8_t pin)
 {
+    if ( !module_enabled ) return;
+
     // set GPIO pin function to INPUT
     gpio_pin_setup_for_input(port, pin);
 
@@ -152,6 +197,8 @@ void encoder_pin_setup(uint8_t c, uint8_t phase, uint8_t port, uint8_t pin)
  */
 void encoder_setup(uint8_t c, uint8_t using_B, uint8_t using_Z)
 {
+    if ( !module_enabled ) return;
+
     // set channel parameters
     enc[c].using_B  = using_B;
     enc[c].using_Z  = using_Z;
@@ -167,6 +214,7 @@ void encoder_setup(uint8_t c, uint8_t using_B, uint8_t using_Z)
  */
 void encoder_state_set(uint8_t c, uint8_t state)
 {
+    if ( !module_enabled ) return;
     enc[c].enabled = state ? 1 : 0;
 }
 
@@ -178,6 +226,7 @@ void encoder_state_set(uint8_t c, uint8_t state)
  */
 void encoder_counts_set(uint8_t c, int32_t counts)
 {
+    if ( !module_enabled ) return;
     enc[c].counts = counts;
 }
 
@@ -194,6 +243,7 @@ void encoder_counts_set(uint8_t c, int32_t counts)
  */
 uint8_t encoder_state_get(uint8_t c)
 {
+    if ( !module_enabled ) return 0;
     return enc[c].enabled;
 }
 
@@ -204,6 +254,7 @@ uint8_t encoder_state_get(uint8_t c)
  */
 int32_t encoder_counts_get(uint8_t c)
 {
+    if ( !module_enabled ) return 0;
     return enc[c].counts;
 }
 
@@ -266,6 +317,21 @@ int8_t volatile encoder_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             struct encoder_msg_ch_t in = *((struct encoder_msg_ch_t *) msg);
             struct encoder_msg_counts_get_t out = *((struct encoder_msg_counts_get_t *) &msg_buf);
             out.counts = encoder_counts_get(in.ch);
+            msg_send(type, (uint8_t*)&out, 4);
+            break;
+        }
+
+        case GPIO_MSG_MODULE_STATE_SET:
+        {
+            struct encoder_msg_state_t in = *((struct encoder_msg_state_t *) msg);
+            if (in.state) encoder_module_init();
+            else encoder_module_deinit();
+            break;
+        }
+        case GPIO_MSG_MODULE_STATE_GET:
+        {
+            struct encoder_msg_state_t out = *((struct encoder_msg_state_t *) &msg_buf);
+            out.state = module_enabled;
             msg_send(type, (uint8_t*)&out, 4);
             break;
         }

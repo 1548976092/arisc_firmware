@@ -51,7 +51,10 @@ enum
     ENCODER_MSG_STATE_SET,
     ENCODER_MSG_STATE_GET,
     ENCODER_MSG_COUNTS_SET,
-    ENCODER_MSG_COUNTS_GET
+    ENCODER_MSG_COUNTS_GET,
+
+    ENCODER_MSG_MODULE_STATE_SET,
+    ENCODER_MSG_MODULE_STATE_GET
 };
 
 /// the message data sizes
@@ -65,6 +68,8 @@ struct encoder_msg_state_set_t { uint32_t ch; uint32_t state; };
 struct encoder_msg_counts_set_t { uint32_t ch; int32_t counts; };
 struct encoder_msg_state_get_t { uint32_t state; };
 struct encoder_msg_counts_get_t { int32_t counts; };
+struct encoder_msg_state_t { uint32_t state; };
+
 
 
 
@@ -72,6 +77,7 @@ struct encoder_msg_counts_get_t { int32_t counts; };
 // export public methods
 
 void encoder_module_init();
+void encoder_module_deinit();
 void encoder_module_base_thread();
 
 void encoder_pin_setup(uint8_t c, uint8_t phase, uint8_t port, uint8_t pin);
