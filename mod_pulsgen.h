@@ -54,7 +54,10 @@ enum
     PULSGEN_MSG_TASK_SETUP,
     PULSGEN_MSG_TASK_ABORT,
     PULSGEN_MSG_TASK_STATE,
-    PULSGEN_MSG_TASK_TOGGLES
+    PULSGEN_MSG_TASK_TOGGLES,
+
+    PULSGEN_MSG_MODULE_STATE_SET,
+    PULSGEN_MSG_MODULE_STATE_GET
 };
 
 /// the message data sizes
@@ -73,6 +76,7 @@ struct pulsgen_msg_toggles_t { uint32_t toggles; };
 // export public methods
 
 void pulsgen_module_init();
+void pulsgen_module_deinit();
 void pulsgen_module_base_thread();
 
 void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted);

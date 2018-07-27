@@ -20,6 +20,11 @@ static uint8_t max_id = 0; // maximum channel id
 static struct pulsgen_ch_t gen[PULSGEN_CH_CNT] = {0}; // array of channels data
 static uint8_t msg_buf[PULSGEN_MSG_BUF_LEN] = {0};
 
+static int32_t callback_id[0xF] = {0};
+
+static uint32_t module_enabled = 0;
+static uint32_t module_first_init = 1;
+
 
 
 
@@ -27,21 +32,57 @@ static uint8_t msg_buf[PULSGEN_MSG_BUF_LEN] = {0};
 
 /**
  * @brief   module init
- * @note    call this function only once before pulsgen_module_base_thread()
+ * @note    call this function to enable this module
  * @retval  none
  */
 void pulsgen_module_init()
 {
-    uint8_t i = 0;
+    if ( module_enabled ) return;
 
-    // start sys timer
-    TIMER_START();
+    // do this only once
+    if ( module_first_init )
+    {
+        // start sys timer
+        TIMER_START();
+
+        callback_id[0] = msg_recv_callback_add(
+            PULSGEN_MSG_MODULE_STATE_SET,
+            (msg_recv_func_t) pulsgen_msg_recv);
+
+        callback_id[1] = msg_recv_callback_add(
+            PULSGEN_MSG_MODULE_STATE_GET,
+            (msg_recv_func_t) pulsgen_msg_recv);
+
+        module_first_init = 0;
+    }
 
     // add message handlers
-    for ( i = PULSGEN_MSG_PIN_SETUP; i <= PULSGEN_MSG_TASK_TOGGLES; i++ )
+    uint8_t i, c;
+    for ( i = PULSGEN_MSG_PIN_SETUP, c = 2; i <= PULSGEN_MSG_TASK_TOGGLES; i++, c++ )
     {
-        msg_recv_callback_add(i, (msg_recv_func_t) pulsgen_msg_recv);
+        callback_id[c] = msg_recv_callback_add(i, (msg_recv_func_t) pulsgen_msg_recv);
     }
+
+    module_enabled = 1;
+}
+
+/**
+ * @brief   module de-init
+ * @note    call this function to disable this module
+ * @retval  none
+ */
+void pulsgen_module_deinit()
+{
+    if ( !module_enabled ) return;
+
+    // remove message handlers
+    uint8_t i, c;
+    for ( i = PULSGEN_MSG_PIN_SETUP, c = 2; i <= PULSGEN_MSG_TASK_TOGGLES; i++, c++ )
+    {
+        msg_recv_callback_remove(callback_id[c]);
+    }
+
+    module_enabled = 0;
 }
 
 /**
@@ -53,6 +94,8 @@ void pulsgen_module_base_thread()
 {
     static uint8_t c;
     static uint32_t tick = 0, tick_prev = 0, tick_ovrfl = 0, todo_tick = 0;
+
+    if ( !module_enabled ) return;
 
     // get current CPU tick
     tick = TIMER_CNT_GET();
@@ -128,6 +171,8 @@ void pulsgen_module_base_thread()
  */
 void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
 {
+    if ( !module_enabled ) return;
+
     gpio_pin_setup_for_output(port, pin);
 
     gen[c].port = port;
@@ -163,6 +208,8 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
 void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t duty, uint32_t delay)
 {
     static uint32_t tick = 0, period_ticks = 0;
+
+    if ( !module_enabled ) return;
 
     // important checks
     if ( !period || !duty ) return;
@@ -209,6 +256,8 @@ void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t du
  */
 void pulsgen_task_abort(uint8_t c)
 {
+    if ( !module_enabled ) return;
+
     gen[c].task = 0;
 
     if ( max_id && c == max_id ) --max_id;
@@ -227,6 +276,7 @@ void pulsgen_task_abort(uint8_t c)
  */
 uint8_t pulsgen_task_state(uint8_t c)
 {
+    if ( !module_enabled ) return 0;
     return gen[c].task;
 }
 
@@ -237,6 +287,7 @@ uint8_t pulsgen_task_state(uint8_t c)
  */
 uint32_t pulsgen_task_toggles(uint8_t c)
 {
+    if ( !module_enabled ) return 0;
     return gen[c].task_toggles - gen[c].task_toggles_todo;
 }
 
@@ -293,6 +344,21 @@ int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             struct pulsgen_msg_ch_t in = *((struct pulsgen_msg_ch_t *) msg);
             struct pulsgen_msg_toggles_t out = *((struct pulsgen_msg_toggles_t *) &msg_buf);
             out.toggles = pulsgen_task_toggles(in.ch);
+            msg_send(type, (uint8_t*)&out, 4);
+            break;
+        }
+
+        case PULSGEN_MSG_MODULE_STATE_SET:
+        {
+            struct pulsgen_msg_state_t in = *((struct pulsgen_msg_state_t *) msg);
+            if (in.state) pulsgen_module_init();
+            else pulsgen_module_deinit();
+            break;
+        }
+        case PULSGEN_MSG_MODULE_STATE_GET:
+        {
+            struct pulsgen_msg_state_t out = *((struct pulsgen_msg_state_t *) &msg_buf);
+            out.state = module_enabled;
             msg_send(type, (uint8_t*)&out, 4);
             break;
         }
