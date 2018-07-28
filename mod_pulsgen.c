@@ -101,11 +101,11 @@ void pulsgen_module_base_thread()
         // toggle pin
         if ( gen[c].pin_state ^ gen[c].pin_inverted )
         {
-            gpio_pin_clear(gen[c].port, gen[c].pin);
+            gpio_pin_set(gen[c].port, gen[c].pin);
         }
         else
         {
-            gpio_pin_set(gen[c].port, gen[c].pin);
+            gpio_pin_clear(gen[c].port, gen[c].pin);
         }
     }
 
@@ -138,11 +138,11 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
     // set pin state
     if ( gen[c].pin_state ^ gen[c].pin_inverted )
     {
-        gpio_pin_clear(gen[c].port, gen[c].pin);
+        gpio_pin_set(gen[c].port, gen[c].pin);
     }
     else
     {
-        gpio_pin_set(gen[c].port, gen[c].pin);
+        gpio_pin_clear(gen[c].port, gen[c].pin);
     }
 }
 
