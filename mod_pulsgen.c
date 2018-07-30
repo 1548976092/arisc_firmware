@@ -20,6 +20,9 @@ static uint8_t max_id = 0; // maximum channel id
 static struct pulsgen_ch_t gen[PULSGEN_CH_CNT] = {0}; // array of channels data
 static uint8_t msg_buf[PULSGEN_MSG_BUF_LEN] = {0};
 
+// uses with GPIO module macros
+extern volatile uint32_t * gpio_port_data[GPIO_PORTS_CNT];
+
 
 
 
@@ -82,31 +85,21 @@ void pulsgen_module_base_thread()
 
         todo_tick = gen[c].todo_tick; // save current to do tick value
 
-        if ( gen[c].pin_state ) // if current pin state is HIGH
+        if ( GPIO_PIN_GET(gen[c].port, gen[c].pin_mask) ^ gen[c].pin_inverted )
         {
-            gen[c].pin_state = 0; // set pin state to LOW
-            gen[c].todo_tick += gen[c].setup_ticks; // set new timestamp
+            GPIO_PIN_CLEAR(gen[c].port, gen[c].pin_mask_not);
+            gen[c].todo_tick += gen[c].hold_ticks;
         }
-        else // if current pin state is LOW
+        else
         {
-            gen[c].pin_state = 1; // set step state to HIGH
-            gen[c].todo_tick += gen[c].hold_ticks; // set new timestamp
+            GPIO_PIN_SET(gen[c].port, gen[c].pin_mask);
+            gen[c].todo_tick += gen[c].setup_ticks;
         }
 
         // set timestamp overflow flag
         gen[c].todo_tick_ovrfl = gen[c].todo_tick < todo_tick ? 1 : 0;
 
         --gen[c].task_toggles_todo; // decrease number of pin changes to do
-
-        // toggle pin
-        if ( gen[c].pin_state ^ gen[c].pin_inverted )
-        {
-            gpio_pin_set(gen[c].port, gen[c].pin);
-        }
-        else
-        {
-            gpio_pin_clear(gen[c].port, gen[c].pin);
-        }
     }
 
     // save current tick value
@@ -132,17 +125,18 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
 
     gen[c].port = port;
     gen[c].pin = pin;
-    gen[c].pin_inverted = inverted;
-    gen[c].pin_state = 0;
+    gen[c].pin_mask = 1U << pin;
+    gen[c].pin_mask_not = ~(gen[c].pin_mask);
+    gen[c].pin_inverted = inverted ? gen[c].pin_mask : 0;
 
     // set pin state
-    if ( gen[c].pin_state ^ gen[c].pin_inverted )
+    if ( gen[c].pin_inverted )
     {
-        gpio_pin_set(gen[c].port, gen[c].pin);
+        GPIO_PIN_SET(port, gen[c].pin_mask);
     }
     else
     {
-        gpio_pin_clear(gen[c].port, gen[c].pin);
+        GPIO_PIN_CLEAR(port, gen[c].pin_mask_not);
     }
 }
 
