@@ -124,7 +124,6 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
     gpio_pin_setup_for_output(port, pin);
 
     gen[c].port = port;
-    gen[c].pin = pin;
     gen[c].pin_mask = 1U << pin;
     gen[c].pin_mask_not = ~(gen[c].pin_mask);
     gen[c].pin_inverted = inverted ? gen[c].pin_mask : 0;

@@ -28,7 +28,6 @@
 struct pulsgen_ch_t
 {
     uint32_t    port;               // GPIO port number
-    uint32_t    pin;                // GPIO pin number
     uint32_t    pin_mask;           // GPIO pin mask
     uint32_t    pin_mask_not;       // GPIO pin ~mask
     uint32_t    pin_inverted;       // same as `pin_mask` or 0
