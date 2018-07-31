@@ -22,7 +22,8 @@
 // public macros
 
 /// the system timer frequency in Hz (same as CPU frequency)
-#define TIMER_FREQUENCY CPU_FREQ
+#define TIMER_FREQUENCY         CPU_FREQ
+#define TIMER_FREQUENCY_MHZ     (CPU_FREQ/1000000)
 
 
 
