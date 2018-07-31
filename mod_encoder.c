@@ -41,6 +41,9 @@ static uint8_t state_list[4] =
     /* 0b11 */ 0b10
 };
 
+// uses with GPIO module macros
+extern volatile uint32_t * gpio_port_data[GPIO_PORTS_CNT];
+
 
 
 
@@ -69,7 +72,7 @@ void encoder_module_init()
  */
 void encoder_module_base_thread()
 {
-    static uint8_t c, A, B, Z, AB;
+    static uint32_t c, A, B, Z, AB;
 
     // check all channels
     for ( c = ENCODER_CH_CNT; c--; )
@@ -78,7 +81,7 @@ void encoder_module_base_thread()
 
         if ( enc[c].using_Z ) // if we are using ABZ encoder
         {
-            Z = (uint8_t) gpio_pin_get(enc[c].port[PH_Z], enc[c].pin[PH_Z]);
+            Z = GPIO_PIN_GET(enc[c].port[PH_Z], enc[c].pin_mask[PH_Z]);
 
             if ( enc[c].state[PH_Z] != Z ) // on phase Z state change
             {
@@ -87,15 +90,15 @@ void encoder_module_base_thread()
             }
         }
 
-        A = (uint8_t) gpio_pin_get(enc[c].port[PH_A], enc[c].pin[PH_A]);
+        A = GPIO_PIN_GET(enc[c].port[PH_A], enc[c].pin_mask[PH_A]);
 
         if ( enc[c].using_B ) // if we are using AB encoder
         {
-            B = (uint8_t) gpio_pin_get(enc[c].port[PH_B], enc[c].pin[PH_B]);
+            B = GPIO_PIN_GET(enc[c].port[PH_B], enc[c].pin_mask[PH_B]);
 
             if ( enc[c].state[PH_A] != A || enc[c].state[PH_B] != B ) // on any phase change
             {
-                AB = (A << 1) | B; // get encoder state
+                AB = (A ? 0b10 : 0) | (A ? 0b01 : 0); // get encoder state
 
                 if ( state_list[enc[c].AB_state] == AB ) enc[c].counts++; // CW
                 else                                     enc[c].counts--; // CCW
@@ -134,8 +137,8 @@ void encoder_pin_setup(uint8_t c, uint8_t phase, uint8_t port, uint8_t pin)
 
     // set phase pin parameters
     enc[c].port[phase] = port;
-    enc[c].pin[phase] = pin;
-    enc[c].state[phase] = (uint8_t) gpio_pin_get(port, pin);
+    enc[c].pin_mask[phase] = 1U << pin;
+    enc[c].state[phase] = GPIO_PIN_GET(port, enc[c].pin_mask[phase]);
 }
 
 
@@ -157,7 +160,8 @@ void encoder_setup(uint8_t c, uint8_t using_B, uint8_t using_Z)
     enc[c].using_Z  = using_Z;
 
     // set encoder state
-    enc[c].AB_state = (enc[c].state[PH_A] << 1) | enc[c].state[PH_B];
+    enc[c].AB_state = (enc[c].state[PH_A] ? 0b10 : 0) |
+                      (enc[c].state[PH_B] ? 0b01 : 0);
 }
 
 /**
