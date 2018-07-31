@@ -52,13 +52,10 @@ void pulsgen_module_init()
 void pulsgen_module_base_thread()
 {
     static uint8_t c;
-    static uint32_t tick = 0, tick_prev = 0, tick_ovrfl = 0, todo_tick = 0;
+    static uint32_t tick;
 
     // get current CPU tick
     tick = TIMER_CNT_GET();
-
-    // tick value overflow check
-    tick_ovrfl = tick < tick_prev ? 1 : 0;
 
     // check all working channels
     for ( c = max_id + 1; c--; )
@@ -75,12 +72,10 @@ void pulsgen_module_base_thread()
         // pulse change time check
         if ( gen[c].todo_tick_ovrfl )
         {
-            if ( tick_ovrfl ) gen[c].todo_tick_ovrfl = 0;
+            if ( tick < gen[c].todo_tick ) gen[c].todo_tick_ovrfl = 0;
             continue;
         }
         else if ( tick < gen[c].todo_tick ) continue;
-
-        todo_tick = gen[c].todo_tick; // save current to do tick value
 
         if ( gen[c].pin_state ) // if current pin state is HIGH
         {
@@ -94,7 +89,7 @@ void pulsgen_module_base_thread()
         }
 
         // set timestamp overflow flag
-        gen[c].todo_tick_ovrfl = gen[c].todo_tick < todo_tick ? 1 : 0;
+        gen[c].todo_tick_ovrfl = gen[c].todo_tick < TIMER_CNT_GET();
 
         --gen[c].task_toggles_todo; // decrease number of pin changes to do
 
@@ -108,9 +103,6 @@ void pulsgen_module_base_thread()
             gpio_pin_clear(gen[c].port, gen[c].pin);
         }
     }
-
-    // save current tick value
-    tick_prev = tick;
 }
 
 
@@ -162,13 +154,10 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
  */
 void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t duty, uint32_t delay)
 {
-    static uint32_t tick = 0, period_ticks = 0;
+    static uint32_t period_ticks;
 
     // important checks
     if ( !period || !duty ) return;
-
-    // get current CPU tick
-    tick = TIMER_CNT_GET();
 
     if ( c > max_id ) ++max_id;
 
@@ -190,7 +179,7 @@ void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t du
         period_ticks / PULSGEN_MAX_DUTY * duty ;
 
     gen[c].setup_ticks = period_ticks - gen[c].hold_ticks;
-    gen[c].todo_tick = tick + gen[c].setup_ticks;
+    gen[c].todo_tick = TIMER_CNT_GET() + gen[c].setup_ticks;
 
     // if we need a delay before task start
     if ( delay )
@@ -199,7 +188,7 @@ void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t du
         gen[c].todo_tick += (TIMER_FREQUENCY / 1000000) * delay;
     }
 
-    gen[c].todo_tick_ovrfl = gen[c].todo_tick < tick ? 1 : 0;
+    gen[c].todo_tick_ovrfl = gen[c].todo_tick < TIMER_CNT_GET();
 }
 
 /**
