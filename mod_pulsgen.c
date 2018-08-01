@@ -110,14 +110,8 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
     gen[c].pin_inverted = inverted ? gen[c].pin_mask : 0;
 
     // set pin state
-    if ( gen[c].pin_inverted )
-    {
-        GPIO_PIN_SET(port, gen[c].pin_mask);
-    }
-    else
-    {
-        GPIO_PIN_CLEAR(port, gen[c].pin_mask_not);
-    }
+    if ( gen[c].pin_inverted )  GPIO_PIN_SET    (port, gen[c].pin_mask);
+    else                        GPIO_PIN_CLEAR  (port, gen[c].pin_mask_not);
 }
 
 
