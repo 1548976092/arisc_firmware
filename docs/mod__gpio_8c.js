@@ -10,5 +10,6 @@ var mod__gpio_8c =
     [ "gpio_port_get", "mod__gpio_8c.html#a2979b18350aa4ac94e0a9ae8026dc735", null ],
     [ "gpio_port_set", "mod__gpio_8c.html#aba8f0bc9701f36e3048dbefc81518054", null ],
     [ "gpio_port_clear", "mod__gpio_8c.html#afdcdd3eb9af000552dc8f1a54b7a659c", null ],
-    [ "gpio_msg_recv", "mod__gpio_8c.html#a4fc4234962ca0dfcb1c8a81b5a863668", null ]
+    [ "gpio_msg_recv", "mod__gpio_8c.html#a4fc4234962ca0dfcb1c8a81b5a863668", null ],
+    [ "gpio_port_data", "mod__gpio_8c.html#a4c7ffa9d73e9b28219932f5a05140099", null ]
 ];

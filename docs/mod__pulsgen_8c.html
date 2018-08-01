@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
@@ -104,7 +105,8 @@ $(document).ready(function(){initNavTree('mod__pulsgen_8c.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">mod_pulsgen.c File Reference</div>  </div>
 </div><!--header-->
@@ -127,9 +129,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aaf0da9f93d3f28063e2e7e5fd5aedcd1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#aaf0da9f93d3f28063e2e7e5fd5aedcd1">pulsgen_pin_setup</a> (uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)</td></tr>
 <tr class="memdesc:aaf0da9f93d3f28063e2e7e5fd5aedcd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup GPIO pin for the selected channel  <a href="#aaf0da9f93d3f28063e2e7e5fd5aedcd1">More...</a><br /></td></tr>
 <tr class="separator:aaf0da9f93d3f28063e2e7e5fd5aedcd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ab37f7e55653b3e7a1566e1303ed7ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#a7ab37f7e55653b3e7a1566e1303ed7ab">pulsgen_task_setup</a> (uint8_t c, uint32_t period, uint32_t toggles, uint8_t duty, uint32_t delay)</td></tr>
-<tr class="memdesc:a7ab37f7e55653b3e7a1566e1303ed7ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup a new task for the selected channel  <a href="#a7ab37f7e55653b3e7a1566e1303ed7ab">More...</a><br /></td></tr>
-<tr class="separator:a7ab37f7e55653b3e7a1566e1303ed7ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab325c8935dfe8d9d0f669f943b20ab2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#ab325c8935dfe8d9d0f669f943b20ab2f">pulsgen_task_setup</a> (uint32_t c, uint32_t toggles, uint32_t pin_setup_time, uint32_t pin_hold_time, uint32_t start_delay)</td></tr>
+<tr class="memdesc:ab325c8935dfe8d9d0f669f943b20ab2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup a new task for the selected channel  <a href="#ab325c8935dfe8d9d0f669f943b20ab2f">More...</a><br /></td></tr>
+<tr class="separator:ab325c8935dfe8d9d0f669f943b20ab2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e39564b916ee9cdf39af3a6b6b76b63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#a7e39564b916ee9cdf39af3a6b6b76b63">pulsgen_task_abort</a> (uint8_t c)</td></tr>
 <tr class="memdesc:a7e39564b916ee9cdf39af3a6b6b76b63"><td class="mdescLeft">&#160;</td><td class="mdescRight">abort current task for the selected channel  <a href="#a7e39564b916ee9cdf39af3a6b6b76b63">More...</a><br /></td></tr>
 <tr class="separator:a7e39564b916ee9cdf39af3a6b6b76b63"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -142,6 +144,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a03a23b001e94bf2b0bf906148fbc96fb"><td class="memItemLeft" align="right" valign="top">int8_t volatile&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#a03a23b001e94bf2b0bf906148fbc96fb">pulsgen_msg_recv</a> (uint8_t type, uint8_t *msg, uint8_t length)</td></tr>
 <tr class="memdesc:a03a23b001e94bf2b0bf906148fbc96fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">"message received" callback  <a href="#a03a23b001e94bf2b0bf906148fbc96fb">More...</a><br /></td></tr>
 <tr class="separator:a03a23b001e94bf2b0bf906148fbc96fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a4c7ffa9d73e9b28219932f5a05140099"><td class="memItemLeft" align="right" valign="top">volatile uint32_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#a4c7ffa9d73e9b28219932f5a05140099">gpio_port_data</a> [<a class="el" href="mod__gpio_8h.html#a188c33baad9a9f4dffd2ed5040b274c7">GPIO_PORTS_CNT</a>]</td></tr>
+<tr class="separator:a4c7ffa9d73e9b28219932f5a05140099"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>pulses generator module </p>
@@ -253,21 +260,15 @@ Functions</h2></td></tr>
 </dl>
 </div>
 </div>
-<a class="anchor" id="a7ab37f7e55653b3e7a1566e1303ed7ab"></a>
+<a class="anchor" id="ab325c8935dfe8d9d0f669f943b20ab2f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void pulsgen_task_setup </td>
           <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>c</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>period</em>, </td>
+          <td class="paramname"><em>c</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -278,14 +279,20 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>duty</em>, </td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>pin_setup_time</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>delay</em>&#160;</td>
+          <td class="paramname"><em>pin_hold_time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>start_delay</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -299,10 +306,10 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>channel id </td></tr>
-    <tr><td class="paramname">period</td><td>pin state change period (in microseconds) </td></tr>
     <tr><td class="paramname">toggles</td><td>number of pin state changes </td></tr>
-    <tr><td class="paramname">duty</td><td>duty cycle value (0..PULSGEN_MAX_DUTY) </td></tr>
-    <tr><td class="paramname">delay</td><td>task start delay (in microseconds)</td></tr>
+    <tr><td class="paramname">pin_setup_time</td><td>pin state setup_time (in nanoseconds) </td></tr>
+    <tr><td class="paramname">pin_hold_time</td><td>pin state hold_time (in nanoseconds) </td></tr>
+    <tr><td class="paramname">start_delay</td><td>task start delay (in nanoseconds)</td></tr>
   </table>
   </dd>
 </dl>
@@ -455,6 +462,19 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a class="anchor" id="a4c7ffa9d73e9b28219932f5a05140099"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">volatile uint32_t* gpio_port_data[<a class="el" href="mod__gpio_8h.html#a188c33baad9a9f4dffd2ed5040b274c7">GPIO_PORTS_CNT</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

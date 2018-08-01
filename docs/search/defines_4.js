@@ -21,6 +21,9 @@ var searchData=
   ['gpio_5ffunc_5finput',['GPIO_FUNC_INPUT',['../mod__gpio_8h.html#ac72b8427733b972515f90b0f1f2bd22f',1,'mod_gpio.h']]],
   ['gpio_5ffunc_5foutput',['GPIO_FUNC_OUTPUT',['../mod__gpio_8h.html#a96ab277fe965fa7ef38f406c1bb84422',1,'mod_gpio.h']]],
   ['gpio_5fmsg_5fbuf_5flen',['GPIO_MSG_BUF_LEN',['../mod__gpio_8h.html#a1c56baf8691304743f5a5a9667703056',1,'mod_gpio.h']]],
+  ['gpio_5fpin_5fclear',['GPIO_PIN_CLEAR',['../mod__gpio_8h.html#a9e814b757b057a7003d2b87d40c08da7',1,'mod_gpio.h']]],
+  ['gpio_5fpin_5fget',['GPIO_PIN_GET',['../mod__gpio_8h.html#ae707cf62135b8abb196042836cdb7daa',1,'mod_gpio.h']]],
+  ['gpio_5fpin_5fset',['GPIO_PIN_SET',['../mod__gpio_8h.html#ad727c49f6f8d65ee5c8d3b6c04f3b933',1,'mod_gpio.h']]],
   ['gpio_5fpins_5fcnt',['GPIO_PINS_CNT',['../mod__gpio_8h.html#ac2e2cd93efe24402f7d5630848a3f196',1,'mod_gpio.h']]],
   ['gpio_5fports_5fcnt',['GPIO_PORTS_CNT',['../mod__gpio_8h.html#a188c33baad9a9f4dffd2ed5040b274c7',1,'mod_gpio.h']]],
   ['gpio_5fr_5fbase',['GPIO_R_BASE',['../mod__gpio_8h.html#a57257f1f2d756db5acf0a17fd6320ed1',1,'mod_gpio.h']]]

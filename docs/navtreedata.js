@@ -2,6 +2,7 @@ var NAVTREE =
 [
   [ "OrangeCNC - ARISC firmware", "index.html", [
     [ "CNC firmware for the Allwinner H3 ARISC co-processor", "index.html", null ],
+    [ "It's free firmware for the Allwinner H3 SoC's co-processor (ARISC)", "md_README.html", null ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -28,7 +29,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"mod__timer_8h.html#a150e4f9c8426a49d5153393b6612ef9e"
+"mod__timer_8c.html#a161432848a326da3a1ea7765fc2bc023"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

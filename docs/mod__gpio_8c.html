@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
@@ -104,7 +105,8 @@ $(document).ready(function(){initNavTree('mod__gpio_8c.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">mod_gpio.c File Reference</div>  </div>
 </div><!--header-->
@@ -152,6 +154,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a4fc4234962ca0dfcb1c8a81b5a863668"><td class="memItemLeft" align="right" valign="top">int8_t volatile&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8c.html#a4fc4234962ca0dfcb1c8a81b5a863668">gpio_msg_recv</a> (uint8_t type, uint8_t *msg, uint8_t length)</td></tr>
 <tr class="memdesc:a4fc4234962ca0dfcb1c8a81b5a863668"><td class="mdescLeft">&#160;</td><td class="mdescRight">"message received" callback  <a href="#a4fc4234962ca0dfcb1c8a81b5a863668">More...</a><br /></td></tr>
 <tr class="separator:a4fc4234962ca0dfcb1c8a81b5a863668"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a4c7ffa9d73e9b28219932f5a05140099"><td class="memItemLeft" align="right" valign="top">volatile uint32_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8c.html#a4c7ffa9d73e9b28219932f5a05140099">gpio_port_data</a> [<a class="el" href="mod__gpio_8h.html#a188c33baad9a9f4dffd2ed5040b274c7">GPIO_PORTS_CNT</a>]</td></tr>
+<tr class="separator:a4c7ffa9d73e9b28219932f5a05140099"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>GPIO control module. </p>
@@ -593,6 +600,29 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a class="anchor" id="a4c7ffa9d73e9b28219932f5a05140099"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">volatile uint32_t* gpio_port_data[<a class="el" href="mod__gpio_8h.html#a188c33baad9a9f4dffd2ed5040b274c7">GPIO_PORTS_CNT</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">{</div><div class="line">    (uint32_t *) ( (<a class="code" href="mod__gpio_8h.html#acce3b8a909ed8b957b4e411dfb7cbd91">GPIO_BASE</a> + <a class="code" href="mod__gpio_8h.html#abc6126af1d45847bc59afa0aa3216b04ae3d8a811f3bf7196f361be4104db68db">PA</a> * <a class="code" href="mod__gpio_8h.html#a3f5c8ef16699d8fd3b0fc4cb524a4547">GPIO_BANK_SIZE</a>) + 16 ),</div><div class="line">    (uint32_t *) ( (<a class="code" href="mod__gpio_8h.html#acce3b8a909ed8b957b4e411dfb7cbd91">GPIO_BASE</a> + <a class="code" href="mod__gpio_8h.html#abc6126af1d45847bc59afa0aa3216b04a8b7dd81ba2f0d15957795457d92ce139">PB</a> * <a class="code" href="mod__gpio_8h.html#a3f5c8ef16699d8fd3b0fc4cb524a4547">GPIO_BANK_SIZE</a>) + 16 ),</div><div class="line">    (uint32_t *) ( (<a class="code" href="mod__gpio_8h.html#acce3b8a909ed8b957b4e411dfb7cbd91">GPIO_BASE</a> + <a class="code" href="mod__gpio_8h.html#abc6126af1d45847bc59afa0aa3216b04aa2c62b62b658ac45e83749e9e9c1cb46">PC</a> * GPIO_BANK_SIZE) + 16 ),</div><div class="line">    (uint32_t *) ( (<a class="code" href="mod__gpio_8h.html#acce3b8a909ed8b957b4e411dfb7cbd91">GPIO_BASE</a> + <a class="code" href="mod__gpio_8h.html#abc6126af1d45847bc59afa0aa3216b04aefbc069e0ac4cd293f3ba527bec2befe">PD</a> * <a class="code" href="mod__gpio_8h.html#a3f5c8ef16699d8fd3b0fc4cb524a4547">GPIO_BANK_SIZE</a>) + 16 ),</div><div class="line">    (uint32_t *) ( (<a class="code" href="mod__gpio_8h.html#acce3b8a909ed8b957b4e411dfb7cbd91">GPIO_BASE</a> + <a class="code" href="mod__gpio_8h.html#abc6126af1d45847bc59afa0aa3216b04a84a0e8421125bc6ef85e43bab494f68c">PE</a> * GPIO_BANK_SIZE) + 16 ),</div><div class="line">    (uint32_t *) ( (<a class="code" href="mod__gpio_8h.html#acce3b8a909ed8b957b4e411dfb7cbd91">GPIO_BASE</a> + <a class="code" href="mod__gpio_8h.html#abc6126af1d45847bc59afa0aa3216b04ac1b9838c8d86ff9cdb39757140ebc8ae">PF</a> * <a class="code" href="mod__gpio_8h.html#a3f5c8ef16699d8fd3b0fc4cb524a4547">GPIO_BANK_SIZE</a>) + 16 ),</div><div class="line">    (uint32_t *) ( (<a class="code" href="mod__gpio_8h.html#acce3b8a909ed8b957b4e411dfb7cbd91">GPIO_BASE</a> + <a class="code" href="mod__gpio_8h.html#abc6126af1d45847bc59afa0aa3216b04a4921b18e1718d2cec29b1da3e2439ef7">PG</a> * GPIO_BANK_SIZE) + 16 ),</div><div class="line">    (uint32_t *) ( (<a class="code" href="mod__gpio_8h.html#a57257f1f2d756db5acf0a17fd6320ed1">GPIO_R_BASE</a>                    ) + 16 )</div><div class="line">}</div><div class="ttc" id="mod__gpio_8h_html_abc6126af1d45847bc59afa0aa3216b04ac1b9838c8d86ff9cdb39757140ebc8ae"><div class="ttname"><a href="mod__gpio_8h.html#abc6126af1d45847bc59afa0aa3216b04ac1b9838c8d86ff9cdb39757140ebc8ae">PF</a></div><div class="ttdef"><b>Definition:</b> mod_gpio.h:30</div></div>
+<div class="ttc" id="mod__gpio_8h_html_a57257f1f2d756db5acf0a17fd6320ed1"><div class="ttname"><a href="mod__gpio_8h.html#a57257f1f2d756db5acf0a17fd6320ed1">GPIO_R_BASE</a></div><div class="ttdeci">#define GPIO_R_BASE</div><div class="ttdoc">GPIO R registers block start address. </div><div class="ttdef"><b>Definition:</b> mod_gpio.h:20</div></div>
+<div class="ttc" id="mod__gpio_8h_html_abc6126af1d45847bc59afa0aa3216b04a8b7dd81ba2f0d15957795457d92ce139"><div class="ttname"><a href="mod__gpio_8h.html#abc6126af1d45847bc59afa0aa3216b04a8b7dd81ba2f0d15957795457d92ce139">PB</a></div><div class="ttdef"><b>Definition:</b> mod_gpio.h:30</div></div>
+<div class="ttc" id="mod__gpio_8h_html_abc6126af1d45847bc59afa0aa3216b04ae3d8a811f3bf7196f361be4104db68db"><div class="ttname"><a href="mod__gpio_8h.html#abc6126af1d45847bc59afa0aa3216b04ae3d8a811f3bf7196f361be4104db68db">PA</a></div><div class="ttdef"><b>Definition:</b> mod_gpio.h:30</div></div>
+<div class="ttc" id="mod__gpio_8h_html_abc6126af1d45847bc59afa0aa3216b04aefbc069e0ac4cd293f3ba527bec2befe"><div class="ttname"><a href="mod__gpio_8h.html#abc6126af1d45847bc59afa0aa3216b04aefbc069e0ac4cd293f3ba527bec2befe">PD</a></div><div class="ttdef"><b>Definition:</b> mod_gpio.h:30</div></div>
+<div class="ttc" id="mod__gpio_8h_html_a3f5c8ef16699d8fd3b0fc4cb524a4547"><div class="ttname"><a href="mod__gpio_8h.html#a3f5c8ef16699d8fd3b0fc4cb524a4547">GPIO_BANK_SIZE</a></div><div class="ttdeci">#define GPIO_BANK_SIZE</div><div class="ttdef"><b>Definition:</b> mod_gpio.h:21</div></div>
+<div class="ttc" id="mod__gpio_8h_html_acce3b8a909ed8b957b4e411dfb7cbd91"><div class="ttname"><a href="mod__gpio_8h.html#acce3b8a909ed8b957b4e411dfb7cbd91">GPIO_BASE</a></div><div class="ttdeci">#define GPIO_BASE</div><div class="ttdoc">GPIO registers block start address. </div><div class="ttdef"><b>Definition:</b> mod_gpio.h:19</div></div>
+<div class="ttc" id="mod__gpio_8h_html_abc6126af1d45847bc59afa0aa3216b04a4921b18e1718d2cec29b1da3e2439ef7"><div class="ttname"><a href="mod__gpio_8h.html#abc6126af1d45847bc59afa0aa3216b04a4921b18e1718d2cec29b1da3e2439ef7">PG</a></div><div class="ttdef"><b>Definition:</b> mod_gpio.h:30</div></div>
+<div class="ttc" id="mod__gpio_8h_html_abc6126af1d45847bc59afa0aa3216b04aa2c62b62b658ac45e83749e9e9c1cb46"><div class="ttname"><a href="mod__gpio_8h.html#abc6126af1d45847bc59afa0aa3216b04aa2c62b62b658ac45e83749e9e9c1cb46">PC</a></div><div class="ttdef"><b>Definition:</b> mod_gpio.h:30</div></div>
+<div class="ttc" id="mod__gpio_8h_html_abc6126af1d45847bc59afa0aa3216b04a84a0e8421125bc6ef85e43bab494f68c"><div class="ttname"><a href="mod__gpio_8h.html#abc6126af1d45847bc59afa0aa3216b04a84a0e8421125bc6ef85e43bab494f68c">PE</a></div><div class="ttdef"><b>Definition:</b> mod_gpio.h:30</div></div>
+</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
@@ -130,6 +131,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ac0b22a5df951fddf6977edf3b1cd55f6"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__timer_8c.html#ac0b22a5df951fddf6977edf3b1cd55f6">timer_cnt_get</a> ()</td></tr>
 <tr class="memdesc:ac0b22a5df951fddf6977edf3b1cd55f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">get system timer counter value  <a href="#ac0b22a5df951fddf6977edf3b1cd55f6">More...</a><br /></td></tr>
 <tr class="separator:ac0b22a5df951fddf6977edf3b1cd55f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a197b3a4ed7085bc37f8dcb177c80486f"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__timer_8c.html#a197b3a4ed7085bc37f8dcb177c80486f">timer_cnt_get_64</a> ()</td></tr>
+<tr class="memdesc:a197b3a4ed7085bc37f8dcb177c80486f"><td class="mdescLeft">&#160;</td><td class="mdescRight">get system timer counter total value  <a href="#a197b3a4ed7085bc37f8dcb177c80486f">More...</a><br /></td></tr>
+<tr class="separator:a197b3a4ed7085bc37f8dcb177c80486f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>system timer control module </p>
@@ -239,6 +243,29 @@ Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_timer_8c-example.html#a3">mod_timer.c</a>.</dd>
 </dl>
+</div>
+</div>
+<a class="anchor" id="a197b3a4ed7085bc37f8dcb177c80486f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t timer_cnt_get_64 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>get system timer counter total value </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">0</td><td>.. 2^64-1 (ticks) </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 </div><!-- contents -->

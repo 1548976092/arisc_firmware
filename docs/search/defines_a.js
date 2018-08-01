@@ -10,6 +10,7 @@ var searchData=
   ['timer_5fcnt_5fget',['TIMER_CNT_GET',['../mod__timer_8h.html#a8e6a3b2eb0563b3d94d83939efce5b21',1,'mod_timer.h']]],
   ['timer_5fcnt_5fset',['TIMER_CNT_SET',['../mod__timer_8h.html#a6cb2b7772151124948e5d17d1c6e08ea',1,'mod_timer.h']]],
   ['timer_5ffrequency',['TIMER_FREQUENCY',['../mod__timer_8h.html#a150e4f9c8426a49d5153393b6612ef9e',1,'mod_timer.h']]],
+  ['timer_5ffrequency_5fmhz',['TIMER_FREQUENCY_MHZ',['../mod__timer_8h.html#a19f140dc1376350673aaac7d35cf1ccf',1,'mod_timer.h']]],
   ['timer_5fstart',['TIMER_START',['../mod__timer_8h.html#a61d5531e2b8556916fa42733208f0659',1,'mod_timer.h']]],
   ['timer_5fstop',['TIMER_STOP',['../mod__timer_8h.html#a8055a02ef3688352212e0dba357905b3',1,'mod_timer.h']]]
 ];

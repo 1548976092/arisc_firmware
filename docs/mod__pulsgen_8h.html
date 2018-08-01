@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
@@ -143,11 +144,6 @@ Macros</h2></td></tr>
 <tr class="memitem:a301a90fda88beb1da30012ca6b9c11e4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#a301a90fda88beb1da30012ca6b9c11e4">PULSGEN_CH_CNT</a>&#160;&#160;&#160;32</td></tr>
 <tr class="memdesc:a301a90fda88beb1da30012ca6b9c11e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum number of pulse generator channels  <a href="#a301a90fda88beb1da30012ca6b9c11e4">More...</a><br /></td></tr>
 <tr class="separator:a301a90fda88beb1da30012ca6b9c11e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc8a86b202b9117b0783d463e395ffde"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#abc8a86b202b9117b0783d463e395ffde">PULSGEN_MAX_DUTY</a>&#160;&#160;&#160;100</td></tr>
-<tr class="memdesc:abc8a86b202b9117b0783d463e395ffde"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum percent of pulse duty cycle (255 is max)  <a href="#abc8a86b202b9117b0783d463e395ffde">More...</a><br /></td></tr>
-<tr class="separator:abc8a86b202b9117b0783d463e395ffde"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1887b5aaca7372337091089d4d9199f9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#a1887b5aaca7372337091089d4d9199f9">PULSGEN_MAX_PERIOD</a>&#160;&#160;&#160;(UINT32_MAX/(<a class="el" href="mod__timer_8h.html#a150e4f9c8426a49d5153393b6612ef9e">TIMER_FREQUENCY</a>/1000000))</td></tr>
-<tr class="separator:a1887b5aaca7372337091089d4d9199f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b184ac62abfc34423ece76aa7b648dc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#a0b184ac62abfc34423ece76aa7b648dc">PULSGEN_MSG_BUF_LEN</a>&#160;&#160;&#160;<a class="el" href="mod__msg_8h.html#a1f15293623649a310a7c68ff240f9647">MSG_LEN</a></td></tr>
 <tr class="memdesc:a0b184ac62abfc34423ece76aa7b648dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">the message data sizes  <a href="#a0b184ac62abfc34423ece76aa7b648dc">More...</a><br /></td></tr>
 <tr class="separator:a0b184ac62abfc34423ece76aa7b648dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,9 +173,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aaf0da9f93d3f28063e2e7e5fd5aedcd1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#aaf0da9f93d3f28063e2e7e5fd5aedcd1">pulsgen_pin_setup</a> (uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)</td></tr>
 <tr class="memdesc:aaf0da9f93d3f28063e2e7e5fd5aedcd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup GPIO pin for the selected channel  <a href="#aaf0da9f93d3f28063e2e7e5fd5aedcd1">More...</a><br /></td></tr>
 <tr class="separator:aaf0da9f93d3f28063e2e7e5fd5aedcd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ab37f7e55653b3e7a1566e1303ed7ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#a7ab37f7e55653b3e7a1566e1303ed7ab">pulsgen_task_setup</a> (uint8_t c, uint32_t period, uint32_t toggles, uint8_t duty, uint32_t delay)</td></tr>
-<tr class="memdesc:a7ab37f7e55653b3e7a1566e1303ed7ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup a new task for the selected channel  <a href="#a7ab37f7e55653b3e7a1566e1303ed7ab">More...</a><br /></td></tr>
-<tr class="separator:a7ab37f7e55653b3e7a1566e1303ed7ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab325c8935dfe8d9d0f669f943b20ab2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#ab325c8935dfe8d9d0f669f943b20ab2f">pulsgen_task_setup</a> (uint32_t c, uint32_t toggles, uint32_t pin_setup_time, uint32_t pin_hold_time, uint32_t start_delay)</td></tr>
+<tr class="memdesc:ab325c8935dfe8d9d0f669f943b20ab2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup a new task for the selected channel  <a href="#ab325c8935dfe8d9d0f669f943b20ab2f">More...</a><br /></td></tr>
+<tr class="separator:ab325c8935dfe8d9d0f669f943b20ab2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e39564b916ee9cdf39af3a6b6b76b63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#a7e39564b916ee9cdf39af3a6b6b76b63">pulsgen_task_abort</a> (uint8_t c)</td></tr>
 <tr class="memdesc:a7e39564b916ee9cdf39af3a6b6b76b63"><td class="mdescLeft">&#160;</td><td class="mdescRight">abort current task for the selected channel  <a href="#a7e39564b916ee9cdf39af3a6b6b76b63">More...</a><br /></td></tr>
 <tr class="separator:a7e39564b916ee9cdf39af3a6b6b76b63"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -208,32 +204,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>maximum number of pulse generator channels </p>
-
-</div>
-</div>
-<a class="anchor" id="abc8a86b202b9117b0783d463e395ffde"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define PULSGEN_MAX_DUTY&#160;&#160;&#160;100</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>maximum percent of pulse duty cycle (255 is max) </p>
-
-</div>
-</div>
-<a class="anchor" id="a1887b5aaca7372337091089d4d9199f9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define PULSGEN_MAX_PERIOD&#160;&#160;&#160;(UINT32_MAX/(<a class="el" href="mod__timer_8h.html#a150e4f9c8426a49d5153393b6612ef9e">TIMER_FREQUENCY</a>/1000000))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
 
 </div>
 </div>
@@ -382,21 +352,15 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7ab37f7e55653b3e7a1566e1303ed7ab"></a>
+<a class="anchor" id="ab325c8935dfe8d9d0f669f943b20ab2f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void pulsgen_task_setup </td>
           <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>c</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>period</em>, </td>
+          <td class="paramname"><em>c</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -407,14 +371,20 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>duty</em>, </td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>pin_setup_time</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>delay</em>&#160;</td>
+          <td class="paramname"><em>pin_hold_time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>start_delay</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -428,10 +398,10 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>channel id </td></tr>
-    <tr><td class="paramname">period</td><td>pin state change period (in microseconds) </td></tr>
     <tr><td class="paramname">toggles</td><td>number of pin state changes </td></tr>
-    <tr><td class="paramname">duty</td><td>duty cycle value (0..PULSGEN_MAX_DUTY) </td></tr>
-    <tr><td class="paramname">delay</td><td>task start delay (in microseconds)</td></tr>
+    <tr><td class="paramname">pin_setup_time</td><td>pin state setup_time (in nanoseconds) </td></tr>
+    <tr><td class="paramname">pin_hold_time</td><td>pin state hold_time (in nanoseconds) </td></tr>
+    <tr><td class="paramname">start_delay</td><td>task start delay (in nanoseconds)</td></tr>
   </table>
   </dd>
 </dl>

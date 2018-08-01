@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
@@ -117,14 +118,14 @@ $(document).ready(function(){initNavTree('structpulsgen__msg__task__setup__t.htm
 Data Fields</h2></td></tr>
 <tr class="memitem:aa03da43d2cb66a780d402267ce28013d"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__msg__task__setup__t.html#aa03da43d2cb66a780d402267ce28013d">ch</a></td></tr>
 <tr class="separator:aa03da43d2cb66a780d402267ce28013d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81b43df06332b4fef558297592bb7ff1"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__msg__task__setup__t.html#a81b43df06332b4fef558297592bb7ff1">period</a></td></tr>
-<tr class="separator:a81b43df06332b4fef558297592bb7ff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cb6815aa8abf71a064c78bcf41a383b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__msg__task__setup__t.html#a8cb6815aa8abf71a064c78bcf41a383b">toggles</a></td></tr>
 <tr class="separator:a8cb6815aa8abf71a064c78bcf41a383b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2891a04a3e71b4f88a09aa6636e4e304"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__msg__task__setup__t.html#a2891a04a3e71b4f88a09aa6636e4e304">duty</a></td></tr>
-<tr class="separator:a2891a04a3e71b4f88a09aa6636e4e304"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a458421a43d4f6dc515faf427bf579d00"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__msg__task__setup__t.html#a458421a43d4f6dc515faf427bf579d00">delay</a></td></tr>
-<tr class="separator:a458421a43d4f6dc515faf427bf579d00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bdc1a313cca3a0673fa2274f459c909"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__msg__task__setup__t.html#a9bdc1a313cca3a0673fa2274f459c909">pin_setup_time</a></td></tr>
+<tr class="separator:a9bdc1a313cca3a0673fa2274f459c909"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d6010d7331d716ae8d387e9452cd773"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__msg__task__setup__t.html#a0d6010d7331d716ae8d387e9452cd773">pin_hold_time</a></td></tr>
+<tr class="separator:a0d6010d7331d716ae8d387e9452cd773"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30102e0b364c4843924559c08e20338d"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__msg__task__setup__t.html#a30102e0b364c4843924559c08e20338d">start_delay</a></td></tr>
+<tr class="separator:a30102e0b364c4843924559c08e20338d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Field Documentation</h2>
 <a class="anchor" id="aa03da43d2cb66a780d402267ce28013d"></a>
@@ -133,18 +134,6 @@ Data Fields</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">uint32_t ch</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a81b43df06332b4fef558297592bb7ff1"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t period</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -163,24 +152,36 @@ Data Fields</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a2891a04a3e71b4f88a09aa6636e4e304"></a>
+<a class="anchor" id="a9bdc1a313cca3a0673fa2274f459c909"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t duty</td>
+          <td class="memname">uint32_t pin_setup_time</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a458421a43d4f6dc515faf427bf579d00"></a>
+<a class="anchor" id="a0d6010d7331d716ae8d387e9452cd773"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t delay</td>
+          <td class="memname">uint32_t pin_hold_time</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a30102e0b364c4843924559c08e20338d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t start_delay</td>
         </tr>
       </table>
 </div><div class="memdoc">

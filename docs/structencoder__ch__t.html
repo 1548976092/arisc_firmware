@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
@@ -126,10 +127,10 @@ Data Fields</h2></td></tr>
 <tr class="separator:a194ff8527e51fd9226d3dfe87e57c728"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9068272b97c7b328f9a5f1f6d3d7e0ee"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structencoder__ch__t.html#a9068272b97c7b328f9a5f1f6d3d7e0ee">port</a> [<a class="el" href="mod__encoder_8h.html#a529d576743c8f1445934b6388be2e537">ENCODER_PH_CNT</a>]</td></tr>
 <tr class="separator:a9068272b97c7b328f9a5f1f6d3d7e0ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afde516354967f03e957e1cd2fad26749"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structencoder__ch__t.html#afde516354967f03e957e1cd2fad26749">pin</a> [<a class="el" href="mod__encoder_8h.html#a529d576743c8f1445934b6388be2e537">ENCODER_PH_CNT</a>]</td></tr>
-<tr class="separator:afde516354967f03e957e1cd2fad26749"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a808f7fd31fe1c59b7d5d9860326dc7d0"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structencoder__ch__t.html#a808f7fd31fe1c59b7d5d9860326dc7d0">state</a> [<a class="el" href="mod__encoder_8h.html#a529d576743c8f1445934b6388be2e537">ENCODER_PH_CNT</a>]</td></tr>
-<tr class="separator:a808f7fd31fe1c59b7d5d9860326dc7d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ac4edfac489929becedee83885c73fd"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structencoder__ch__t.html#a2ac4edfac489929becedee83885c73fd">pin_mask</a> [<a class="el" href="mod__encoder_8h.html#a529d576743c8f1445934b6388be2e537">ENCODER_PH_CNT</a>]</td></tr>
+<tr class="separator:a2ac4edfac489929becedee83885c73fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ee97d98c992fa96d8667a2801139289"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structencoder__ch__t.html#a6ee97d98c992fa96d8667a2801139289">state</a> [<a class="el" href="mod__encoder_8h.html#a529d576743c8f1445934b6388be2e537">ENCODER_PH_CNT</a>]</td></tr>
+<tr class="separator:a6ee97d98c992fa96d8667a2801139289"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad81accb2d92fb90d570962574dbcb1ff"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structencoder__ch__t.html#ad81accb2d92fb90d570962574dbcb1ff">counts</a></td></tr>
 <tr class="separator:ad81accb2d92fb90d570962574dbcb1ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09dd655169a54f5e35529eea8eb42176"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structencoder__ch__t.html#a09dd655169a54f5e35529eea8eb42176">AB_state</a></td></tr>
@@ -186,24 +187,24 @@ Data Fields</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="afde516354967f03e957e1cd2fad26749"></a>
+<a class="anchor" id="a2ac4edfac489929becedee83885c73fd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t pin[<a class="el" href="mod__encoder_8h.html#a529d576743c8f1445934b6388be2e537">ENCODER_PH_CNT</a>]</td>
+          <td class="memname">uint32_t pin_mask[<a class="el" href="mod__encoder_8h.html#a529d576743c8f1445934b6388be2e537">ENCODER_PH_CNT</a>]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a808f7fd31fe1c59b7d5d9860326dc7d0"></a>
+<a class="anchor" id="a6ee97d98c992fa96d8667a2801139289"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t state[<a class="el" href="mod__encoder_8h.html#a529d576743c8f1445934b6388be2e537">ENCODER_PH_CNT</a>]</td>
+          <td class="memname">uint32_t state[<a class="el" href="mod__encoder_8h.html#a529d576743c8f1445934b6388be2e537">ENCODER_PH_CNT</a>]</td>
         </tr>
       </table>
 </div><div class="memdoc">

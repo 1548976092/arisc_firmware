@@ -15,7 +15,5 @@ var searchData=
   ['pll_5fcpux_5fn',['PLL_CPUX_N',['../sys_8h.html#ab49b183ccec500a45e89cc6316d1998e',1,'sys.h']]],
   ['pll_5fcpux_5fp',['PLL_CPUX_P',['../sys_8h.html#a003b50cdbc30d82854bd17094a04d9e9',1,'sys.h']]],
   ['pulsgen_5fch_5fcnt',['PULSGEN_CH_CNT',['../mod__pulsgen_8h.html#a301a90fda88beb1da30012ca6b9c11e4',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmax_5fduty',['PULSGEN_MAX_DUTY',['../mod__pulsgen_8h.html#abc8a86b202b9117b0783d463e395ffde',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmax_5fperiod',['PULSGEN_MAX_PERIOD',['../mod__pulsgen_8h.html#a1887b5aaca7372337091089d4d9199f9',1,'mod_pulsgen.h']]],
   ['pulsgen_5fmsg_5fbuf_5flen',['PULSGEN_MSG_BUF_LEN',['../mod__pulsgen_8h.html#a0b184ac62abfc34423ece76aa7b648dc',1,'mod_pulsgen.h']]]
 ];
