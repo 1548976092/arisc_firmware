@@ -60,7 +60,7 @@ void pulsgen_module_base_thread()
     // check all working channels
     for ( c = max_id + 1; c--; )
     {
-        if ( !gen[c].task ) continue;
+        if ( !gen[c].task || tick < gen[c].todo_tick ) continue;
 
         if ( !gen[c].task_infinite && !gen[c].task_toggles_todo ) // if we have no steps to do
         {
@@ -68,8 +68,6 @@ void pulsgen_module_base_thread()
             if ( max_id && c == max_id ) --max_id; // if needed decrease channels max ID value
             continue; // goto next channel
         }
-
-        if ( tick < gen[c].todo_tick ) continue;
 
         if ( gen[c].pin_state ) // if current pin state is HIGH
         {
