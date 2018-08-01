@@ -30,8 +30,8 @@ struct encoder_ch_t
     uint8_t     using_Z;
 
     uint8_t     port[ENCODER_PH_CNT];
-    uint8_t     pin[ENCODER_PH_CNT];
-    uint8_t     state[ENCODER_PH_CNT];
+    uint32_t    pin_mask[ENCODER_PH_CNT];
+    uint32_t    state[ENCODER_PH_CNT];
 
     int32_t     counts;
     uint8_t     AB_state;

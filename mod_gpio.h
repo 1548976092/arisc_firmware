@@ -78,6 +78,23 @@ struct gpio_msg_state_t     { uint32_t state; };
 
 
 
+// public methods as macros
+
+/// set pin state = 1
+#define GPIO_PIN_SET(PORT,PIN_MASK) \
+    *gpio_port_data[PORT] |= PIN_MASK
+
+/// set pin state = 0
+#define GPIO_PIN_CLEAR(PORT,PIN_MASK_NOT) \
+    *gpio_port_data[PORT] &= PIN_MASK_NOT
+
+/// get pin state
+#define GPIO_PIN_GET(PORT,PIN_MASK) \
+    (*gpio_port_data[PORT] & PIN_MASK)
+
+
+
+
 // export public methods
 
 void gpio_module_init();

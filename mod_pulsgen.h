@@ -27,10 +27,10 @@
 /// a channel parameters
 struct pulsgen_ch_t
 {
-    uint8_t     port;               // GPIO port number
-    uint8_t     pin;                // GPIO pin number
-    uint8_t     pin_state;          // 0/1
-    uint8_t     pin_inverted;       // 0/1
+    uint32_t    port;               // GPIO port number
+    uint32_t    pin_mask;           // GPIO pin mask
+    uint32_t    pin_mask_not;       // GPIO pin ~mask
+    uint32_t    pin_inverted;       // same as `pin_mask` or 0
 
     uint8_t     task;               // 0 = "channel disabled"
     uint8_t     task_infinite;      // 0 = "make task_toggles and disable the channel"
