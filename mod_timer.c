@@ -82,7 +82,7 @@ uint64_t timer_cnt_get_64()
 
     cnt_prev = cnt_curr;
 
-    return (uint64_t)cnt_ovfl * (uint64_t)UINT32_MAX + (uint64_t)cnt_curr;
+    return ((uint64_t)cnt_ovfl) * ((uint64_t)4294967296UL) + ((uint64_t)cnt_curr);
 }
 
 
