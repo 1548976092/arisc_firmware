@@ -89,7 +89,7 @@ void pulsgen_module_base_thread()
         }
 
         // set timestamp overflow flag
-        gen[c].todo_tick_ovrfl = gen[c].todo_tick < TIMER_CNT_GET();
+        gen[c].todo_tick_ovrfl = gen[c].todo_tick < TIMER_CNT_GET() ? 1 : 0;
 
         --gen[c].task_toggles_todo; // decrease number of pin changes to do
 
@@ -188,7 +188,7 @@ void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t du
         gen[c].todo_tick += (TIMER_FREQUENCY / 1000000) * delay;
     }
 
-    gen[c].todo_tick_ovrfl = gen[c].todo_tick < TIMER_CNT_GET();
+    gen[c].todo_tick_ovrfl = gen[c].todo_tick < TIMER_CNT_GET() ? 1 : 0;
 }
 
 /**
