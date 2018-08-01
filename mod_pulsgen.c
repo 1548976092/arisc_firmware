@@ -75,12 +75,12 @@ void pulsgen_module_base_thread()
         if ( GPIO_PIN_GET(gen[c].port, gen[c].pin_mask) ^ gen[c].pin_inverted )
         {
             GPIO_PIN_CLEAR(gen[c].port, gen[c].pin_mask_not);
-            gen[c].todo_tick += (uint64_t)gen[c].hold_ticks;
+            gen[c].todo_tick += (uint64_t)gen[c].setup_ticks;
         }
         else
         {
             GPIO_PIN_SET(gen[c].port, gen[c].pin_mask);
-            gen[c].todo_tick += (uint64_t)gen[c].setup_ticks;
+            gen[c].todo_tick += (uint64_t)gen[c].hold_ticks;
         }
 
         --gen[c].task_toggles_todo; // decrease number of pin changes to do
@@ -156,7 +156,7 @@ void pulsgen_task_setup
     gen[c].hold_ticks = (uint32_t) ( (uint64_t)pin_hold_time *
         (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
 
-    gen[c].todo_tick = timer_cnt_get_64() + (uint64_t)gen[c].setup_ticks;
+    gen[c].todo_tick = timer_cnt_get_64() + (uint64_t)gen[c].hold_ticks;
 
     // if we need a delay before task start
     if ( start_delay )
