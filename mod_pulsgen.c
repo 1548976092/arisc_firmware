@@ -52,15 +52,15 @@ void pulsgen_module_init()
 void pulsgen_module_base_thread()
 {
     static uint8_t c;
-    static uint32_t tick;
+    static uint64_t tick;
 
     // get current CPU tick
-    tick = TIMER_CNT_GET();
+    tick = timer_cnt_get_64();
 
     // check all working channels
     for ( c = max_id + 1; c--; )
     {
-        if ( !gen[c].task ) continue; // if channel disabled, goto next channel
+        if ( !gen[c].task || tick < gen[c].todo_tick ) continue;
 
         if ( !gen[c].task_infinite && !gen[c].task_toggles_todo ) // if we have no steps to do
         {
@@ -68,14 +68,6 @@ void pulsgen_module_base_thread()
             if ( max_id && c == max_id ) --max_id; // if needed decrease channels max ID value
             continue; // goto next channel
         }
-
-        // pulse change time check
-        if ( gen[c].todo_tick_ovrfl )
-        {
-            if ( tick < gen[c].todo_tick ) gen[c].todo_tick_ovrfl = 0;
-            continue;
-        }
-        else if ( tick < gen[c].todo_tick ) continue;
 
         if ( gen[c].pin_state ) // if current pin state is HIGH
         {
@@ -87,9 +79,6 @@ void pulsgen_module_base_thread()
             gen[c].pin_state = 1; // set step state to HIGH
             gen[c].todo_tick += gen[c].hold_ticks; // set new timestamp
         }
-
-        // set timestamp overflow flag
-        gen[c].todo_tick_ovrfl = gen[c].todo_tick < TIMER_CNT_GET() ? 1 : 0;
 
         --gen[c].task_toggles_todo; // decrease number of pin changes to do
 
@@ -187,8 +176,6 @@ void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t du
         if ( delay >= PULSGEN_MAX_PERIOD ) delay = PULSGEN_MAX_PERIOD - 1;
         gen[c].todo_tick += (TIMER_FREQUENCY / 1000000) * delay;
     }
-
-    gen[c].todo_tick_ovrfl = gen[c].todo_tick < TIMER_CNT_GET() ? 1 : 0;
 }
 
 /**

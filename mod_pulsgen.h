@@ -40,8 +40,7 @@ struct pulsgen_ch_t
     uint32_t    setup_ticks;        // number of CPU ticks to prepare pin toggle
     uint32_t    hold_ticks;         // number of CPU ticks to hold pin state
 
-    uint32_t    todo_tick;          // timestamp (in CPU ticks) to change pin state
-    uint8_t     todo_tick_ovrfl;    // timestamp overflow flag
+    uint64_t    todo_tick;          // timestamp (in CPU ticks) to change pin state
 };
 
 
