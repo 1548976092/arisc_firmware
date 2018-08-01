@@ -25,10 +25,10 @@
 /// a channel parameters
 struct pulsgen_ch_t
 {
-    uint8_t     port;               // GPIO port number
-    uint8_t     pin;                // GPIO pin number
-    uint8_t     pin_state;          // 0/1
-    uint8_t     pin_inverted;       // 0/1
+    uint32_t    port;               // GPIO port number
+    uint32_t    pin_mask;           // GPIO pin mask
+    uint32_t    pin_mask_not;       // GPIO pin ~mask
+    uint32_t    pin_inverted;       // same as `pin_mask` or 0
 
     uint8_t     task;               // 0 = "channel disabled"
     uint8_t     task_infinite;      // 0 = "make task_toggles and disable the channel"
@@ -38,8 +38,7 @@ struct pulsgen_ch_t
     uint32_t    setup_ticks;        // number of CPU ticks to prepare pin toggle
     uint32_t    hold_ticks;         // number of CPU ticks to hold pin state
 
-    uint32_t    todo_tick;          // timestamp (in CPU ticks) to change pin state
-    uint8_t     todo_tick_ovrfl;    // timestamp overflow flag
+    uint64_t    todo_tick;          // timestamp (in CPU ticks) to change pin state
 };
 
 

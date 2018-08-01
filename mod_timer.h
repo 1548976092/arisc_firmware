@@ -55,6 +55,7 @@ void timer_start();
 void timer_stop();
 void timer_cnt_set(uint32_t cnt);
 uint32_t timer_cnt_get();
+uint64_t timer_cnt_get_64();
 
 
 

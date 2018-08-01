@@ -20,6 +20,9 @@ static uint8_t max_id = 0; // maximum channel id
 static struct pulsgen_ch_t gen[PULSGEN_CH_CNT] = {0}; // array of channels data
 static uint8_t msg_buf[PULSGEN_MSG_BUF_LEN] = {0};
 
+// uses with GPIO module macros
+extern volatile uint32_t * gpio_port_data[GPIO_PORTS_CNT];
+
 
 
 
@@ -52,18 +55,15 @@ void pulsgen_module_init()
 void pulsgen_module_base_thread()
 {
     static uint8_t c;
-    static uint32_t tick = 0, tick_prev = 0, tick_ovrfl = 0, todo_tick = 0;
+    static uint64_t tick;
 
     // get current CPU tick
-    tick = TIMER_CNT_GET();
-
-    // tick value overflow check
-    tick_ovrfl = tick < tick_prev ? 1 : 0;
+    tick = timer_cnt_get_64();
 
     // check all working channels
     for ( c = max_id + 1; c--; )
     {
-        if ( !gen[c].task ) continue; // if channel disabled, goto next channel
+        if ( !gen[c].task || tick < gen[c].todo_tick ) continue;
 
         if ( !gen[c].task_infinite && !gen[c].task_toggles_todo ) // if we have no steps to do
         {
@@ -72,45 +72,19 @@ void pulsgen_module_base_thread()
             continue; // goto next channel
         }
 
-        // pulse change time check
-        if ( gen[c].todo_tick_ovrfl )
+        if ( GPIO_PIN_GET(gen[c].port, gen[c].pin_mask) ^ gen[c].pin_inverted )
         {
-            if ( tick_ovrfl ) gen[c].todo_tick_ovrfl = 0;
-            continue;
-        }
-        else if ( tick < gen[c].todo_tick ) continue;
-
-        todo_tick = gen[c].todo_tick; // save current to do tick value
-
-        if ( gen[c].pin_state ) // if current pin state is HIGH
-        {
-            gen[c].pin_state = 0; // set pin state to LOW
-            gen[c].todo_tick += gen[c].setup_ticks; // set new timestamp
-        }
-        else // if current pin state is LOW
-        {
-            gen[c].pin_state = 1; // set step state to HIGH
-            gen[c].todo_tick += gen[c].hold_ticks; // set new timestamp
-        }
-
-        // set timestamp overflow flag
-        gen[c].todo_tick_ovrfl = gen[c].todo_tick < todo_tick ? 1 : 0;
-
-        --gen[c].task_toggles_todo; // decrease number of pin changes to do
-
-        // toggle pin
-        if ( gen[c].pin_state ^ gen[c].pin_inverted )
-        {
-            gpio_pin_set(gen[c].port, gen[c].pin);
+            GPIO_PIN_CLEAR(gen[c].port, gen[c].pin_mask_not);
+            gen[c].todo_tick += (uint64_t)gen[c].hold_ticks;
         }
         else
         {
-            gpio_pin_clear(gen[c].port, gen[c].pin);
+            GPIO_PIN_SET(gen[c].port, gen[c].pin_mask);
+            gen[c].todo_tick += (uint64_t)gen[c].setup_ticks;
         }
-    }
 
-    // save current tick value
-    tick_prev = tick;
+        --gen[c].task_toggles_todo; // decrease number of pin changes to do
+    }
 }
 
 
@@ -131,18 +105,18 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
     gpio_pin_setup_for_output(port, pin);
 
     gen[c].port = port;
-    gen[c].pin = pin;
-    gen[c].pin_inverted = inverted;
-    gen[c].pin_state = 0;
+    gen[c].pin_mask = 1U << pin;
+    gen[c].pin_mask_not = ~(gen[c].pin_mask);
+    gen[c].pin_inverted = inverted ? gen[c].pin_mask : 0;
 
     // set pin state
-    if ( gen[c].pin_state ^ gen[c].pin_inverted )
+    if ( gen[c].pin_inverted )
     {
-        gpio_pin_set(gen[c].port, gen[c].pin);
+        GPIO_PIN_SET(port, gen[c].pin_mask);
     }
     else
     {
-        gpio_pin_clear(gen[c].port, gen[c].pin);
+        GPIO_PIN_CLEAR(port, gen[c].pin_mask_not);
     }
 }
 
@@ -160,14 +134,15 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
  *
  * @retval  none
  */
-void pulsgen_task_setup(uint32_t c, uint32_t toggles, uint32_t pin_setup_time,
-    uint32_t pin_hold_time, uint32_t start_delay)
+void pulsgen_task_setup
+(
+    uint32_t c,
+    uint32_t toggles,
+    uint32_t pin_setup_time,
+    uint32_t pin_hold_time,
+    uint32_t start_delay
+)
 {
-    static uint32_t tick;
-
-    // get current CPU tick
-    tick = TIMER_CNT_GET();
-
     if ( c > max_id ) ++max_id;
 
     // set task data
@@ -181,16 +156,14 @@ void pulsgen_task_setup(uint32_t c, uint32_t toggles, uint32_t pin_setup_time,
     gen[c].hold_ticks = (uint32_t) ( (uint64_t)pin_hold_time *
         (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
 
-    gen[c].todo_tick = tick + gen[c].setup_ticks;
+    gen[c].todo_tick = timer_cnt_get_64() + (uint64_t)gen[c].setup_ticks;
 
     // if we need a delay before task start
     if ( start_delay )
     {
-        gen[c].todo_tick += (uint32_t) ( (uint64_t)start_delay *
-            (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
+        gen[c].todo_tick += (uint64_t)start_delay *
+            (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000;
     }
-
-    gen[c].todo_tick_ovrfl = gen[c].todo_tick < tick ? 1 : 0;
 }
 
 /**

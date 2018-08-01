@@ -16,7 +16,7 @@
 
 // private vars
 
-static uint32_t * gpio_port_data[GPIO_PORTS_CNT] =
+volatile uint32_t * gpio_port_data[GPIO_PORTS_CNT] =
 {
     (uint32_t *) ( (GPIO_BASE + PA * GPIO_BANK_SIZE) + 16 ),
     (uint32_t *) ( (GPIO_BASE + PB * GPIO_BANK_SIZE) + 16 ),
