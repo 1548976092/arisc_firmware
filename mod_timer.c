@@ -15,6 +15,15 @@
 
 
 
+// private vars
+
+static uint32_t cnt_curr = 0;
+static uint32_t cnt_prev = 0;
+static uint32_t cnt_ovfl = 0;
+
+
+
+
 // public methods
 
 /**
@@ -58,6 +67,22 @@ uint32_t timer_cnt_get()
 {
     // get system timer ticks counter value
     return or1k_mfspr(OR1K_SPR_TICK_TTCR_ADDR);
+}
+
+/**
+ * @brief   get system timer counter total value
+ * @retval  0 .. 2^64-1 (ticks)
+ */
+uint64_t timer_cnt_get_64()
+{
+    // get system timer ticks counter value
+    __asm__ __volatile__ ("l.mfspr\t\t%0,%1,0" : "=r" (cnt_curr) : "r" (OR1K_SPR_TICK_TTCR_ADDR));
+
+    if ( cnt_curr < cnt_prev ) ++cnt_ovfl;
+
+    cnt_prev = cnt_curr;
+
+    return (uint64_t)cnt_ovfl * (uint64_t)UINT32_MAX + (uint64_t)cnt_curr;
 }
 
 
