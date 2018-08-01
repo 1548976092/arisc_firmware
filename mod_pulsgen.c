@@ -75,12 +75,12 @@ void pulsgen_module_base_thread()
         if ( GPIO_PIN_GET(gen[c].port, gen[c].pin_mask) ^ gen[c].pin_inverted )
         {
             GPIO_PIN_CLEAR(gen[c].port, gen[c].pin_mask_not);
-            gen[c].todo_tick += (uint64_t)gen[c].hold_ticks;
+            gen[c].todo_tick += (uint64_t)gen[c].setup_ticks;
         }
         else
         {
             GPIO_PIN_SET(gen[c].port, gen[c].pin_mask);
-            gen[c].todo_tick += (uint64_t)gen[c].setup_ticks;
+            gen[c].todo_tick += (uint64_t)gen[c].hold_ticks;
         }
 
         --gen[c].task_toggles_todo; // decrease number of pin changes to do
@@ -126,21 +126,23 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
 /**
  * @brief   setup a new task for the selected channel
  *
- * @param   c           channel id
- * @param   period      pin state change period (in microseconds)
- * @param   toggles     number of pin state changes
- * @param   duty        duty cycle value (0..PULSGEN_MAX_DUTY)
- * @param   delay       task start delay (in microseconds)
+ * @param   c               channel id
+ * @param   toggles         number of pin state changes
+ * @param   pin_setup_time  pin state setup_time (in nanoseconds)
+ * @param   pin_hold_time   pin state hold_time (in nanoseconds)
+ * @param   start_delay     task start delay (in nanoseconds)
  *
  * @retval  none
  */
-void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t duty, uint32_t delay)
+void pulsgen_task_setup
+(
+    uint32_t c,
+    uint32_t toggles,
+    uint32_t pin_setup_time,
+    uint32_t pin_hold_time,
+    uint32_t start_delay
+)
 {
-    static uint32_t period_ticks;
-
-    // important checks
-    if ( !period || !duty ) return;
-
     if ( c > max_id ) ++max_id;
 
     // set task data
@@ -149,25 +151,18 @@ void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t du
     gen[c].task_toggles = toggles ? toggles : UINT32_MAX;
     gen[c].task_toggles_todo = gen[c].task_toggles;
 
-    // soft checks
-    if ( period >= PULSGEN_MAX_PERIOD ) period  = PULSGEN_MAX_PERIOD - 1;
-    if ( duty   >= PULSGEN_MAX_DUTY )   duty    = PULSGEN_MAX_DUTY   - 1;
+    gen[c].setup_ticks = (uint32_t) ( (uint64_t)pin_setup_time *
+        (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
+    gen[c].hold_ticks = (uint32_t) ( (uint64_t)pin_hold_time *
+        (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
 
-    period_ticks = (TIMER_FREQUENCY / 1000000) * period;
-
-    // uin32_t overflow fix
-    gen[c].hold_ticks = period_ticks < (UINT32_MAX/PULSGEN_MAX_DUTY) ?
-        period_ticks * duty / PULSGEN_MAX_DUTY :
-        period_ticks / PULSGEN_MAX_DUTY * duty ;
-
-    gen[c].setup_ticks = period_ticks - gen[c].hold_ticks;
-    gen[c].todo_tick = timer_cnt_get_64() + (uint64_t)gen[c].setup_ticks;
+    gen[c].todo_tick = timer_cnt_get_64() + (uint64_t)gen[c].hold_ticks;
 
     // if we need a delay before task start
-    if ( delay )
+    if ( start_delay )
     {
-        if ( delay >= PULSGEN_MAX_PERIOD ) delay = PULSGEN_MAX_PERIOD - 1;
-        gen[c].todo_tick += (uint64_t)((TIMER_FREQUENCY / 1000000) * delay);
+        gen[c].todo_tick += (uint64_t)start_delay *
+            (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000;
     }
 }
 
@@ -240,7 +235,7 @@ int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
         case PULSGEN_MSG_TASK_SETUP:
         {
             struct pulsgen_msg_task_setup_t in = *((struct pulsgen_msg_task_setup_t *) msg);
-            pulsgen_task_setup(in.ch, in.period, in.toggles, in.duty, in.delay);
+            pulsgen_task_setup(in.ch, in.toggles, in.pin_setup_time, in.pin_hold_time, in.start_delay);
             break;
         }
         case PULSGEN_MSG_TASK_ABORT:
@@ -295,7 +290,7 @@ int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
 
             // enable infinite PWM signal on the channel 0
             // PWM frequency = 20 kHz, duty cycle = 50%
-            pulsgen_task_setup(0, 50, 0, 50, 0);
+            pulsgen_task_setup(0, 0, 25000, 25000, 0);
 
             // main loop
             for(;;)
@@ -345,14 +340,15 @@ int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
                 {
                     if ( dir_output ) // if it's time to make a DIR change
                     {
-                        // make a DIR change with 1 kHz rate and 50% duty cycle
-                        pulsgen_task_setup(DIR_CHANNEL, 1000, 1, 50, 0);
+                        // make a DIR change with 20 kHz rate and 50% duty cycle
+                        pulsgen_task_setup(DIR_CHANNEL, 1, 25000, 25000, 0);
                         dir_output = 0;
                     }
                     else // if it's time to make a STEP output
                     {
-                        // start output of 1000 steps with 20 kHz rate and 50% duty cycle
-                        pulsgen_task_setup(STEP_CHANNEL, 50, 2000, 50, 0);
+                        // start output of 1000 steps with 20 kHz rate,
+                        // 50% duty cycle and startup delay = 50 us
+                        pulsgen_task_setup(STEP_CHANNEL, 2000, 25000, 25000, 50000);
                         dir_output = 1;
                     }
                 }
