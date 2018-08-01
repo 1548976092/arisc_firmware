@@ -60,7 +60,7 @@ void pulsgen_module_base_thread()
     // check all working channels
     for ( c = max_id + 1; c--; )
     {
-        if ( !gen[c].task || tick < gen[c].todo_tick ) continue;
+        if ( !gen[c].task ) continue;
 
         if ( !gen[c].task_infinite && !gen[c].task_toggles_todo ) // if we have no steps to do
         {
@@ -69,15 +69,17 @@ void pulsgen_module_base_thread()
             continue; // goto next channel
         }
 
+        if ( tick < gen[c].todo_tick ) continue;
+
         if ( gen[c].pin_state ) // if current pin state is HIGH
         {
             gen[c].pin_state = 0; // set pin state to LOW
-            gen[c].todo_tick += gen[c].setup_ticks; // set new timestamp
+            gen[c].todo_tick += (uint64_t)gen[c].setup_ticks; // set new timestamp
         }
         else // if current pin state is LOW
         {
             gen[c].pin_state = 1; // set step state to HIGH
-            gen[c].todo_tick += gen[c].hold_ticks; // set new timestamp
+            gen[c].todo_tick += (uint64_t)gen[c].hold_ticks; // set new timestamp
         }
 
         --gen[c].task_toggles_todo; // decrease number of pin changes to do
@@ -168,13 +170,13 @@ void pulsgen_task_setup(uint8_t c, uint32_t period, uint32_t toggles, uint8_t du
         period_ticks / PULSGEN_MAX_DUTY * duty ;
 
     gen[c].setup_ticks = period_ticks - gen[c].hold_ticks;
-    gen[c].todo_tick = TIMER_CNT_GET() + gen[c].setup_ticks;
+    gen[c].todo_tick = timer_cnt_get_64() + (uint64_t)gen[c].setup_ticks;
 
     // if we need a delay before task start
     if ( delay )
     {
         if ( delay >= PULSGEN_MAX_PERIOD ) delay = PULSGEN_MAX_PERIOD - 1;
-        gen[c].todo_tick += (TIMER_FREQUENCY / 1000000) * delay;
+        gen[c].todo_tick += (uint64_t)((TIMER_FREQUENCY / 1000000) * delay);
     }
 }
 
