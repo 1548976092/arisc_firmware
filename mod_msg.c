@@ -52,32 +52,24 @@ void msg_module_init(void)
  */
 void msg_module_base_thread(void)
 {
-    static uint8_t last = 0;
     static uint8_t m = 0;
-    static uint8_t i = 0;
 
-    // find next unread message
-    for ( i = MSG_MAX_CNT, m = last; i--; )
+    // process only one unread message per base thread
+    if ( msg_arm[m]->unread )
     {
-        // process only one unread message
-        if ( msg_arm[m]->unread )
+        // if we have a callback for this message type
+        if ( msg_recv_callback[msg_arm[m]->type] )
         {
-            // if we have a callback for this message type
-            if ( msg_recv_callback[msg_arm[m]->type] )
-            {
-                // call function with message data as parameters
-                (*msg_recv_callback[msg_arm[m]->type])(msg_arm[m]->type, msg_arm[m]->msg, msg_arm[m]->length);
-            }
-
-            // message read
-            msg_arm[m]->unread = 0;
-            last = m;
-            return;
+            // call function with message data as parameters
+            (*msg_recv_callback[msg_arm[m]->type])(msg_arm[m]->type, msg_arm[m]->msg, msg_arm[m]->length);
         }
 
-        ++m;
-        if ( m >= MSG_MAX_CNT ) m = 0;
+        // message read
+        msg_arm[m]->unread = 0;
     }
+
+    ++m;
+    if ( m >= MSG_MAX_CNT ) m = 0;
 }
 
 

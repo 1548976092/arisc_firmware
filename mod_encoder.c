@@ -72,13 +72,11 @@ void encoder_module_init()
  */
 void encoder_module_base_thread()
 {
-    static uint32_t c, A, B, Z, AB;
+    static uint8_t c = (ENCODER_CH_CNT - 1);
+    static uint32_t A, B, Z, AB;
 
-    // check all channels
-    for ( c = ENCODER_CH_CNT; c--; )
+    if ( enc[c].enabled )
     {
-        if ( !enc[c].enabled ) continue;
-
         if ( enc[c].using_Z ) // if we are using ABZ encoder
         {
             Z = GPIO_PIN_GET(enc[c].port[PH_Z], enc[c].pin_mask[PH_Z]);
@@ -115,6 +113,9 @@ void encoder_module_base_thread()
 
         enc[c].state[PH_A] = A;
     }
+
+    --c;
+    if ( !c ) c = (ENCODER_CH_CNT - 1);
 }
 
 
