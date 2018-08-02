@@ -18,8 +18,7 @@
 static struct msg_t * msg_arisc[MSG_MAX_CNT] = {0};
 static struct msg_t * msg_arm[MSG_MAX_CNT] = {0};
 
-static struct msg_recv_callback_t msg_recv_callback[MSG_RECV_CALLBACK_CNT] = {0};
-static uint8_t msg_recv_callback_max_id = 0;
+static msg_recv_func_t msg_recv_callback[MSG_RECV_CALLBACK_CNT] = {0};
 
 
 
@@ -63,14 +62,11 @@ void msg_module_base_thread(void)
         // process only one unread message
         if ( msg_arm[m]->unread )
         {
-            // walk through all `message received` callbacks
-            for( i = msg_recv_callback_max_id + 1; i--; )
+            // if we have a callback for this message type
+            if ( msg_recv_callback[msg_arm[m]->type] )
             {
-                // check callback's message type
-                if ( !msg_recv_callback[i].used || msg_recv_callback[i].msg_type != msg_arm[m]->type ) continue;
-
                 // call function with message data as parameters
-                (*msg_recv_callback[i].func)(msg_arm[m]->type, msg_arm[m]->msg, msg_arm[m]->length);
+                (*msg_recv_callback[msg_arm[m]->type])(msg_arm[m]->type, msg_arm[m]->msg, msg_arm[m]->length);
             }
 
             // message read
@@ -143,66 +139,23 @@ int8_t msg_send(uint8_t type, uint8_t * msg, uint8_t length)
  * @param   msg_type    user defined message type (0..0xFF)
  * @param   func        pointer to the callback function
  *
- * @retval  0..MSG_RECV_CALLBACK_CNT (callback id)
- * @retval  -1 (callback wasn't added)
+ * @retval  none
  */
-int8_t msg_recv_callback_add(uint8_t msg_type, msg_recv_func_t func)
+void msg_recv_callback_add(uint8_t msg_type, msg_recv_func_t func)
 {
-    static uint8_t c;
-
-    // find free callback slot
-    for( c = 0; c < MSG_RECV_CALLBACK_CNT; ++c )
-    {
-        if ( !msg_recv_callback[c].used ) break;
-    }
-
-    // return if there are no free callback slots
-    if ( c >= MSG_RECV_CALLBACK_CNT ) return -1;
-
-    // if needed increase callback max ID
-    if ( c > msg_recv_callback_max_id ) msg_recv_callback_max_id = c;
-
     // add the callback to the list
-    msg_recv_callback[c].used = 1;
-    msg_recv_callback[c].msg_type = msg_type;
-    msg_recv_callback[c].func = func;
-
-    // return callback id
-    return c;
+    msg_recv_callback[msg_type] = func;
 }
 
 /**
  * @brief   remove the callback function from the list of "message received callbacks"
- *
- * @param   callback_id     callback function id (0..MSG_RECV_CALLBACK_CNT)
- *                          returned by the msg_add_recv_callback()
- *
- * @retval   0 (callback removed)
- * @retval  -1 (callback wasn't removed)
+ * @param   msg_type    user defined message type (0..0xFF)
+ * @retval  none
  */
-int8_t msg_recv_callback_remove(uint8_t callback_id)
+void msg_recv_callback_remove(uint8_t msg_type)
 {
-    static int8_t c;
-
-    if ( callback_id > msg_recv_callback_max_id ) return -1;
-    if ( !msg_recv_callback[callback_id].used ) return -1;
-
     // remove callback from the list
-    msg_recv_callback[callback_id].used = 0;
-
-    // if needed decrease callback max ID
-    if ( callback_id == msg_recv_callback_max_id )
-    {
-        for( c = callback_id; c--; )
-        {
-            if ( !msg_recv_callback[c].used ) continue;
-        }
-
-        msg_recv_callback_max_id = c < 0 ? 0 : c;
-    }
-
-    // return `callback removed`
-    return 0;
+    msg_recv_callback[msg_type] = (msg_recv_func_t) 0;
 }
 
 
@@ -218,7 +171,6 @@ int8_t msg_recv_callback_remove(uint8_t callback_id)
         #include <stdint.h>
         #include "mod_msg.h"
 
-        int callback_id = 0; // messages callback id
         int msg_counter = 0; // messages counter
 
         // callback for the `message received` event
@@ -229,7 +181,7 @@ int8_t msg_recv_callback_remove(uint8_t callback_id)
             // increase messages count
             msg_counter++;
             // abort messages receiving after 100 incoming messages
-            if ( msg_counter >= 100 ) msg_recv_callback_remove(callback_id);
+            if ( msg_counter >= 100 ) msg_recv_callback_remove(type);
             // normal exit
             return 0;
         }
@@ -240,7 +192,7 @@ int8_t msg_recv_callback_remove(uint8_t callback_id)
             msg_module_init();
 
             // assign incoming messages callback for the message type 123
-            callback_id = msg_recv_callback_add(123, (msg_recv_func_t) &msg_received);
+            msg_recv_callback_add(123, (msg_recv_func_t) &msg_received);
 
             // main loop
             for(;;)
