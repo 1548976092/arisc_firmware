@@ -40,7 +40,6 @@ int main(void)
         msg_module_base_thread();
         encoder_module_base_thread();
         pulsgen_module_base_thread();
-        gpio_module_base_thread();
     }
 
     return 0;

@@ -28,9 +28,6 @@ volatile uint32_t * gpio_port_data[GPIO_PORTS_CNT] =
     (uint32_t *) ( (GPIO_R_BASE                    ) + 16 )
 };
 
-static uint32_t gpio_set_ctrl[GPIO_PORTS_CNT] = {0};
-static uint32_t gpio_clr_ctrl[GPIO_PORTS_CNT] = {0};
-
 static uint8_t msg_buf[GPIO_MSG_BUF_LEN] = {0};
 
 
@@ -83,39 +80,6 @@ void gpio_module_init()
     }
 }
 
-/**
- * @brief   module base thread
- * @note    call this function in the end of main loop
- * @retval  none
- */
-void gpio_module_base_thread()
-{
-    // port id
-    static uint8_t p;
-
-    // walk through all gpio ports
-    for( p = GPIO_PORTS_CNT; p--; )
-    {
-        // if we need to set some pins
-        if ( gpio_set_ctrl[p] )
-        {
-            // set pins
-            *gpio_port_data[p] |= gpio_set_ctrl[p];
-            // clear set control flags
-            gpio_set_ctrl[p] = 0;
-        }
-
-        // if we need to reset some pins
-        if ( gpio_clr_ctrl[p] )
-        {
-            // reset pins
-            *gpio_port_data[p] &= ~(gpio_clr_ctrl[p]);
-            // clear reset control flags
-            gpio_clr_ctrl[p] = 0;
-        }
-    }
-}
-
 
 
 
@@ -164,11 +128,7 @@ uint32_t gpio_pin_get(uint32_t port, uint32_t pin)
  */
 void gpio_pin_set(uint32_t port, uint32_t pin)
 {
-    static uint32_t pin_mask;
-
-    pin_mask = 1U << pin;
-    gpio_set_ctrl[port] |= pin_mask;
-    gpio_clr_ctrl[port] &= ~pin_mask;
+    *gpio_port_data[port] |= (1U << pin);
 }
 
 /**
@@ -179,11 +139,7 @@ void gpio_pin_set(uint32_t port, uint32_t pin)
  */
 void gpio_pin_clear(uint32_t port, uint32_t pin)
 {
-    static uint32_t pin_mask;
-
-    pin_mask = 1U << pin;
-    gpio_set_ctrl[port] &= ~pin_mask;
-    gpio_clr_ctrl[port] |= pin_mask;
+    *gpio_port_data[port] &= ~(1U << pin);
 }
 
 
@@ -214,8 +170,7 @@ uint32_t gpio_port_get(uint32_t port)
  */
 void gpio_port_set(uint32_t port, uint32_t mask)
 {
-    gpio_set_ctrl[port] |= mask;
-    gpio_clr_ctrl[port] &= ~mask;
+    *gpio_port_data[port] |= mask;
 }
 
 /**
@@ -232,8 +187,7 @@ void gpio_port_set(uint32_t port, uint32_t mask)
  */
 void gpio_port_clear(uint32_t port, uint32_t mask)
 {
-    gpio_set_ctrl[port] &= ~mask;
-    gpio_clr_ctrl[port] |= mask;
+    *gpio_port_data[port] &= ~mask;
 }
 
 

@@ -98,7 +98,6 @@ struct gpio_msg_state_t     { uint32_t state; };
 // export public methods
 
 void gpio_module_init();
-void gpio_module_base_thread();
 
 void gpio_pin_setup_for_output(uint32_t port, uint32_t pin);
 void gpio_pin_setup_for_input(uint32_t port, uint32_t pin);
