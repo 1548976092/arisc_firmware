@@ -1,7 +1,6 @@
 var mod__msg_8h =
 [
     [ "msg_t", "structmsg__t.html", "structmsg__t" ],
-    [ "msg_recv_callback_t", "structmsg__recv__callback__t.html", "structmsg__recv__callback__t" ],
     [ "SRAM_A2_SIZE", "mod__msg_8h.html#af3308b172a869d3042b4c4d1cafca7ec", null ],
     [ "SRAM_A2_ADDR", "mod__msg_8h.html#a32db712b349f9407972e7432c54ebb16", null ],
     [ "ARISC_CONF_SIZE", "mod__msg_8h.html#a50896bb5fb2262810a3c8e647136d557", null ],
@@ -19,6 +18,6 @@ var mod__msg_8h =
     [ "msg_module_init", "mod__msg_8h.html#a577ee695bade6a55efa4c5a7d9866a74", null ],
     [ "msg_module_base_thread", "mod__msg_8h.html#ac7611d9252e22be0140ad3beb46eb8a2", null ],
     [ "msg_send", "mod__msg_8h.html#aad162e5eb1e3fb9806dc50c01ecb7d70", null ],
-    [ "msg_recv_callback_add", "mod__msg_8h.html#a9b81d0f3fd3a2c65be602b153d550c18", null ],
-    [ "msg_recv_callback_remove", "mod__msg_8h.html#a34fa3469d8c1c91c6a719438120c8fc5", null ]
+    [ "msg_recv_callback_add", "mod__msg_8h.html#a51c02043fa74dd30c73670ca0c066727", null ],
+    [ "msg_recv_callback_remove", "mod__msg_8h.html#a99224966c8fcbf2162a8949640e99684", null ]
 ];

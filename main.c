@@ -3,13 +3,15 @@
  *
  * @mainpage    CNC firmware for the Allwinner H3 ARISC co-processor
  *
+ * http://orange-cnc.ru/
+ *
  * The firmware uses by Orange Pi boards to help the
  *      <a href="http://linuxcnc.org">LinuxCNC</a>
  * and
  *      <a href="http://machinekit.io">Machinekit</a>
  * make a real-time @b GPIO manipulations.
  *
- * http://github.com/orangecnc/h3_arisc_firmware
+ * http://github.com/orange-cnc/h3_arisc_firmware
  *
  */
 

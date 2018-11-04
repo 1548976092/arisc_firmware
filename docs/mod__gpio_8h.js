@@ -49,7 +49,6 @@ var mod__gpio_8h =
     [ "GPIO_MSG_PORT_SET", "mod__gpio_8h.html#a61dadd085c1777f559549e05962b2c9eae1d94321b43efb28bc2316670f43fd9a", null ],
     [ "GPIO_MSG_PORT_CLEAR", "mod__gpio_8h.html#a61dadd085c1777f559549e05962b2c9eaf9b1ca8fbf09ee6def630e34ea3328fd", null ],
     [ "gpio_module_init", "mod__gpio_8h.html#add17353cd876e503abc3fa755f5baca7", null ],
-    [ "gpio_module_base_thread", "mod__gpio_8h.html#a8b9c32f68920e472b165ff4301a53236", null ],
     [ "gpio_pin_setup_for_output", "mod__gpio_8h.html#a0d3aaed2e4c7b9fc6e3619d087c6aac3", null ],
     [ "gpio_pin_setup_for_input", "mod__gpio_8h.html#a68a572d2c6ed3a3b5d5a75def0f78cc5", null ],
     [ "gpio_pin_get", "mod__gpio_8h.html#ad3f870ee59aefb0a99bd6cc4e7d7fd58", null ],

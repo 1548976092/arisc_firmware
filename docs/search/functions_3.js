@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['gpio_5fmodule_5fbase_5fthread',['gpio_module_base_thread',['../mod__gpio_8c.html#a8b9c32f68920e472b165ff4301a53236',1,'gpio_module_base_thread():&#160;mod_gpio.c'],['../mod__gpio_8h.html#a8b9c32f68920e472b165ff4301a53236',1,'gpio_module_base_thread():&#160;mod_gpio.c']]],
   ['gpio_5fmodule_5finit',['gpio_module_init',['../mod__gpio_8c.html#add17353cd876e503abc3fa755f5baca7',1,'gpio_module_init():&#160;mod_gpio.c'],['../mod__gpio_8h.html#add17353cd876e503abc3fa755f5baca7',1,'gpio_module_init():&#160;mod_gpio.c']]],
   ['gpio_5fmsg_5frecv',['gpio_msg_recv',['../mod__gpio_8c.html#a4fc4234962ca0dfcb1c8a81b5a863668',1,'gpio_msg_recv(uint8_t type, uint8_t *msg, uint8_t length):&#160;mod_gpio.c'],['../mod__gpio_8h.html#a4fc4234962ca0dfcb1c8a81b5a863668',1,'gpio_msg_recv(uint8_t type, uint8_t *msg, uint8_t length):&#160;mod_gpio.c']]],
   ['gpio_5fpin_5fclear',['gpio_pin_clear',['../mod__gpio_8c.html#a6f4fd583d7d2c87e80487e15e9b1565a',1,'gpio_pin_clear(uint32_t port, uint32_t pin):&#160;mod_gpio.c'],['../mod__gpio_8h.html#a6f4fd583d7d2c87e80487e15e9b1565a',1,'gpio_pin_clear(uint32_t port, uint32_t pin):&#160;mod_gpio.c']]],

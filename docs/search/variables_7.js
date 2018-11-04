@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['length',['length',['../structmsg__t.html#ab2b3adeb2a67e656ff030b56727fd0ac',1,'msg_t']]],
-  ['locked',['locked',['../structmsg__t.html#ae6842f8b779e076afaa64556f1d0706a',1,'msg_t']]]
+  ['mask',['mask',['../structgpio__msg__port__mask__t.html#ad3bee21df6875eeccd25d3c577e0600a',1,'gpio_msg_port_mask_t']]],
+  ['msg',['msg',['../structmsg__t.html#a8f02bea0351df54ac6794cd4bc91f44e',1,'msg_t']]]
 ];

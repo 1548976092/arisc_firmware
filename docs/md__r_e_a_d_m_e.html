@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>OrangeCNC - ARISC firmware: gpio_msg_port_mask_t Struct Reference</title>
+<title>OrangeCNC - ARISC firmware: It&#39;s free firmware for the Allwinner H3 SoC&#39;s co-processor (ARISC)</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('structgpio__msg__port__mask__t.html','');});
+$(document).ready(function(){initNavTree('md__r_e_a_d_m_e.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -79,60 +79,41 @@ $(document).ready(function(){initNavTree('structgpio__msg__port__mask__t.html','
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">gpio_msg_port_mask_t Struct Reference</div>  </div>
+<div class="title">It's free firmware for the Allwinner H3 SoC's co-processor (ARISC) </div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p><code>#include &lt;<a class="el" href="mod__gpio_8h_source.html">mod_gpio.h</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Data Fields</h2></td></tr>
-<tr class="memitem:a83a04ad582de2b7d36b96f9db429c2c6"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgpio__msg__port__mask__t.html#a83a04ad582de2b7d36b96f9db429c2c6">port</a></td></tr>
-<tr class="separator:a83a04ad582de2b7d36b96f9db429c2c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3bee21df6875eeccd25d3c577e0600a"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgpio__msg__port__mask__t.html#ad3bee21df6875eeccd25d3c577e0600a">mask</a></td></tr>
-<tr class="separator:ad3bee21df6875eeccd25d3c577e0600a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Field Documentation</h2>
-<a id="a83a04ad582de2b7d36b96f9db429c2c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83a04ad582de2b7d36b96f9db429c2c6">&#9670;&nbsp;</a></span>port</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t port</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad3bee21df6875eeccd25d3c577e0600a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3bee21df6875eeccd25d3c577e0600a">&#9670;&nbsp;</a></span>mask</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t mask</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="mod__gpio_8h_source.html">mod_gpio.h</a></li>
+<div class="textblock"><ul>
+<li>This firmware uses to make a real-time <code>GPIO</code> pulses generation and counting.</li>
+<li>This firmware can be used for the any <code>CNC</code> applications - <code>STEP/DIR</code> and <code>PWM</code> generation, <code>ABZ</code> encoders counting.</li>
 </ul>
-</div><!-- contents -->
+<h2>How to build? </h2>
+<ul>
+<li>You'll need any <code>Linux OS</code> and a <code>custom toolchain</code>.</li>
+<li>Download the toolchain binaries from here - <a href="https://github.com/openrisc/newlib/releases">https://github.com/openrisc/newlib/releases</a></li>
+<li>Unpack toolchain binary files into the <code>/opt/toolchains/or1k-elf</code> folder</li>
+<li>Clone this repo to any folder: <code>$ git clone <a href="https://github.com/orangecnc/h3_arisc_firmware.git">https://github.com/orangecnc/h3_arisc_firmware.git</a></code></li>
+<li>Build the firmware by the <code>make all</code> command</li>
+</ul>
+<h2>How to use? </h2>
+<ul>
+<li>You'll need any <code>Orange Pi</code> board with <code>Alwinner H3 SoC</code> and any <code>Linux OS</code> built by <code>armbian</code>. SD images can be found here - <a href="https://github.com/orangecnc/armbian_build/releases,">https://github.com/orangecnc/armbian_build/releases,</a> and here - <a href="https://www.armbian.com/download/">https://www.armbian.com/download/</a>.</li>
+<li>Copy <code>arisc-fw.code</code> binary file and all files from repo's folder <code>/loader</code> into the <code>/boot</code> folder of your <code>Armbian OS</code>.</li>
+<li>Restart your <code>Orange Pi</code> board.</li>
+<li>Clone arisc linux API repo to any folder of your <code>Armbian OS</code>: <code>$ git clone <a href="https://github.com/orangecnc/h3_arisc_api.git">https://github.com/orangecnc/h3_arisc_api.git</a></code></li>
+<li>Build arisc linux API by the <code>make all</code> command</li>
+<li>Run arisc linux API: <code>$ ./arisc</code></li>
+</ul>
+<h2>Where I can download pre-built binaries? </h2>
+<ul>
+<li><a href="https://github.com/orangecnc/h3_arisc_firmware/releases">https://github.com/orangecnc/h3_arisc_firmware/releases</a></li>
+<li><a href="https://github.com/orangecnc/h3_arisc_api/releases">https://github.com/orangecnc/h3_arisc_api/releases</a> </li>
+</ul>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="structgpio__msg__port__mask__t.html">gpio_msg_port_mask_t</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>

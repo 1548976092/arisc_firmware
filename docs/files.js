@@ -1,6 +1,6 @@
 var files =
 [
-    [ "arisc-fw.as", "arisc-fw_8as.html", "arisc-fw_8as" ],
+    [ "arisc-fw.as", "arisc-fw_8as.html", null ],
     [ "io.h", "io_8h.html", "io_8h" ],
     [ "libgcc.c", "libgcc_8c.html", "libgcc_8c" ],
     [ "main.c", "main_8c.html", "main_8c" ],
