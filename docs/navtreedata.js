@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "OrangeCNC - ARISC firmware", "index.html", [
+  [ "OrangeCNC - ARISC firmware documentation", "index.html", [
     [ "CNC firmware for the Allwinner H3 ARISC co-processor", "index.html", null ],
     [ "It's free firmware for the Allwinner H3 SoC's co-processor (ARISC)", "md__r_e_a_d_m_e.html", null ],
     [ "Data Structures", "annotated.html", [
