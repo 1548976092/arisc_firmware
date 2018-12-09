@@ -150,7 +150,7 @@ void pulsgen_task_setup
     gen[c].hold_ticks = (uint32_t) ( (uint64_t)pin_hold_time *
         (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
 
-    gen[c].todo_tick = timer_cnt_get_64() + (uint64_t)gen[c].hold_ticks;
+    gen[c].todo_tick = timer_cnt_get_64();
 
     // if we need a delay before task start
     if ( start_delay )
