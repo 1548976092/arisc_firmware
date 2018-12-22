@@ -51,7 +51,8 @@ enum
     PULSGEN_MSG_TASK_SETUP,
     PULSGEN_MSG_TASK_ABORT,
     PULSGEN_MSG_TASK_STATE,
-    PULSGEN_MSG_TASK_TOGGLES
+    PULSGEN_MSG_TASK_TOGGLES,
+    PULSGEN_MSG_WATCHDOG_SETUP
 };
 
 /// the message data sizes
@@ -64,6 +65,7 @@ struct pulsgen_msg_task_setup_t { uint32_t ch; uint32_t toggles;
 struct pulsgen_msg_ch_t { uint32_t ch; };
 struct pulsgen_msg_state_t { uint32_t state; };
 struct pulsgen_msg_toggles_t { uint32_t toggles; };
+struct pulsgen_msg_watchdog_setup_t { uint32_t enable; uint32_t time; };
 
 
 
@@ -83,6 +85,8 @@ void pulsgen_task_abort(uint8_t c);
 uint8_t pulsgen_task_state(uint8_t c);
 uint32_t pulsgen_task_toggles(uint8_t c);
 int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length);
+
+void pulsgen_watchdog_setup(uint8_t enable, uint32_t time);
 
 
 

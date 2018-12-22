@@ -19,6 +19,7 @@
 static uint8_t max_id = 0; // maximum channel id
 static struct pulsgen_ch_t gen[PULSGEN_CH_CNT] = {0}; // array of channels data
 static uint8_t msg_buf[PULSGEN_MSG_BUF_LEN] = {0};
+static uint64_t tick = 0, wd_ticks = 0, wd_todo_tick = 0;
 
 // uses with GPIO module macros
 extern volatile uint32_t * gpio_port_data[GPIO_PORTS_CNT];
@@ -54,18 +55,21 @@ void pulsgen_module_init()
  */
 void pulsgen_module_base_thread()
 {
-    static uint8_t c;
-    static uint64_t tick;
+    static uint8_t c, abort_all = 0;
 
     // get current CPU tick
     tick = timer_cnt_get_64();
+
+    // watchdog check
+    if ( wd_todo_tick && tick > wd_todo_tick ) abort_all = 1;
 
     // check all working channels
     for ( c = max_id + 1; c--; )
     {
         if ( !gen[c].task || tick < gen[c].todo_tick ) continue;
 
-        if ( !gen[c].task_infinite && !gen[c].task_toggles_todo ) // if we have no steps to do
+        // if watchdog time is over OR we have no steps to do
+        if ( abort_all || (!gen[c].task_infinite && !gen[c].task_toggles_todo) )
         {
             gen[c].task = 0; // disable channel
             if ( max_id && c == max_id ) --max_id; // if needed decrease channels max ID value
@@ -85,6 +89,8 @@ void pulsgen_module_base_thread()
 
         --gen[c].task_toggles_todo; // decrease number of pin changes to do
     }
+
+    if ( abort_all ) abort_all = 0;
 }
 
 
@@ -150,7 +156,7 @@ void pulsgen_task_setup
     gen[c].hold_ticks = (uint32_t) ( (uint64_t)pin_hold_time *
         (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
 
-    gen[c].todo_tick = timer_cnt_get_64();
+    gen[c].todo_tick = tick;
 
     // if we need a delay before task start
     if ( start_delay )
@@ -202,6 +208,23 @@ uint32_t pulsgen_task_toggles(uint8_t c)
 
 
 /**
+ * @brief   enable/disable `abort all` watchdog
+ * @param   enable      0 = disable watchdog, other values - enable watchdog
+ * @param   time        watchdog wait time (in nanoseconds)
+ * @retval  none
+ */
+void pulsgen_watchdog_setup(uint8_t enable, uint32_t time)
+{
+    if ( !enable ) { wd_todo_tick = 0; return; }
+
+    wd_ticks = (uint64_t)time * (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000;
+    wd_todo_tick = tick + wd_ticks;
+}
+
+
+
+
+/**
  * @brief   "message received" callback
  *
  * @note    this function will be called automatically
@@ -217,6 +240,9 @@ uint32_t pulsgen_task_toggles(uint8_t c)
 int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
 {
     static uint8_t i = 0;
+
+    // any incoming message will update the watchdog wait time
+    if ( wd_todo_tick ) wd_todo_tick = tick + wd_ticks;
 
     switch (type)
     {
@@ -252,6 +278,12 @@ int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             struct pulsgen_msg_toggles_t out = *((struct pulsgen_msg_toggles_t *) &msg_buf);
             out.toggles = pulsgen_task_toggles(in.ch);
             msg_send(type, (uint8_t*)&out, 4);
+            break;
+        }
+        case PULSGEN_MSG_WATCHDOG_SETUP:
+        {
+            struct pulsgen_msg_watchdog_setup_t in = *((struct pulsgen_msg_watchdog_setup_t *) msg);
+            pulsgen_watchdog_setup(in.enable, in.time);
             break;
         }
 
