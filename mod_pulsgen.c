@@ -42,7 +42,7 @@ void pulsgen_module_init()
     TIMER_START();
 
     // add message handlers
-    for ( i = PULSGEN_MSG_PIN_SETUP; i <= PULSGEN_MSG_TASK_TOGGLES; i++ )
+    for ( i = PULSGEN_MSG_PIN_SETUP; i <= PULSGEN_MSG_WATCHDOG_SETUP; i++ )
     {
         msg_recv_callback_add(i, (msg_recv_func_t) pulsgen_msg_recv);
     }
