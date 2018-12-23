@@ -1,6 +1,5 @@
 *.o
 *.bin
-*.code
 *.as
 /.settings
 /arisc-fw
