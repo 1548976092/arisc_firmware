@@ -79,12 +79,24 @@ void pulsgen_module_base_thread()
         if ( GPIO_PIN_GET(gen[c].port, gen[c].pin_mask) ^ gen[c].pin_inverted )
         {
             GPIO_PIN_CLEAR(gen[c].port, gen[c].pin_mask_not);
-            gen[c].todo_tick += (uint64_t)gen[c].setup_ticks;
+            if ( gen[c].abort_on_setup )
+            {
+                gen[c].task = 0;
+                gen[c].abort_on_setup = 0;
+                if ( max_id && c == max_id ) --max_id;
+            }
+            else gen[c].todo_tick += (uint64_t)gen[c].setup_ticks;
         }
         else
         {
             GPIO_PIN_SET(gen[c].port, gen[c].pin_mask);
-            gen[c].todo_tick += (uint64_t)gen[c].hold_ticks;
+            if ( gen[c].abort_on_hold )
+            {
+                gen[c].task = 0;
+                gen[c].abort_on_hold = 0;
+                if ( max_id && c == max_id ) --max_id;
+            }
+            else gen[c].todo_tick += (uint64_t)gen[c].hold_ticks;
         }
 
         --gen[c].task_toggles_todo; // decrease number of pin changes to do
@@ -169,13 +181,13 @@ void pulsgen_task_setup
 /**
  * @brief   abort current task for the selected channel
  * @param   c       channel id
+ * @param   when    0 = on pin state setup, !0 = on hold
  * @retval  none
  */
-void pulsgen_task_abort(uint8_t c)
+void pulsgen_task_abort(uint8_t c, uint8_t when)
 {
-    gen[c].task = 0;
-
-    if ( max_id && c == max_id ) --max_id;
+    if ( when ) gen[c].abort_on_hold = 1;
+    else gen[c].abort_on_setup = 1;
 }
 
 
@@ -260,8 +272,8 @@ int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
         }
         case PULSGEN_MSG_TASK_ABORT:
         {
-            struct pulsgen_msg_ch_t in = *((struct pulsgen_msg_ch_t *) msg);
-            pulsgen_task_abort(in.ch);
+            struct pulsgen_msg_abort_t in = *((struct pulsgen_msg_abort_t *) msg);
+            pulsgen_task_abort(in.ch, in.when);
             break;
         }
         case PULSGEN_MSG_TASK_STATE:
