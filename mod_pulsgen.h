@@ -17,7 +17,7 @@
 
 
 
-#define PULSGEN_CH_CNT      64  ///< maximum number of pulse generator channels
+#define PULSGEN_CH_CNT      32  ///< maximum number of pulse generator channels
 #define PULSGEN_FIFO_SIZE   4   ///< size of channel's fifo buffer
 
 
