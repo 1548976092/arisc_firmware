@@ -20,9 +20,27 @@ static uint8_t max_id = 0; // maximum channel id
 static struct pulsgen_ch_t gen[PULSGEN_CH_CNT] = {0}; // array of channels data
 static uint8_t msg_buf[PULSGEN_MSG_BUF_LEN] = {0};
 static uint64_t tick = 0, wd_ticks = 0, wd_todo_tick = 0;
+static struct pulsgen_fifo_item_t fifo[PULSGEN_CH_CNT][PULSGEN_FIFO_SIZE] = {{0}};
+static uint8_t fifo_pos[PULSGEN_CH_CNT] = {0};
 
 // uses with GPIO module macros
 extern volatile uint32_t * gpio_port_data[GPIO_PORTS_CNT];
+
+
+
+
+// private function prototypes
+
+static void task_abort(uint8_t c);
+static void task_setup
+(
+    uint32_t c,
+    uint32_t toggles,
+    uint32_t pin_setup_time,
+    uint32_t pin_hold_time,
+    uint32_t start_delay
+);
+
 
 
 
@@ -60,49 +78,62 @@ void pulsgen_module_base_thread()
     // get current CPU tick
     tick = timer_cnt_get_64();
 
-    // watchdog check
-    if ( wd_todo_tick && tick > wd_todo_tick ) abort_all = 1;
+    // have we a watchdog? && watchdog time is over?
+    if ( wd_todo_tick && tick > wd_todo_tick ) abort_all = 1; // set abort flag
 
     // check all working channels
     for ( c = max_id + 1; c--; )
     {
-        if ( !gen[c].task || tick < gen[c].todo_tick ) continue;
-
-        // if watchdog time is over OR we have no steps to do
-        if ( abort_all || (!gen[c].task_infinite && !gen[c].task_toggles_todo) )
+        // channel disabled?
+        if ( !gen[c].task ) continue;
+        // watchdog time is over?
+        if ( abort_all ) { task_abort(c); continue; }
+        // it's not a time for a pulse?
+        if ( tick < gen[c].todo_tick ) continue;
+        // no steps to do?
+        if ( !gen[c].task_infinite && !gen[c].task_toggles_todo )
         {
-            gen[c].task = 0; // disable channel
-            if ( max_id && c == max_id ) --max_id; // if needed decrease channels max ID value
-            continue; // goto next channel
+            // goto new fifo item
+            fifo[c][fifo_pos[c]].used = 0;
+            if ( (++fifo_pos[c]) >= PULSGEN_FIFO_SIZE ) fifo_pos[c] = 0;
+
+            // have we a new task in the fifo?
+            if ( fifo[c][fifo_pos[c]].used ) // setup new task
+            {
+                task_setup(c, fifo[c][fifo_pos[c]].toggles,
+                    fifo[c][fifo_pos[c]].pin_setup_time,
+                    fifo[c][fifo_pos[c]].pin_hold_time,
+                    fifo[c][fifo_pos[c]].start_delay);
+            }
+            else // disable channel
+            {
+                gen[c].task = 0;
+                if ( max_id && c == max_id ) --max_id;
+            }
+
+            continue;
         }
 
+        // pin state is HIGH?
         if ( GPIO_PIN_GET(gen[c].port, gen[c].pin_mask) ^ gen[c].pin_inverted )
         {
             GPIO_PIN_CLEAR(gen[c].port, gen[c].pin_mask_not);
-            if ( gen[c].abort_on_setup )
-            {
-                gen[c].task = 0;
-                gen[c].abort_on_setup = 0;
-                if ( max_id && c == max_id ) --max_id;
-            }
+            if ( gen[c].abort_on_setup ) task_abort(c);
             else gen[c].todo_tick += (uint64_t)gen[c].setup_ticks;
         }
-        else
+        else // pin state is LOW
         {
             GPIO_PIN_SET(gen[c].port, gen[c].pin_mask);
-            if ( gen[c].abort_on_hold )
-            {
-                gen[c].task = 0;
-                gen[c].abort_on_hold = 0;
-                if ( max_id && c == max_id ) --max_id;
-            }
+            if ( gen[c].abort_on_hold ) task_abort(c);
             else gen[c].todo_tick += (uint64_t)gen[c].hold_ticks;
         }
 
-        --gen[c].task_toggles_todo; // decrease number of pin changes to do
+        // decrease number of pin changes to do
+        --gen[c].task_toggles_todo;
     }
 
-    if ( abort_all ) abort_all = 0;
+    // watchdog time is over?
+    if ( abort_all ) abort_all = 0; // reset abort flag
 }
 
 
@@ -155,6 +186,42 @@ void pulsgen_task_setup
     uint32_t start_delay
 )
 {
+    uint8_t i, pos;
+
+    // channel is busy?
+    if ( gen[c].task )
+    {
+        // find free fifo slot for the new task
+        for ( i = PULSGEN_FIFO_SIZE, pos = fifo_pos[c] + 1; i--; pos++ )
+        {
+            if ( pos >= PULSGEN_FIFO_SIZE ) pos = 0;
+            if ( fifo[c][pos].used ) continue;
+
+            fifo[c][pos].used = 1;
+            fifo[c][pos].toggles = toggles;
+            fifo[c][pos].pin_setup_time = pin_setup_time;
+            fifo[c][pos].pin_hold_time = pin_hold_time;
+            fifo[c][pos].start_delay = start_delay;
+
+            return;
+        }
+
+        return;
+    }
+
+    // setup current task
+    task_setup(c, toggles, pin_setup_time, pin_hold_time, start_delay);
+}
+
+static void task_setup
+(
+    uint32_t c,
+    uint32_t toggles,
+    uint32_t pin_setup_time,
+    uint32_t pin_hold_time,
+    uint32_t start_delay
+)
+{
     if ( c > max_id ) ++max_id;
 
     // set task data
@@ -162,6 +229,8 @@ void pulsgen_task_setup
     gen[c].task_infinite = toggles ? 0 : 1;
     gen[c].task_toggles = toggles ? toggles : UINT32_MAX;
     gen[c].task_toggles_todo = gen[c].task_toggles;
+    gen[c].abort_on_hold = 0;
+    gen[c].abort_on_setup = 0;
 
     gen[c].setup_ticks = (uint32_t) ( (uint64_t)pin_setup_time *
         (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
@@ -178,6 +247,8 @@ void pulsgen_task_setup
     }
 }
 
+
+
 /**
  * @brief   abort current task for the selected channel
  * @param   c       channel id
@@ -188,6 +259,20 @@ void pulsgen_task_abort(uint8_t c, uint8_t when)
 {
     if ( when ) gen[c].abort_on_hold = 1;
     else gen[c].abort_on_setup = 1;
+}
+
+static void task_abort(uint8_t c)
+{
+    uint8_t i;
+
+    gen[c].abort_on_hold = 0;
+    gen[c].abort_on_setup = 0;
+    gen[c].task = 0;
+
+    if ( max_id && c == max_id ) --max_id;
+
+    // fifo cleanup
+    for ( i = PULSGEN_FIFO_SIZE; i--; ) fifo[c][i].used = 0;
 }
 
 
@@ -205,6 +290,9 @@ uint8_t pulsgen_task_state(uint8_t c)
 {
     return gen[c].task;
 }
+
+
+
 
 /**
  * @brief   get current pin state changes since task start

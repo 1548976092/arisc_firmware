@@ -18,6 +18,7 @@
 
 
 #define PULSGEN_CH_CNT      64  ///< maximum number of pulse generator channels
+#define PULSGEN_FIFO_SIZE   4   ///< size of channel's fifo buffer
 
 
 
@@ -44,6 +45,14 @@ struct pulsgen_ch_t
     uint64_t    todo_tick;          // timestamp (in CPU ticks) to change pin state
 };
 
+struct pulsgen_fifo_item_t
+{
+    uint8_t used;
+    uint32_t toggles;
+    uint32_t pin_setup_time;
+    uint32_t pin_hold_time;
+    uint32_t start_delay;
+};
 
 
 
