@@ -209,6 +209,9 @@ void pulsgen_task_setup
         return;
     }
 
+    // block current fifo item
+    fifo[c][fifo_pos[c]].used = 1;
+
     // setup current task
     task_setup(c, toggles, pin_setup_time, pin_hold_time, start_delay);
 }
