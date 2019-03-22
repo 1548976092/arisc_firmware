@@ -104,21 +104,6 @@ Data Structures</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__fifo__item__t.html">pulsgen_fifo_item_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__msg__pin__setup__t.html">pulsgen_msg_pin_setup_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">the message data access  <a href="structpulsgen__msg__pin__setup__t.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__msg__task__setup__t.html">pulsgen_msg_task_setup_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__msg__ch__t.html">pulsgen_msg_ch_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__msg__abort__t.html">pulsgen_msg_abort_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__msg__state__t.html">pulsgen_msg_state_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__msg__toggles__t.html">pulsgen_msg_toggles_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpulsgen__msg__watchdog__setup__t.html">pulsgen_msg_watchdog_setup_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
@@ -136,12 +121,18 @@ Macros</h2></td></tr>
 Enumerations</h2></td></tr>
 <tr class="memitem:a726ca809ffd3d67ab4b8476646f26635"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
 &#160;&#160;<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a0cfdb83de97fed5390059a75ece1a2a1">PULSGEN_MSG_PIN_SETUP</a> = 0x20, 
-<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a4ed5c026688964b55d300395c7b3ed81">PULSGEN_MSG_TASK_SETUP</a>, 
-<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635aff46de8fa06c68abfee746adfad990a2">PULSGEN_MSG_TASK_ABORT</a>, 
-<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635af2e9071628bf1da4b372cc1019c2d1af">PULSGEN_MSG_TASK_STATE</a>, 
+<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a4bab926d9eebfd828ccb350b65e1ec63">PULSGEN_MSG_TASK_ADD</a>, 
+<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a43d1c7d21037ab0dd6f3cf0957955776">PULSGEN_MSG_ABORT</a>, 
+<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a70976c7b78553d057bd361d5ba4a2b46">PULSGEN_MSG_STATE_GET</a>, 
 <br />
-&#160;&#160;<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635ad8da92b6b531ef3ab107ddc91c74fb43">PULSGEN_MSG_TASK_TOGGLES</a>, 
-<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a19cda710dd1ce32c296c9e9f8c1cc1a2">PULSGEN_MSG_WATCHDOG_SETUP</a>
+&#160;&#160;<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a988d85bb42c9d38844e2248144f726d4">PULSGEN_MSG_TASK_TOGGLES_GET</a>, 
+<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635abb6a085ac46f24e6b31c581c7c10f283">PULSGEN_MSG_TOGGLES_DONE_GET</a>, 
+<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a994a9121aa5bf7115b490562bacbe4c5">PULSGEN_MSG_TOGGLES_DONE_SET</a>, 
+<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635aaa712597dfb937af3f61747a473a7dd6">PULSGEN_MSG_TASKS_DONE_GET</a>, 
+<br />
+&#160;&#160;<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a47ef2555d0131ec5e7f66628a97a9190">PULSGEN_MSG_TASKS_DONE_SET</a>, 
+<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a19cda710dd1ce32c296c9e9f8c1cc1a2">PULSGEN_MSG_WATCHDOG_SETUP</a>, 
+<a class="el" href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a7c871ffc7aa95b514eb231b76519e993">PULSGEN_MSG_CNT</a>
 <br />
  }<tr class="memdesc:a726ca809ffd3d67ab4b8476646f26635"><td class="mdescLeft">&#160;</td><td class="mdescRight">messages types  <a href="mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635">More...</a><br /></td></tr>
 </td></tr>
@@ -158,18 +149,30 @@ Functions</h2></td></tr>
 <tr class="memitem:aaf0da9f93d3f28063e2e7e5fd5aedcd1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#aaf0da9f93d3f28063e2e7e5fd5aedcd1">pulsgen_pin_setup</a> (uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)</td></tr>
 <tr class="memdesc:aaf0da9f93d3f28063e2e7e5fd5aedcd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup GPIO pin for the selected channel  <a href="#aaf0da9f93d3f28063e2e7e5fd5aedcd1">More...</a><br /></td></tr>
 <tr class="separator:aaf0da9f93d3f28063e2e7e5fd5aedcd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab325c8935dfe8d9d0f669f943b20ab2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#ab325c8935dfe8d9d0f669f943b20ab2f">pulsgen_task_setup</a> (uint32_t c, uint32_t toggles, uint32_t pin_setup_time, uint32_t pin_hold_time, uint32_t start_delay)</td></tr>
-<tr class="memdesc:ab325c8935dfe8d9d0f669f943b20ab2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup a new task for the selected channel  <a href="#ab325c8935dfe8d9d0f669f943b20ab2f">More...</a><br /></td></tr>
-<tr class="separator:ab325c8935dfe8d9d0f669f943b20ab2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d7ab7d613c3b452b4956fad44fa8d91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#a6d7ab7d613c3b452b4956fad44fa8d91">pulsgen_task_abort</a> (uint8_t c, uint8_t when)</td></tr>
-<tr class="memdesc:a6d7ab7d613c3b452b4956fad44fa8d91"><td class="mdescLeft">&#160;</td><td class="mdescRight">abort current task for the selected channel  <a href="#a6d7ab7d613c3b452b4956fad44fa8d91">More...</a><br /></td></tr>
-<tr class="separator:a6d7ab7d613c3b452b4956fad44fa8d91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a652ad856d89b18eed422a8ec8cb20d40"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#a652ad856d89b18eed422a8ec8cb20d40">pulsgen_task_state</a> (uint8_t c)</td></tr>
-<tr class="memdesc:a652ad856d89b18eed422a8ec8cb20d40"><td class="mdescLeft">&#160;</td><td class="mdescRight">get current task state for the selected channel  <a href="#a652ad856d89b18eed422a8ec8cb20d40">More...</a><br /></td></tr>
-<tr class="separator:a652ad856d89b18eed422a8ec8cb20d40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2af31cbc459f2294d5571ea829d0d17"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#ae2af31cbc459f2294d5571ea829d0d17">pulsgen_task_toggles</a> (uint8_t c)</td></tr>
-<tr class="memdesc:ae2af31cbc459f2294d5571ea829d0d17"><td class="mdescLeft">&#160;</td><td class="mdescRight">get current pin state changes since task start  <a href="#ae2af31cbc459f2294d5571ea829d0d17">More...</a><br /></td></tr>
-<tr class="separator:ae2af31cbc459f2294d5571ea829d0d17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade550796ab335050c69edad17eaf901d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#ade550796ab335050c69edad17eaf901d">pulsgen_task_add</a> (uint32_t c, uint32_t toggles_dir, uint32_t toggles, uint32_t pin_setup_time, uint32_t pin_hold_time, uint32_t start_delay)</td></tr>
+<tr class="memdesc:ade550796ab335050c69edad17eaf901d"><td class="mdescLeft">&#160;</td><td class="mdescRight">add a new task for the selected channel  <a href="#ade550796ab335050c69edad17eaf901d">More...</a><br /></td></tr>
+<tr class="separator:ade550796ab335050c69edad17eaf901d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fd45bd82867966136b402354ca5b378"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#a3fd45bd82867966136b402354ca5b378">pulsgen_abort</a> (uint8_t c, uint8_t on_hold)</td></tr>
+<tr class="memdesc:a3fd45bd82867966136b402354ca5b378"><td class="mdescLeft">&#160;</td><td class="mdescRight">abort current task for the selected channel  <a href="#a3fd45bd82867966136b402354ca5b378">More...</a><br /></td></tr>
+<tr class="separator:a3fd45bd82867966136b402354ca5b378"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae49c2b0c123c0328dc0b352edf1ccc56"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#ae49c2b0c123c0328dc0b352edf1ccc56">pulsgen_state_get</a> (uint8_t c)</td></tr>
+<tr class="memdesc:ae49c2b0c123c0328dc0b352edf1ccc56"><td class="mdescLeft">&#160;</td><td class="mdescRight">get current task state for the selected channel  <a href="#ae49c2b0c123c0328dc0b352edf1ccc56">More...</a><br /></td></tr>
+<tr class="separator:ae49c2b0c123c0328dc0b352edf1ccc56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47e187a3a4d2366e008411c2eb41f7a5"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#a47e187a3a4d2366e008411c2eb41f7a5">pulsgen_task_toggles_get</a> (uint8_t c)</td></tr>
+<tr class="memdesc:a47e187a3a4d2366e008411c2eb41f7a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">get current pin state changes since task start  <a href="#a47e187a3a4d2366e008411c2eb41f7a5">More...</a><br /></td></tr>
+<tr class="separator:a47e187a3a4d2366e008411c2eb41f7a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab89af063f241465830cb628885e8eb66"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#ab89af063f241465830cb628885e8eb66">pulsgen_toggles_done_get</a> (uint8_t c)</td></tr>
+<tr class="memdesc:ab89af063f241465830cb628885e8eb66"><td class="mdescLeft">&#160;</td><td class="mdescRight">get total pin toggles  <a href="#ab89af063f241465830cb628885e8eb66">More...</a><br /></td></tr>
+<tr class="separator:ab89af063f241465830cb628885e8eb66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a719851041c19077c3b2648c4569d0e74"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#a719851041c19077c3b2648c4569d0e74">pulsgen_toggles_done_set</a> (uint8_t c, uint32_t toggles)</td></tr>
+<tr class="memdesc:a719851041c19077c3b2648c4569d0e74"><td class="mdescLeft">&#160;</td><td class="mdescRight">set total pin toggles value  <a href="#a719851041c19077c3b2648c4569d0e74">More...</a><br /></td></tr>
+<tr class="separator:a719851041c19077c3b2648c4569d0e74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a686d12d41d8c446583a29ab6d6db5999"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#a686d12d41d8c446583a29ab6d6db5999">pulsgen_tasks_done_get</a> (uint8_t c)</td></tr>
+<tr class="memdesc:a686d12d41d8c446583a29ab6d6db5999"><td class="mdescLeft">&#160;</td><td class="mdescRight">get total pin toggles  <a href="#a686d12d41d8c446583a29ab6d6db5999">More...</a><br /></td></tr>
+<tr class="separator:a686d12d41d8c446583a29ab6d6db5999"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a176dc5c37ce6f627e4344e45b9b7c265"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#a176dc5c37ce6f627e4344e45b9b7c265">pulsgen_tasks_done_set</a> (uint8_t c, uint32_t tasks)</td></tr>
+<tr class="memdesc:a176dc5c37ce6f627e4344e45b9b7c265"><td class="mdescLeft">&#160;</td><td class="mdescRight">set total pin toggles value  <a href="#a176dc5c37ce6f627e4344e45b9b7c265">More...</a><br /></td></tr>
+<tr class="separator:a176dc5c37ce6f627e4344e45b9b7c265"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03a23b001e94bf2b0bf906148fbc96fb"><td class="memItemLeft" align="right" valign="top">int8_t volatile&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8h.html#a03a23b001e94bf2b0bf906148fbc96fb">pulsgen_msg_recv</a> (uint8_t type, uint8_t *msg, uint8_t length)</td></tr>
 <tr class="memdesc:a03a23b001e94bf2b0bf906148fbc96fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">"message received" callback  <a href="#a03a23b001e94bf2b0bf906148fbc96fb">More...</a><br /></td></tr>
 <tr class="separator:a03a23b001e94bf2b0bf906148fbc96fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -245,11 +248,16 @@ Functions</h2></td></tr>
 <p>messages types </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a726ca809ffd3d67ab4b8476646f26635a0cfdb83de97fed5390059a75ece1a2a1"></a>PULSGEN_MSG_PIN_SETUP&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a726ca809ffd3d67ab4b8476646f26635a4ed5c026688964b55d300395c7b3ed81"></a>PULSGEN_MSG_TASK_SETUP&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a726ca809ffd3d67ab4b8476646f26635aff46de8fa06c68abfee746adfad990a2"></a>PULSGEN_MSG_TASK_ABORT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a726ca809ffd3d67ab4b8476646f26635af2e9071628bf1da4b372cc1019c2d1af"></a>PULSGEN_MSG_TASK_STATE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a726ca809ffd3d67ab4b8476646f26635ad8da92b6b531ef3ab107ddc91c74fb43"></a>PULSGEN_MSG_TASK_TOGGLES&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a726ca809ffd3d67ab4b8476646f26635a4bab926d9eebfd828ccb350b65e1ec63"></a>PULSGEN_MSG_TASK_ADD&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a726ca809ffd3d67ab4b8476646f26635a43d1c7d21037ab0dd6f3cf0957955776"></a>PULSGEN_MSG_ABORT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a726ca809ffd3d67ab4b8476646f26635a70976c7b78553d057bd361d5ba4a2b46"></a>PULSGEN_MSG_STATE_GET&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a726ca809ffd3d67ab4b8476646f26635a988d85bb42c9d38844e2248144f726d4"></a>PULSGEN_MSG_TASK_TOGGLES_GET&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a726ca809ffd3d67ab4b8476646f26635abb6a085ac46f24e6b31c581c7c10f283"></a>PULSGEN_MSG_TOGGLES_DONE_GET&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a726ca809ffd3d67ab4b8476646f26635a994a9121aa5bf7115b490562bacbe4c5"></a>PULSGEN_MSG_TOGGLES_DONE_SET&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a726ca809ffd3d67ab4b8476646f26635aaa712597dfb937af3f61747a473a7dd6"></a>PULSGEN_MSG_TASKS_DONE_GET&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a726ca809ffd3d67ab4b8476646f26635a47ef2555d0131ec5e7f66628a97a9190"></a>PULSGEN_MSG_TASKS_DONE_SET&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a726ca809ffd3d67ab4b8476646f26635a19cda710dd1ce32c296c9e9f8c1cc1a2"></a>PULSGEN_MSG_WATCHDOG_SETUP&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a726ca809ffd3d67ab4b8476646f26635a7c871ffc7aa95b514eb231b76519e993"></a>PULSGEN_MSG_CNT&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -364,17 +372,23 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ab325c8935dfe8d9d0f669f943b20ab2f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab325c8935dfe8d9d0f669f943b20ab2f">&#9670;&nbsp;</a></span>pulsgen_task_setup()</h2>
+<a id="ade550796ab335050c69edad17eaf901d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade550796ab335050c69edad17eaf901d">&#9670;&nbsp;</a></span>pulsgen_task_add()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void pulsgen_task_setup </td>
+          <td class="memname">void pulsgen_task_add </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>toggles_dir</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -408,11 +422,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>setup a new task for the selected channel </p>
+<p>add a new task for the selected channel </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>channel id </td></tr>
     <tr><td class="paramname">toggles</td><td>number of pin state changes </td></tr>
+    <tr><td class="paramname">toggles_dir</td><td>0 = toggles_done++, !0 = toggles_done&ndash; </td></tr>
     <tr><td class="paramname">pin_setup_time</td><td>pin state setup_time (in nanoseconds) </td></tr>
     <tr><td class="paramname">pin_hold_time</td><td>pin state hold_time (in nanoseconds) </td></tr>
     <tr><td class="paramname">start_delay</td><td>task start delay (in nanoseconds)</td></tr>
@@ -428,14 +443,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a6d7ab7d613c3b452b4956fad44fa8d91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d7ab7d613c3b452b4956fad44fa8d91">&#9670;&nbsp;</a></span>pulsgen_task_abort()</h2>
+<a id="a3fd45bd82867966136b402354ca5b378"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fd45bd82867966136b402354ca5b378">&#9670;&nbsp;</a></span>pulsgen_abort()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void pulsgen_task_abort </td>
+          <td class="memname">void pulsgen_abort </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>c</em>, </td>
@@ -444,7 +459,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>when</em>&#160;</td>
+          <td class="paramname"><em>on_hold</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -458,7 +473,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>channel id </td></tr>
-    <tr><td class="paramname">when</td><td>0 = on pin state setup, !0 = on hold </td></tr>
+    <tr><td class="paramname">on_hold</td><td>0 = on pin state setup, !0 = on hold </td></tr>
   </table>
   </dd>
 </dl>
@@ -471,14 +486,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a652ad856d89b18eed422a8ec8cb20d40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a652ad856d89b18eed422a8ec8cb20d40">&#9670;&nbsp;</a></span>pulsgen_task_state()</h2>
+<a id="ae49c2b0c123c0328dc0b352edf1ccc56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae49c2b0c123c0328dc0b352edf1ccc56">&#9670;&nbsp;</a></span>pulsgen_state_get()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t pulsgen_task_state </td>
+          <td class="memname">uint8_t pulsgen_state_get </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>c</em></td><td>)</td>
@@ -504,14 +519,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae2af31cbc459f2294d5571ea829d0d17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2af31cbc459f2294d5571ea829d0d17">&#9670;&nbsp;</a></span>pulsgen_task_toggles()</h2>
+<a id="a47e187a3a4d2366e008411c2eb41f7a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47e187a3a4d2366e008411c2eb41f7a5">&#9670;&nbsp;</a></span>pulsgen_task_toggles_get()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t pulsgen_task_toggles </td>
+          <td class="memname">uint32_t pulsgen_task_toggles_get </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>c</em></td><td>)</td>
@@ -524,6 +539,156 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>channel id </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">0..0xFFFFFFFF</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab89af063f241465830cb628885e8eb66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab89af063f241465830cb628885e8eb66">&#9670;&nbsp;</a></span>pulsgen_toggles_done_get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t pulsgen_toggles_done_get </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>c</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>get total pin toggles </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>channel id </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">0..0xFFFFFFFF</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a719851041c19077c3b2648c4569d0e74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a719851041c19077c3b2648c4569d0e74">&#9670;&nbsp;</a></span>pulsgen_toggles_done_set()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pulsgen_toggles_done_set </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>toggles</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>set total pin toggles value </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>channel id </td></tr>
+    <tr><td class="paramname">toggles</td><td>toggles count (0..0xFFFFFFFF) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">0..0xFFFFFFFF</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a686d12d41d8c446583a29ab6d6db5999"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a686d12d41d8c446583a29ab6d6db5999">&#9670;&nbsp;</a></span>pulsgen_tasks_done_get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t pulsgen_tasks_done_get </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>c</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>get total pin toggles </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>channel id </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">0..0xFFFFFFFF</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a176dc5c37ce6f627e4344e45b9b7c265"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a176dc5c37ce6f627e4344e45b9b7c265">&#9670;&nbsp;</a></span>pulsgen_tasks_done_set()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pulsgen_tasks_done_set </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>tasks</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>set total pin toggles value </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>channel id </td></tr>
+    <tr><td class="paramname">tasks</td><td>tasks count (0..0xFFFFFFFF) </td></tr>
   </table>
   </dd>
 </dl>

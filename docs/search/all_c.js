@@ -5,8 +5,8 @@ var searchData=
   ['setup_5fticks',['setup_ticks',['../structpulsgen__ch__t.html#a5923fa6a48da93d9579b7d027124a322',1,'pulsgen_ch_t']]],
   ['sram_5fa2_5faddr',['SRAM_A2_ADDR',['../mod__msg_8h.html#a32db712b349f9407972e7432c54ebb16',1,'mod_msg.h']]],
   ['sram_5fa2_5fsize',['SRAM_A2_SIZE',['../mod__msg_8h.html#af3308b172a869d3042b4c4d1cafca7ec',1,'mod_msg.h']]],
-  ['start_5fdelay',['start_delay',['../structpulsgen__fifo__item__t.html#a30102e0b364c4843924559c08e20338d',1,'pulsgen_fifo_item_t::start_delay()'],['../structpulsgen__msg__task__setup__t.html#a30102e0b364c4843924559c08e20338d',1,'pulsgen_msg_task_setup_t::start_delay()']]],
-  ['state',['state',['../structencoder__ch__t.html#a6ee97d98c992fa96d8667a2801139289',1,'encoder_ch_t::state()'],['../structencoder__msg__state__set__t.html#a1b0c7bd4d79798ef4e0ce23894c9aeb2',1,'encoder_msg_state_set_t::state()'],['../structencoder__msg__state__get__t.html#a1b0c7bd4d79798ef4e0ce23894c9aeb2',1,'encoder_msg_state_get_t::state()'],['../structgpio__msg__state__t.html#a1b0c7bd4d79798ef4e0ce23894c9aeb2',1,'gpio_msg_state_t::state()'],['../structpulsgen__msg__state__t.html#a1b0c7bd4d79798ef4e0ce23894c9aeb2',1,'pulsgen_msg_state_t::state()']]],
+  ['start_5fdelay',['start_delay',['../structpulsgen__fifo__item__t.html#a30102e0b364c4843924559c08e20338d',1,'pulsgen_fifo_item_t']]],
+  ['state',['state',['../structencoder__ch__t.html#a6ee97d98c992fa96d8667a2801139289',1,'encoder_ch_t::state()'],['../structencoder__msg__state__set__t.html#a1b0c7bd4d79798ef4e0ce23894c9aeb2',1,'encoder_msg_state_set_t::state()'],['../structencoder__msg__state__get__t.html#a1b0c7bd4d79798ef4e0ce23894c9aeb2',1,'encoder_msg_state_get_t::state()'],['../structgpio__msg__state__t.html#a1b0c7bd4d79798ef4e0ce23894c9aeb2',1,'gpio_msg_state_t::state()']]],
   ['sys_2ec',['sys.c',['../sys_8c.html',1,'']]],
   ['sys_2eh',['sys.h',['../sys_8h.html',1,'']]]
 ];

@@ -15,11 +15,5 @@ var annotated_dup =
     [ "msg_t", "structmsg__t.html", "structmsg__t" ],
     [ "pulsgen_ch_t", "structpulsgen__ch__t.html", "structpulsgen__ch__t" ],
     [ "pulsgen_fifo_item_t", "structpulsgen__fifo__item__t.html", "structpulsgen__fifo__item__t" ],
-    [ "pulsgen_msg_abort_t", "structpulsgen__msg__abort__t.html", "structpulsgen__msg__abort__t" ],
-    [ "pulsgen_msg_ch_t", "structpulsgen__msg__ch__t.html", "structpulsgen__msg__ch__t" ],
-    [ "pulsgen_msg_pin_setup_t", "structpulsgen__msg__pin__setup__t.html", "structpulsgen__msg__pin__setup__t" ],
-    [ "pulsgen_msg_state_t", "structpulsgen__msg__state__t.html", "structpulsgen__msg__state__t" ],
-    [ "pulsgen_msg_task_setup_t", "structpulsgen__msg__task__setup__t.html", "structpulsgen__msg__task__setup__t" ],
-    [ "pulsgen_msg_toggles_t", "structpulsgen__msg__toggles__t.html", "structpulsgen__msg__toggles__t" ],
-    [ "pulsgen_msg_watchdog_setup_t", "structpulsgen__msg__watchdog__setup__t.html", "structpulsgen__msg__watchdog__setup__t" ]
+    [ "u32_10_t", "structu32__10__t.html", "structu32__10__t" ]
 ];

@@ -1,6 +1,7 @@
 var mod__msg_8h =
 [
     [ "msg_t", "structmsg__t.html", "structmsg__t" ],
+    [ "u32_10_t", "structu32__10__t.html", "structu32__10__t" ],
     [ "SRAM_A2_SIZE", "mod__msg_8h.html#af3308b172a869d3042b4c4d1cafca7ec", null ],
     [ "SRAM_A2_ADDR", "mod__msg_8h.html#a32db712b349f9407972e7432c54ebb16", null ],
     [ "ARISC_CONF_SIZE", "mod__msg_8h.html#a50896bb5fb2262810a3c8e647136d557", null ],

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['enable',['enable',['../structpulsgen__msg__watchdog__setup__t.html#a2a5924f0ccbeda286ad424c62e651d11',1,'pulsgen_msg_watchdog_setup_t']]],
   ['enable_5fcaches',['enable_caches',['../sys_8c.html#aa0dc7fa903cefe8f15538560fa39b3e6',1,'enable_caches(void):&#160;sys.c'],['../sys_8h.html#aa0dc7fa903cefe8f15538560fa39b3e6',1,'enable_caches(void):&#160;sys.c']]],
   ['enabled',['enabled',['../structencoder__ch__t.html#a071e5007ca753b83d24505a6b6daba5c',1,'encoder_ch_t']]],
   ['encoder_5fch_5fcnt',['ENCODER_CH_CNT',['../mod__encoder_8h.html#ab01f0417d475385286c7e2ed25db2df6',1,'mod_encoder.h']]],
