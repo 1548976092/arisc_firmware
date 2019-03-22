@@ -33,8 +33,12 @@ struct pulsgen_ch_t
 
     uint8_t     task;               // 0 = "channel disabled"
     uint8_t     task_infinite;      // 0 = "make task_toggles and disable the channel"
-    uint32_t    task_toggles;       // total number of pin state changes
-    uint32_t    task_toggles_todo;  // current number of pin state changes we must to do
+    uint32_t    task_toggles;       // pin toggles for this task
+    uint32_t    task_toggles_todo;  // pin toggles left to do for this task
+
+    uint8_t     toggles_dir;        // 0 = toggles_done++, !0 = toggles_done--
+    uint32_t    toggles_done;       // total number of pin toggles
+    uint32_t    tasks_done;         // total number of tasks done
 
     uint32_t    setup_ticks;        // number of CPU ticks to prepare pin toggle
     uint32_t    hold_ticks;         // number of CPU ticks to hold pin state
@@ -48,6 +52,7 @@ struct pulsgen_ch_t
 struct pulsgen_fifo_item_t
 {
     uint8_t used;
+    uint8_t toggles_dir;
     uint32_t toggles;
     uint32_t pin_setup_time;
     uint32_t pin_hold_time;
@@ -60,25 +65,20 @@ struct pulsgen_fifo_item_t
 enum
 {
     PULSGEN_MSG_PIN_SETUP = 0x20,
-    PULSGEN_MSG_TASK_SETUP,
-    PULSGEN_MSG_TASK_ABORT,
-    PULSGEN_MSG_TASK_STATE,
-    PULSGEN_MSG_TASK_TOGGLES,
-    PULSGEN_MSG_WATCHDOG_SETUP
+    PULSGEN_MSG_TASK_ADD,
+    PULSGEN_MSG_ABORT,
+    PULSGEN_MSG_STATE_GET,
+    PULSGEN_MSG_TASK_TOGGLES_GET,
+    PULSGEN_MSG_TOGGLES_DONE_GET,
+    PULSGEN_MSG_TOGGLES_DONE_SET,
+    PULSGEN_MSG_TASKS_DONE_GET,
+    PULSGEN_MSG_TASKS_DONE_SET,
+    PULSGEN_MSG_WATCHDOG_SETUP,
+    PULSGEN_MSG_CNT
 };
 
 /// the message data sizes
 #define PULSGEN_MSG_BUF_LEN MSG_LEN
-
-/// the message data access
-struct pulsgen_msg_pin_setup_t { uint32_t ch; uint32_t port; uint32_t pin; uint32_t inverted; };
-struct pulsgen_msg_task_setup_t { uint32_t ch; uint32_t toggles;
-    uint32_t pin_setup_time; uint32_t pin_hold_time; uint32_t start_delay; };
-struct pulsgen_msg_ch_t { uint32_t ch; };
-struct pulsgen_msg_abort_t { uint32_t ch; uint32_t when; };
-struct pulsgen_msg_state_t { uint32_t state; };
-struct pulsgen_msg_toggles_t { uint32_t toggles; };
-struct pulsgen_msg_watchdog_setup_t { uint32_t enable; uint32_t time; };
 
 
 
@@ -87,18 +87,16 @@ struct pulsgen_msg_watchdog_setup_t { uint32_t enable; uint32_t time; };
 
 void pulsgen_module_init();
 void pulsgen_module_base_thread();
-
 void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted);
-
-void pulsgen_task_setup(uint32_t c, uint32_t toggles, uint32_t pin_setup_time,
-    uint32_t pin_hold_time, uint32_t start_delay);
-
-void pulsgen_task_abort(uint8_t c, uint8_t when);
-
-uint8_t pulsgen_task_state(uint8_t c);
-uint32_t pulsgen_task_toggles(uint8_t c);
+void pulsgen_task_add(uint32_t c, uint32_t toggles_dir, uint32_t toggles, uint32_t pin_setup_time, uint32_t pin_hold_time, uint32_t start_delay);
+void pulsgen_abort(uint8_t c, uint8_t on_hold);
+uint8_t pulsgen_state_get(uint8_t c);
+uint32_t pulsgen_task_toggles_get(uint8_t c);
+uint32_t pulsgen_toggles_done_get(uint8_t c);
+void pulsgen_toggles_done_set(uint8_t c, uint32_t toggles);
+uint32_t pulsgen_tasks_done_get(uint8_t c);
+void pulsgen_tasks_done_set(uint8_t c, uint32_t tasks);
 int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length);
-
 void pulsgen_watchdog_setup(uint8_t enable, uint32_t time);
 
 

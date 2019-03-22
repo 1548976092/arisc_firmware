@@ -31,10 +31,11 @@ extern volatile uint32_t * gpio_port_data[GPIO_PORTS_CNT];
 
 // private function prototypes
 
-static void task_abort(uint8_t c);
+static void abort(uint8_t c);
 static void task_setup
 (
     uint32_t c,
+    uint32_t toggles_dir,
     uint32_t toggles,
     uint32_t pin_setup_time,
     uint32_t pin_hold_time,
@@ -60,7 +61,7 @@ void pulsgen_module_init()
     TIMER_START();
 
     // add message handlers
-    for ( i = PULSGEN_MSG_PIN_SETUP; i <= PULSGEN_MSG_WATCHDOG_SETUP; i++ )
+    for ( i = PULSGEN_MSG_PIN_SETUP; i < PULSGEN_MSG_CNT; i++ )
     {
         msg_recv_callback_add(i, (msg_recv_func_t) pulsgen_msg_recv);
     }
@@ -87,7 +88,7 @@ void pulsgen_module_base_thread()
         // channel disabled?
         if ( !gen[c].task ) continue;
         // watchdog time is over?
-        if ( abort_all ) { task_abort(c); continue; }
+        if ( abort_all ) { abort(c); continue; }
         // it's not a time for a pulse?
         if ( tick < gen[c].todo_tick ) continue;
         // no steps to do?
@@ -100,7 +101,9 @@ void pulsgen_module_base_thread()
             // have we a new task in the fifo?
             if ( fifo[c][fifo_pos[c]].used ) // setup new task
             {
-                task_setup(c, fifo[c][fifo_pos[c]].toggles,
+                task_setup(c,
+                    fifo[c][fifo_pos[c]].toggles_dir,
+                    fifo[c][fifo_pos[c]].toggles,
                     fifo[c][fifo_pos[c]].pin_setup_time,
                     fifo[c][fifo_pos[c]].pin_hold_time,
                     fifo[c][fifo_pos[c]].start_delay);
@@ -118,18 +121,21 @@ void pulsgen_module_base_thread()
         if ( GPIO_PIN_GET(gen[c].port, gen[c].pin_mask) ^ gen[c].pin_inverted )
         {
             GPIO_PIN_CLEAR(gen[c].port, gen[c].pin_mask_not);
-            if ( gen[c].abort_on_setup ) task_abort(c);
+            if ( gen[c].abort_on_setup ) abort(c);
             else gen[c].todo_tick += (uint64_t)gen[c].setup_ticks;
         }
         else // pin state is LOW
         {
             GPIO_PIN_SET(gen[c].port, gen[c].pin_mask);
-            if ( gen[c].abort_on_hold ) task_abort(c);
+            if ( gen[c].abort_on_hold ) abort(c);
             else gen[c].todo_tick += (uint64_t)gen[c].hold_ticks;
         }
 
-        // decrease number of pin changes to do
+        // decrease pin toggles to do
         --gen[c].task_toggles_todo;
+
+        // update total toggles value
+        gen[c].toggles_done += gen[c].task_toggles * (gen[c].toggles_dir ? -1 : 1);
     }
 
     // watchdog time is over?
@@ -167,19 +173,21 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
 
 
 /**
- * @brief   setup a new task for the selected channel
+ * @brief   add a new task for the selected channel
  *
  * @param   c               channel id
  * @param   toggles         number of pin state changes
+ * @param   toggles_dir     0 = toggles_done++, !0 = toggles_done--
  * @param   pin_setup_time  pin state setup_time (in nanoseconds)
  * @param   pin_hold_time   pin state hold_time (in nanoseconds)
  * @param   start_delay     task start delay (in nanoseconds)
  *
  * @retval  none
  */
-void pulsgen_task_setup
+void pulsgen_task_add
 (
     uint32_t c,
+    uint32_t toggles_dir,
     uint32_t toggles,
     uint32_t pin_setup_time,
     uint32_t pin_hold_time,
@@ -198,6 +206,7 @@ void pulsgen_task_setup
             if ( fifo[c][pos].used ) continue;
 
             fifo[c][pos].used = 1;
+            fifo[c][pos].toggles_dir = toggles_dir;
             fifo[c][pos].toggles = toggles;
             fifo[c][pos].pin_setup_time = pin_setup_time;
             fifo[c][pos].pin_hold_time = pin_hold_time;
@@ -213,12 +222,13 @@ void pulsgen_task_setup
     fifo[c][fifo_pos[c]].used = 1;
 
     // setup current task
-    task_setup(c, toggles, pin_setup_time, pin_hold_time, start_delay);
+    task_setup(c, toggles_dir, toggles, pin_setup_time, pin_hold_time, start_delay);
 }
 
 static void task_setup
 (
     uint32_t c,
+    uint32_t toggles_dir,
     uint32_t toggles,
     uint32_t pin_setup_time,
     uint32_t pin_hold_time,
@@ -230,6 +240,7 @@ static void task_setup
     // set task data
     gen[c].task = 1;
     gen[c].task_infinite = toggles ? 0 : 1;
+    gen[c].toggles_dir = toggles_dir;
     gen[c].task_toggles = toggles ? toggles : UINT32_MAX;
     gen[c].task_toggles_todo = gen[c].task_toggles;
     gen[c].abort_on_hold = 0;
@@ -254,17 +265,31 @@ static void task_setup
 
 /**
  * @brief   abort current task for the selected channel
- * @param   c       channel id
- * @param   when    0 = on pin state setup, !0 = on hold
+ * @param   c           channel id
+ * @param   on_hold     0 = on pin state setup, !0 = on hold
  * @retval  none
  */
-void pulsgen_task_abort(uint8_t c, uint8_t when)
+void pulsgen_abort(uint8_t c, uint8_t on_hold)
 {
-    if ( when ) gen[c].abort_on_hold = 1;
+    // pin state is HIGH?
+    if ( GPIO_PIN_GET(gen[c].port, gen[c].pin_mask) ^ gen[c].pin_inverted )
+    {
+        // abort on pin hold?
+        if ( on_hold ) { abort(c); return; }
+    }
+    else // pin state is LOW
+    {
+        // abort on pin setup?
+        if ( !on_hold ) { abort(c); return; }
+    }
+
+    // abort on pin hold?
+    if ( on_hold ) gen[c].abort_on_hold = 1;
+    // abort on pin setup
     else gen[c].abort_on_setup = 1;
 }
 
-static void task_abort(uint8_t c)
+static void abort(uint8_t c)
 {
     uint8_t i;
 
@@ -289,7 +314,7 @@ static void task_abort(uint8_t c)
  * @retval  0   (channel have no task)
  * @retval  1   (channel have a task)
  */
-uint8_t pulsgen_task_state(uint8_t c)
+uint8_t pulsgen_state_get(uint8_t c)
 {
     return gen[c].task;
 }
@@ -302,9 +327,57 @@ uint8_t pulsgen_task_state(uint8_t c)
  * @param   c   channel id
  * @retval  0..0xFFFFFFFF
  */
-uint32_t pulsgen_task_toggles(uint8_t c)
+uint32_t pulsgen_task_toggles_get(uint8_t c)
 {
     return gen[c].task_toggles - gen[c].task_toggles_todo;
+}
+
+
+
+
+/**
+ * @brief   get total pin toggles
+ * @param   c   channel id
+ * @retval  0..0xFFFFFFFF
+ */
+uint32_t pulsgen_toggles_done_get(uint8_t c)
+{
+    return gen[c].toggles_done;
+}
+
+/**
+ * @brief   set total pin toggles value
+ * @param   c           channel id
+ * @param   toggles     toggles count (0..0xFFFFFFFF)
+ * @retval  0..0xFFFFFFFF
+ */
+void pulsgen_toggles_done_set(uint8_t c, uint32_t toggles)
+{
+    gen[c].toggles_done = toggles;
+}
+
+
+
+
+/**
+ * @brief   get total pin toggles
+ * @param   c   channel id
+ * @retval  0..0xFFFFFFFF
+ */
+uint32_t pulsgen_tasks_done_get(uint8_t c)
+{
+    return gen[c].tasks_done;
+}
+
+/**
+ * @brief   set total pin toggles value
+ * @param   c       channel id
+ * @param   tasks   tasks count (0..0xFFFFFFFF)
+ * @retval  0..0xFFFFFFFF
+ */
+void pulsgen_tasks_done_set(uint8_t c, uint32_t tasks)
+{
+    gen[c].tasks_done = tasks;
 }
 
 
@@ -347,48 +420,45 @@ int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
     // any incoming message will update the watchdog wait time
     if ( wd_todo_tick ) wd_todo_tick = tick + wd_ticks;
 
+    u32_10_t in = *((u32_10_t*) msg);
+    u32_10_t out = *((u32_10_t*) &msg_buf);
+
     switch (type)
     {
         case PULSGEN_MSG_PIN_SETUP:
-        {
-            struct pulsgen_msg_pin_setup_t in = *((struct pulsgen_msg_pin_setup_t *) msg);
-            pulsgen_pin_setup(in.ch, in.port, in.pin, in.inverted);
+            pulsgen_pin_setup(in.v[0], in.v[1], in.v[2], in.v[3]);
             break;
-        }
-        case PULSGEN_MSG_TASK_SETUP:
-        {
-            struct pulsgen_msg_task_setup_t in = *((struct pulsgen_msg_task_setup_t *) msg);
-            pulsgen_task_setup(in.ch, in.toggles, in.pin_setup_time, in.pin_hold_time, in.start_delay);
+        case PULSGEN_MSG_TASK_ADD:
+            pulsgen_task_add(in.v[0], in.v[1], in.v[2], in.v[3], in.v[4], in.v[5]);
             break;
-        }
-        case PULSGEN_MSG_TASK_ABORT:
-        {
-            struct pulsgen_msg_abort_t in = *((struct pulsgen_msg_abort_t *) msg);
-            pulsgen_task_abort(in.ch, in.when);
+        case PULSGEN_MSG_ABORT:
+            pulsgen_abort(in.v[0], in.v[1]);
             break;
-        }
-        case PULSGEN_MSG_TASK_STATE:
-        {
-            struct pulsgen_msg_ch_t in = *((struct pulsgen_msg_ch_t *) msg);
-            struct pulsgen_msg_state_t out = *((struct pulsgen_msg_state_t *) &msg_buf);
-            out.state = pulsgen_task_state(in.ch);
-            msg_send(type, (uint8_t*)&out, 4);
+        case PULSGEN_MSG_STATE_GET:
+            out.v[0] = pulsgen_state_get(in.v[0]);
+            msg_send(type, msg_buf, 4);
             break;
-        }
-        case PULSGEN_MSG_TASK_TOGGLES:
-        {
-            struct pulsgen_msg_ch_t in = *((struct pulsgen_msg_ch_t *) msg);
-            struct pulsgen_msg_toggles_t out = *((struct pulsgen_msg_toggles_t *) &msg_buf);
-            out.toggles = pulsgen_task_toggles(in.ch);
-            msg_send(type, (uint8_t*)&out, 4);
+        case PULSGEN_MSG_TASK_TOGGLES_GET:
+            out.v[0] = pulsgen_task_toggles_get(in.v[0]);
+            msg_send(type, msg_buf, 4);
             break;
-        }
+        case PULSGEN_MSG_TOGGLES_DONE_GET:
+            out.v[0] = pulsgen_toggles_done_get(in.v[0]);
+            msg_send(type, msg_buf, 4);
+            break;
+        case PULSGEN_MSG_TOGGLES_DONE_SET:
+            pulsgen_toggles_done_set(in.v[0], in.v[1]);
+            break;
+        case PULSGEN_MSG_TASKS_DONE_GET:
+            out.v[0] = pulsgen_tasks_done_get(in.v[0]);
+            msg_send(type, msg_buf, 4);
+            break;
+        case PULSGEN_MSG_TASKS_DONE_SET:
+            pulsgen_tasks_done_set(in.v[0], in.v[1]);
+            break;
         case PULSGEN_MSG_WATCHDOG_SETUP:
-        {
-            struct pulsgen_msg_watchdog_setup_t in = *((struct pulsgen_msg_watchdog_setup_t *) msg);
-            pulsgen_watchdog_setup(in.enable, in.time);
+            pulsgen_watchdog_setup(in.v[0], in.v[1]);
             break;
-        }
 
         default: return -1;
     }
@@ -419,7 +489,7 @@ int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
 
             // enable infinite PWM signal on the channel 0
             // PWM frequency = 20 kHz, duty cycle = 50%
-            pulsgen_task_setup(0, 0, 25000, 25000, 0);
+            pulsgen_task_add(0, 0, 0, 25000, 25000, 0);
 
             // main loop
             for(;;)
@@ -463,21 +533,21 @@ int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             {
                 if // if both channels aren't busy
                 (
-                    ! pulsgen_task_state(STEP_CHANNEL) &&
-                    ! pulsgen_task_state(DIR_CHANNEL)
+                    ! pulsgen_state_get(STEP_CHANNEL) &&
+                    ! pulsgen_state_get(DIR_CHANNEL)
                 )
                 {
                     if ( dir_output ) // if it's time to make a DIR change
                     {
                         // make a DIR change with 20 kHz rate and 50% duty cycle
-                        pulsgen_task_setup(DIR_CHANNEL, 1, 25000, 25000, 0);
+                        pulsgen_task_add(DIR_CHANNEL, 0, 1, 25000, 25000, 0);
                         dir_output = 0;
                     }
                     else // if it's time to make a STEP output
                     {
                         // start output of 1000 steps with 20 kHz rate,
                         // 50% duty cycle and startup delay = 50 us
-                        pulsgen_task_setup(STEP_CHANNEL, 2000, 25000, 25000, 50000);
+                        pulsgen_task_add(STEP_CHANNEL, 0, 2000, 25000, 25000, 50000);
                         dir_output = 1;
                     }
                 }

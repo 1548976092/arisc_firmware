@@ -49,6 +49,9 @@ struct msg_t
 
 typedef int32_t (*msg_recv_func_t)(uint8_t, uint8_t*, uint8_t);
 
+typedef struct { uint32_t v[10]; } u32_10_t;
+
+
 
 
 
