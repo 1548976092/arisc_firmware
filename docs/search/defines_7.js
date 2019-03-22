@@ -15,5 +15,6 @@ var searchData=
   ['pll_5fcpux_5fn',['PLL_CPUX_N',['../sys_8h.html#ab49b183ccec500a45e89cc6316d1998e',1,'sys.h']]],
   ['pll_5fcpux_5fp',['PLL_CPUX_P',['../sys_8h.html#a003b50cdbc30d82854bd17094a04d9e9',1,'sys.h']]],
   ['pulsgen_5fch_5fcnt',['PULSGEN_CH_CNT',['../mod__pulsgen_8h.html#a301a90fda88beb1da30012ca6b9c11e4',1,'mod_pulsgen.h']]],
+  ['pulsgen_5ffifo_5fsize',['PULSGEN_FIFO_SIZE',['../mod__pulsgen_8h.html#a28f313a68a237a145d8065457a6f9a3d',1,'mod_pulsgen.h']]],
   ['pulsgen_5fmsg_5fbuf_5flen',['PULSGEN_MSG_BUF_LEN',['../mod__pulsgen_8h.html#a0b184ac62abfc34423ece76aa7b648dc',1,'mod_pulsgen.h']]]
 ];

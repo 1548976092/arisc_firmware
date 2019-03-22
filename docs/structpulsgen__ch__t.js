@@ -10,5 +10,7 @@ var structpulsgen__ch__t =
     [ "task_toggles_todo", "structpulsgen__ch__t.html#a5000d5faa5db2fd66ff0345eefd23e6c", null ],
     [ "setup_ticks", "structpulsgen__ch__t.html#a5923fa6a48da93d9579b7d027124a322", null ],
     [ "hold_ticks", "structpulsgen__ch__t.html#a304338c045a89b201058803169dad343", null ],
+    [ "abort_on_setup", "structpulsgen__ch__t.html#a36c99bb40f38f52fedba49239b39c1ab", null ],
+    [ "abort_on_hold", "structpulsgen__ch__t.html#a69a7d18666dfc03d713bb6d15e192cde", null ],
     [ "todo_tick", "structpulsgen__ch__t.html#a8877063788184b18eadf986ed313ba26", null ]
 ];

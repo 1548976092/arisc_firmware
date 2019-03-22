@@ -107,15 +107,18 @@ Functions</h2></td></tr>
 <tr class="memitem:ab325c8935dfe8d9d0f669f943b20ab2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#ab325c8935dfe8d9d0f669f943b20ab2f">pulsgen_task_setup</a> (uint32_t c, uint32_t toggles, uint32_t pin_setup_time, uint32_t pin_hold_time, uint32_t start_delay)</td></tr>
 <tr class="memdesc:ab325c8935dfe8d9d0f669f943b20ab2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup a new task for the selected channel  <a href="#ab325c8935dfe8d9d0f669f943b20ab2f">More...</a><br /></td></tr>
 <tr class="separator:ab325c8935dfe8d9d0f669f943b20ab2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e39564b916ee9cdf39af3a6b6b76b63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#a7e39564b916ee9cdf39af3a6b6b76b63">pulsgen_task_abort</a> (uint8_t c)</td></tr>
-<tr class="memdesc:a7e39564b916ee9cdf39af3a6b6b76b63"><td class="mdescLeft">&#160;</td><td class="mdescRight">abort current task for the selected channel  <a href="#a7e39564b916ee9cdf39af3a6b6b76b63">More...</a><br /></td></tr>
-<tr class="separator:a7e39564b916ee9cdf39af3a6b6b76b63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d7ab7d613c3b452b4956fad44fa8d91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#a6d7ab7d613c3b452b4956fad44fa8d91">pulsgen_task_abort</a> (uint8_t c, uint8_t when)</td></tr>
+<tr class="memdesc:a6d7ab7d613c3b452b4956fad44fa8d91"><td class="mdescLeft">&#160;</td><td class="mdescRight">abort current task for the selected channel  <a href="#a6d7ab7d613c3b452b4956fad44fa8d91">More...</a><br /></td></tr>
+<tr class="separator:a6d7ab7d613c3b452b4956fad44fa8d91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a652ad856d89b18eed422a8ec8cb20d40"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#a652ad856d89b18eed422a8ec8cb20d40">pulsgen_task_state</a> (uint8_t c)</td></tr>
 <tr class="memdesc:a652ad856d89b18eed422a8ec8cb20d40"><td class="mdescLeft">&#160;</td><td class="mdescRight">get current task state for the selected channel  <a href="#a652ad856d89b18eed422a8ec8cb20d40">More...</a><br /></td></tr>
 <tr class="separator:a652ad856d89b18eed422a8ec8cb20d40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2af31cbc459f2294d5571ea829d0d17"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#ae2af31cbc459f2294d5571ea829d0d17">pulsgen_task_toggles</a> (uint8_t c)</td></tr>
 <tr class="memdesc:ae2af31cbc459f2294d5571ea829d0d17"><td class="mdescLeft">&#160;</td><td class="mdescRight">get current pin state changes since task start  <a href="#ae2af31cbc459f2294d5571ea829d0d17">More...</a><br /></td></tr>
 <tr class="separator:ae2af31cbc459f2294d5571ea829d0d17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae47f3fa6b83367afb1ed891a2566882c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#ae47f3fa6b83367afb1ed891a2566882c">pulsgen_watchdog_setup</a> (uint8_t enable, uint32_t time)</td></tr>
+<tr class="memdesc:ae47f3fa6b83367afb1ed891a2566882c"><td class="mdescLeft">&#160;</td><td class="mdescRight">enable/disable <code>abort all</code> watchdog  <a href="#ae47f3fa6b83367afb1ed891a2566882c">More...</a><br /></td></tr>
+<tr class="separator:ae47f3fa6b83367afb1ed891a2566882c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03a23b001e94bf2b0bf906148fbc96fb"><td class="memItemLeft" align="right" valign="top">int8_t volatile&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#a03a23b001e94bf2b0bf906148fbc96fb">pulsgen_msg_recv</a> (uint8_t type, uint8_t *msg, uint8_t length)</td></tr>
 <tr class="memdesc:a03a23b001e94bf2b0bf906148fbc96fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">"message received" callback  <a href="#a03a23b001e94bf2b0bf906148fbc96fb">More...</a><br /></td></tr>
 <tr class="separator:a03a23b001e94bf2b0bf906148fbc96fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -306,8 +309,8 @@ Variables</h2></td></tr>
 </dl>
 </div>
 </div>
-<a id="a7e39564b916ee9cdf39af3a6b6b76b63"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e39564b916ee9cdf39af3a6b6b76b63">&#9670;&nbsp;</a></span>pulsgen_task_abort()</h2>
+<a id="a6d7ab7d613c3b452b4956fad44fa8d91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d7ab7d613c3b452b4956fad44fa8d91">&#9670;&nbsp;</a></span>pulsgen_task_abort()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -316,8 +319,18 @@ Variables</h2></td></tr>
           <td class="memname">void pulsgen_task_abort </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>c</em></td><td>)</td>
+          <td class="paramname"><em>c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>when</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -326,6 +339,7 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>channel id </td></tr>
+    <tr><td class="paramname">when</td><td>0 = on pin state setup, !0 = on hold </td></tr>
   </table>
   </dd>
 </dl>
@@ -398,6 +412,49 @@ Variables</h2></td></tr>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
     <tr><td class="paramname">0..0xFFFFFFFF</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae47f3fa6b83367afb1ed891a2566882c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae47f3fa6b83367afb1ed891a2566882c">&#9670;&nbsp;</a></span>pulsgen_watchdog_setup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pulsgen_watchdog_setup </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>enable</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>time</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>enable/disable <code>abort all</code> watchdog </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enable</td><td>0 = disable watchdog, other values - enable watchdog </td></tr>
+    <tr><td class="paramname">time</td><td>watchdog wait time (in nanoseconds) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">none</td><td></td></tr>
   </table>
   </dd>
 </dl>

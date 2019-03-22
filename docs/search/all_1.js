@@ -1,6 +1,8 @@
 var searchData=
 [
   ['ab_5fstate',['AB_state',['../structencoder__ch__t.html#a09dd655169a54f5e35529eea8eb42176',1,'encoder_ch_t']]],
+  ['abort_5fon_5fhold',['abort_on_hold',['../structpulsgen__ch__t.html#a69a7d18666dfc03d713bb6d15e192cde',1,'pulsgen_ch_t']]],
+  ['abort_5fon_5fsetup',['abort_on_setup',['../structpulsgen__ch__t.html#a36c99bb40f38f52fedba49239b39c1ab',1,'pulsgen_ch_t']]],
   ['apb2_5fcfg_5freg',['APB2_CFG_REG',['../sys_8h.html#a38494e6a8dd91a4642edd884aaf6a6ed',1,'sys.h']]],
   ['apb2_5fclk_5frate_5fm',['APB2_CLK_RATE_M',['../sys_8h.html#af88e115225051626db54c7d28061e2a5',1,'sys.h']]],
   ['apb2_5fclk_5frate_5fm_5fmask',['APB2_CLK_RATE_M_MASK',['../sys_8h.html#ab1aa9181a356bad6ef7856cb35a0df37',1,'sys.h']]],

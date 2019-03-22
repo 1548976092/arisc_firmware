@@ -168,6 +168,7 @@ void encoder_setup(uint8_t c, uint8_t using_B, uint8_t using_Z)
 /**
  * @brief   enable/disable selected channel of encoder counter
  * @param   c       channel id
+ * @param   state   0 = disable, !0 = enable
  * @retval  none
  */
 void encoder_state_set(uint8_t c, uint8_t state)

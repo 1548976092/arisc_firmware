@@ -1,7 +1,7 @@
 /**
  * @file    mod_encoder.h
  *
- * @brief   quadrature encoder counter module
+ * @brief   quadrature encoder counter module header
  *
  * This module implements an API
  * to make real-time counting of quadrature encoder pulses
