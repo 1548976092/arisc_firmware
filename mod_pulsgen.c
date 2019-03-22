@@ -91,7 +91,7 @@ void pulsgen_module_base_thread()
         // it's not a time for a pulse?
         if ( tick < gen[c].todo_tick ) continue;
         // no steps to do?
-        if ( !gen[c].task_infinite && !gen[c].task_toggles_todo )
+        if ( !gen[c].task_toggles_todo && !gen[c].task_infinite )
         {
             // goto new fifo item
             fifo[c][fifo_pos[c]].used = 0;
