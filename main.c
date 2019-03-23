@@ -18,7 +18,7 @@
 #include "sys.h"
 #include "mod_gpio.h"
 #include "mod_msg.h"
-#include "mod_pulsgen.h"
+#include "mod_stepgen.h"
 #include "mod_encoder.h"
 
 
@@ -33,7 +33,7 @@ int main(void)
     // modules init
     msg_module_init();
     gpio_module_init();
-    pulsgen_module_init();
+    stepgen_module_init();
     encoder_module_init();
 
     // main loop
@@ -41,7 +41,7 @@ int main(void)
     {
         msg_module_base_thread();
         encoder_module_base_thread();
-        pulsgen_module_base_thread();
+        stepgen_module_base_thread();
     }
 
     return 0;
