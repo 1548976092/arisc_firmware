@@ -36,9 +36,9 @@ struct pulsgen_ch_t
     uint32_t    task_toggles;       // pin toggles for this task
     uint32_t    task_toggles_todo;  // pin toggles left to do for this task
 
-    uint8_t     toggles_dir;        // 0 = toggles_done++, !0 = toggles_done--
-    uint32_t    toggles_done;       // total number of pin toggles
     uint32_t    tasks_done;         // total number of tasks done
+    uint8_t     toggles_dir;        // 0 = cnt++, !0 = cnt--
+    int32_t     cnt;                // total number of pin toggles
 
     uint32_t    setup_ticks;        // number of CPU ticks to prepare pin toggle
     uint32_t    hold_ticks;         // number of CPU ticks to hold pin state
@@ -69,8 +69,8 @@ enum
     PULSGEN_MSG_ABORT,
     PULSGEN_MSG_STATE_GET,
     PULSGEN_MSG_TASK_TOGGLES_GET,
-    PULSGEN_MSG_TOGGLES_DONE_GET,
-    PULSGEN_MSG_TOGGLES_DONE_SET,
+    PULSGEN_MSG_CNT_GET,
+    PULSGEN_MSG_CNT_SET,
     PULSGEN_MSG_TASKS_DONE_GET,
     PULSGEN_MSG_TASKS_DONE_SET,
     PULSGEN_MSG_WATCHDOG_SETUP,
@@ -92,8 +92,8 @@ void pulsgen_task_add(uint32_t c, uint32_t toggles_dir, uint32_t toggles, uint32
 void pulsgen_abort(uint8_t c, uint8_t on_hold);
 uint8_t pulsgen_state_get(uint8_t c);
 uint32_t pulsgen_task_toggles_get(uint8_t c);
-uint32_t pulsgen_toggles_done_get(uint8_t c);
-void pulsgen_toggles_done_set(uint8_t c, uint32_t toggles);
+int32_t pulsgen_cnt_get(uint8_t c);
+void pulsgen_cnt_set(uint8_t c, int32_t value);
 uint32_t pulsgen_tasks_done_get(uint8_t c);
 void pulsgen_tasks_done_set(uint8_t c, uint32_t tasks);
 int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length);

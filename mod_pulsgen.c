@@ -135,7 +135,7 @@ void pulsgen_module_base_thread()
         --gen[c].task_toggles_todo;
 
         // update total toggles value
-        gen[c].toggles_done += gen[c].task_toggles * (gen[c].toggles_dir ? -1 : 1);
+        gen[c].cnt += gen[c].task_toggles * (gen[c].toggles_dir ? -1 : 1);
     }
 
     // watchdog time is over?
@@ -177,7 +177,7 @@ void pulsgen_pin_setup(uint8_t c, uint8_t port, uint8_t pin, uint8_t inverted)
  *
  * @param   c               channel id
  * @param   toggles         number of pin state changes
- * @param   toggles_dir     0 = toggles_done++, !0 = toggles_done--
+ * @param   toggles_dir     0 = cnt++, !0 = cnt--
  * @param   pin_setup_time  pin state setup_time (in nanoseconds)
  * @param   pin_hold_time   pin state hold_time (in nanoseconds)
  * @param   start_delay     task start delay (in nanoseconds)
@@ -338,22 +338,22 @@ uint32_t pulsgen_task_toggles_get(uint8_t c)
 /**
  * @brief   get total pin toggles
  * @param   c   channel id
- * @retval  0..0xFFFFFFFF
+ * @retval  integer 4-bytes
  */
-uint32_t pulsgen_toggles_done_get(uint8_t c)
+int32_t pulsgen_cnt_get(uint8_t c)
 {
-    return gen[c].toggles_done;
+    return gen[c].cnt;
 }
 
 /**
  * @brief   set total pin toggles value
- * @param   c           channel id
- * @param   toggles     toggles count (0..0xFFFFFFFF)
- * @retval  0..0xFFFFFFFF
+ * @param   c       channel id
+ * @param   value   integer 4-bytes
+ * @retval  none
  */
-void pulsgen_toggles_done_set(uint8_t c, uint32_t toggles)
+void pulsgen_cnt_set(uint8_t c, int32_t value)
 {
-    gen[c].toggles_done = toggles;
+    gen[c].cnt = value;
 }
 
 
@@ -373,7 +373,7 @@ uint32_t pulsgen_tasks_done_get(uint8_t c)
  * @brief   set total pin toggles value
  * @param   c       channel id
  * @param   tasks   tasks count (0..0xFFFFFFFF)
- * @retval  0..0xFFFFFFFF
+ * @retval  none
  */
 void pulsgen_tasks_done_set(uint8_t c, uint32_t tasks)
 {
@@ -442,12 +442,12 @@ int8_t volatile pulsgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             out.v[0] = pulsgen_task_toggles_get(in.v[0]);
             msg_send(type, msg_buf, 4);
             break;
-        case PULSGEN_MSG_TOGGLES_DONE_GET:
-            out.v[0] = pulsgen_toggles_done_get(in.v[0]);
+        case PULSGEN_MSG_CNT_GET:
+            out.v[0] = pulsgen_cnt_get(in.v[0]);
             msg_send(type, msg_buf, 4);
             break;
-        case PULSGEN_MSG_TOGGLES_DONE_SET:
-            pulsgen_toggles_done_set(in.v[0], in.v[1]);
+        case PULSGEN_MSG_CNT_SET:
+            pulsgen_cnt_set(in.v[0], (int32_t)in.v[1]);
             break;
         case PULSGEN_MSG_TASKS_DONE_GET:
             out.v[0] = pulsgen_tasks_done_get(in.v[0]);
