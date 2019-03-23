@@ -101,12 +101,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ad07cf3fa21b467202e728256fabe57c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__stepgen_8c.html#ad07cf3fa21b467202e728256fabe57c7">stepgen_module_base_thread</a> ()</td></tr>
 <tr class="memdesc:ad07cf3fa21b467202e728256fabe57c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">module base thread  <a href="#ad07cf3fa21b467202e728256fabe57c7">More...</a><br /></td></tr>
 <tr class="separator:ad07cf3fa21b467202e728256fabe57c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f6b0dde0a76b279ae344672b49e32a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__stepgen_8c.html#a4f6b0dde0a76b279ae344672b49e32a0">stepgen_pin_setup</a> (uint8_t c, uint8_t type, uint8_t port, uint8_t pin, uint8_t invert, uint32_t pin_low_time, uint32_t pin_high_time)</td></tr>
-<tr class="memdesc:a4f6b0dde0a76b279ae344672b49e32a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup GPIO pin for the selected channel  <a href="#a4f6b0dde0a76b279ae344672b49e32a0">More...</a><br /></td></tr>
-<tr class="separator:a4f6b0dde0a76b279ae344672b49e32a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a391ff901d5bcea5490313bd67540a0f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__stepgen_8c.html#a391ff901d5bcea5490313bd67540a0f4">stepgen_task_add</a> (uint8_t c, uint8_t type, uint32_t toggles)</td></tr>
-<tr class="memdesc:a391ff901d5bcea5490313bd67540a0f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">add a new task for the selected channel  <a href="#a391ff901d5bcea5490313bd67540a0f4">More...</a><br /></td></tr>
-<tr class="separator:a391ff901d5bcea5490313bd67540a0f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76c18f23772eec1d9d3fb9dd2119487c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__stepgen_8c.html#a76c18f23772eec1d9d3fb9dd2119487c">stepgen_pin_setup</a> (uint8_t c, uint8_t type, uint8_t port, uint8_t pin, uint8_t invert)</td></tr>
+<tr class="memdesc:a76c18f23772eec1d9d3fb9dd2119487c"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup GPIO pin for the selected channel  <a href="#a76c18f23772eec1d9d3fb9dd2119487c">More...</a><br /></td></tr>
+<tr class="separator:a76c18f23772eec1d9d3fb9dd2119487c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a669878afce43157603668aae25db3406"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__stepgen_8c.html#a669878afce43157603668aae25db3406">stepgen_task_add</a> (uint8_t c, uint8_t type, uint32_t toggles, uint32_t pin_low_time, uint32_t pin_high_time)</td></tr>
+<tr class="memdesc:a669878afce43157603668aae25db3406"><td class="mdescLeft">&#160;</td><td class="mdescRight">add a new task for the selected channel  <a href="#a669878afce43157603668aae25db3406">More...</a><br /></td></tr>
+<tr class="separator:a669878afce43157603668aae25db3406"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7dba84a30a7fe5bccde6d4e6dd0aaac7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__stepgen_8c.html#a7dba84a30a7fe5bccde6d4e6dd0aaac7">stepgen_abort</a> (uint8_t c)</td></tr>
 <tr class="memdesc:a7dba84a30a7fe5bccde6d4e6dd0aaac7"><td class="mdescLeft">&#160;</td><td class="mdescRight">abort all tasks for the selected channel  <a href="#a7dba84a30a7fe5bccde6d4e6dd0aaac7">More...</a><br /></td></tr>
 <tr class="separator:a7dba84a30a7fe5bccde6d4e6dd0aaac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -182,8 +182,8 @@ Variables</h2></td></tr>
 </dl>
 </div>
 </div>
-<a id="a4f6b0dde0a76b279ae344672b49e32a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4f6b0dde0a76b279ae344672b49e32a0">&#9670;&nbsp;</a></span>stepgen_pin_setup()</h2>
+<a id="a76c18f23772eec1d9d3fb9dd2119487c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76c18f23772eec1d9d3fb9dd2119487c">&#9670;&nbsp;</a></span>stepgen_pin_setup()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -216,7 +216,60 @@ Variables</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>invert</em>, </td>
+          <td class="paramname"><em>invert</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>setup GPIO pin for the selected channel </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>channel id </td></tr>
+    <tr><td class="paramname">type</td><td>0:step, 1:dir </td></tr>
+    <tr><td class="paramname">port</td><td>GPIO port number </td></tr>
+    <tr><td class="paramname">pin</td><td>GPIO pin number </td></tr>
+    <tr><td class="paramname">invert</td><td>invert pin state?</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">none</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_stepgen_8c-example.html#a2">mod_stepgen.c</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a669878afce43157603668aae25db3406"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a669878afce43157603668aae25db3406">&#9670;&nbsp;</a></span>stepgen_task_add()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void stepgen_task_add </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>toggles</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -238,67 +291,14 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>setup GPIO pin for the selected channel </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">c</td><td>channel id </td></tr>
-    <tr><td class="paramname">type</td><td>0:step, 1:dir </td></tr>
-    <tr><td class="paramname">port</td><td>GPIO port number </td></tr>
-    <tr><td class="paramname">pin</td><td>GPIO pin number </td></tr>
-    <tr><td class="paramname">invert</td><td>invert pin state? </td></tr>
-    <tr><td class="paramname">pin_low_time</td><td>pin LOW state duration (in nanoseconds) </td></tr>
-    <tr><td class="paramname">pin_high_time</td><td>pin HIGH state duration (in nanoseconds)</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">none</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_stepgen_8c-example.html#a2">mod_stepgen.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a id="a391ff901d5bcea5490313bd67540a0f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a391ff901d5bcea5490313bd67540a0f4">&#9670;&nbsp;</a></span>stepgen_task_add()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void stepgen_task_add </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>c</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>type</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>toggles</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
 <p>add a new task for the selected channel </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>channel id </td></tr>
     <tr><td class="paramname">type</td><td>0:step, 1:dir </td></tr>
-    <tr><td class="paramname">toggles</td><td>number of pin state changes</td></tr>
+    <tr><td class="paramname">toggles</td><td>number of pin state changes </td></tr>
+    <tr><td class="paramname">pin_low_time</td><td>pin LOW state duration (in nanoseconds) </td></tr>
+    <tr><td class="paramname">pin_high_time</td><td>pin HIGH state duration (in nanoseconds)</td></tr>
   </table>
   </dd>
 </dl>
