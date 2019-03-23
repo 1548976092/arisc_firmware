@@ -86,14 +86,14 @@ void stepgen_module_base_thread()
             if ( g->pin_invert[t] ) GPIO_PIN_SET(g->pin_port[t], g->pin_mask[t]);
             else GPIO_PIN_CLEAR(g->pin_port[t], g->pin_mask_not[t]);
             g->pin_state[t] = 0;
-            g->task_tick += g->pin_low_ticks[t];
+            g->task_tick += s->pin_low_ticks;
         }
         else // pin state is LOW
         {
             if ( !g->pin_invert[t] ) GPIO_PIN_SET(g->pin_port[t], g->pin_mask[t]);
             else GPIO_PIN_CLEAR(g->pin_port[t], g->pin_mask_not[t]);
             g->pin_state[t] = 1;
-            g->task_tick += g->pin_high_ticks[t];
+            g->task_tick += s->pin_high_ticks;
         }
 
         // it's a STEP task?
@@ -122,19 +122,10 @@ void stepgen_module_base_thread()
  * @param   port            GPIO port number
  * @param   pin             GPIO pin number
  * @param   invert          invert pin state?
- * @param   pin_low_time    pin LOW state duration (in nanoseconds)
- * @param   pin_high_time   pin HIGH state duration (in nanoseconds)
  *
  * @retval  none
  */
-void stepgen_pin_setup(
-    uint8_t c,
-    uint8_t type,
-    uint8_t port,
-    uint8_t pin,
-    uint8_t invert,
-    uint32_t pin_low_time,
-    uint32_t pin_high_time)
+void stepgen_pin_setup(uint8_t c, uint8_t type, uint8_t port, uint8_t pin, uint8_t invert)
 {
     gpio_pin_setup_for_output(port, pin);
 
@@ -142,11 +133,6 @@ void stepgen_pin_setup(
     gen[c].pin_mask[type] = 1U << pin;
     gen[c].pin_mask_not[type] = ~(gen[c].pin_mask[type]);
     gen[c].pin_invert[type] = invert;
-
-    gen[c].pin_low_ticks[type] = (uint32_t) ( (uint64_t)pin_low_time *
-        (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
-    gen[c].pin_high_ticks[type] = (uint32_t) ( (uint64_t)pin_high_time *
-        (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
 
     // reset pin state
     gen[c].pin_state[type] = 0;
@@ -163,10 +149,12 @@ void stepgen_pin_setup(
  * @param   c               channel id
  * @param   type            0:step, 1:dir
  * @param   toggles         number of pin state changes
+ * @param   pin_low_time    pin LOW state duration (in nanoseconds)
+ * @param   pin_high_time   pin HIGH state duration (in nanoseconds)
  *
  * @retval  none
  */
-void stepgen_task_add(uint8_t c, uint8_t type, uint32_t toggles)
+void stepgen_task_add(uint8_t c, uint8_t type, uint32_t toggles, uint32_t pin_low_time, uint32_t pin_high_time)
 {
     uint8_t i, slot;
 
@@ -184,12 +172,16 @@ void stepgen_task_add(uint8_t c, uint8_t type, uint32_t toggles)
 
     gen[c].tasks[slot].type = type;
     gen[c].tasks[slot].toggles = toggles;
+    gen[c].tasks[slot].pin_low_ticks = (uint32_t) ( (uint64_t)pin_low_time *
+        (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
+    gen[c].tasks[slot].pin_high_ticks = (uint32_t) ( (uint64_t)pin_high_time *
+        (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
 
     // need to start task right now?
     if ( slot == gen[c].task_slot ) gen[c].task_tick = tick +
         gen[c].pin_state[type] ?
-            gen[c].pin_high_ticks[type] :
-            gen[c].pin_low_ticks[type] ;
+            gen[c].tasks[slot].pin_high_ticks :
+            gen[c].tasks[slot].pin_low_ticks ;
 }
 
 
@@ -267,10 +259,10 @@ int8_t volatile stepgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
     switch (type)
     {
         case STEPGEN_MSG_PIN_SETUP:
-            stepgen_pin_setup(in->v[0], in->v[1], in->v[2], in->v[3], in->v[4], in->v[5], in->v[6]);
+            stepgen_pin_setup(in->v[0], in->v[1], in->v[2], in->v[3], in->v[4]);
             break;
         case STEPGEN_MSG_TASK_ADD:
-            stepgen_task_add(in->v[0], in->v[1], in->v[2]);
+            stepgen_task_add(in->v[0], in->v[1], in->v[2], in->v[3], in->v[4]);
             break;
         case STEPGEN_MSG_ABORT:
             stepgen_abort(in->v[0]);
@@ -295,7 +287,7 @@ int8_t volatile stepgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
 /**
     @example mod_stepgen.c
 
-    <b>Usage example 1</b>: enable infinite PWM signal on GPIO pin PA3
+    <b>Usage example 1</b>: make two PWM tasks using GPIO pin PA3
 
     @code
         #include <stdint.h>
@@ -308,73 +300,16 @@ int8_t volatile stepgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             stepgen_module_init();
 
             // use GPIO pin PA3 for the channel 0 output
-            stepgen_pin_setup(0, PA, 3, 0);
+            stepgen_pin_setup(0, 1, PA, 3, 0);
 
-            // enable infinite PWM signal on the channel 0
-            // PWM frequency = 20 kHz, duty cycle = 50%
-            stepgen_task_add(0, 0, 0, 25000, 25000, 0);
-
-            // main loop
-            for(;;)
-            {
-                // real update of channel states
-                stepgen_module_base_thread();
-                // real update of pin states
-                gpio_module_base_thread();
-            }
-
-            return 0;
-        }
-    @endcode
-
-    <b>Usage example 2</b>: output of STEP/DIR signal
-
-    @code
-        #include <stdint.h>
-        #include "mod_gpio.h"
-        #include "mod_stepgen.h"
-
-        #define STEP_CHANNEL 0
-        #define DIR_CHANNEL 1
-
-        int main(void)
-        {
-            // uses to switch between DIR an STEP output
-            uint8_t dir_output = 0; // 0 = STEP output, 1 = DIR output
-
-            // module init
-            stepgen_module_init();
-
-            // use GPIO pin PA3 for the STEP output on the channel 0
-            stepgen_pin_setup(STEP_CHANNEL, PA, 3, 0);
-
-            // use GPIO pin PA5 for the DIR output on the channel 1
-            stepgen_pin_setup(DIR_CHANNEL, PA, 5, 0);
+            // 1st PWM task - 20 kHz, duty cycle = 50%, duration 1 second
+            stepgen_task_add(0, 1, 40000, 25000, 25000);
+            // 2nd PWM task - 10 kHz, duty cycle = 20%, duration 1 second
+            stepgen_task_add(0, 1, 20000, 80000, 20000);
 
             // main loop
             for(;;)
             {
-                if // if both channels aren't busy
-                (
-                    ! stepgen_state_get(STEP_CHANNEL) &&
-                    ! stepgen_state_get(DIR_CHANNEL)
-                )
-                {
-                    if ( dir_output ) // if it's time to make a DIR change
-                    {
-                        // make a DIR change with 20 kHz rate and 50% duty cycle
-                        stepgen_task_add(DIR_CHANNEL, 0, 1, 25000, 25000, 0);
-                        dir_output = 0;
-                    }
-                    else // if it's time to make a STEP output
-                    {
-                        // start output of 1000 steps with 20 kHz rate,
-                        // 50% duty cycle and startup delay = 50 us
-                        stepgen_task_add(STEP_CHANNEL, 0, 2000, 25000, 25000, 50000);
-                        dir_output = 1;
-                    }
-                }
-
                 // real update of channel states
                 stepgen_module_base_thread();
                 // real update of pin states

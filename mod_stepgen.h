@@ -33,8 +33,10 @@ enum
 
 typedef struct
 {
-    uint8_t type; // 0:step, 1:dir
-    uint32_t toggles; // 0:empty slot, !0:used
+    uint8_t     type; // 0:step, 1:dir
+    uint32_t    toggles; // 0:empty slot, !0:used
+    uint32_t    pin_low_ticks;
+    uint32_t    pin_high_ticks;
 
 } stepgen_fifo_slot_t;
 
@@ -45,8 +47,6 @@ typedef struct
     uint32_t    pin_mask[2];
     uint32_t    pin_mask_not[2];
     uint32_t    pin_invert[2];
-    uint32_t    pin_low_ticks[2];
-    uint32_t    pin_high_ticks[2];
 
     int64_t     pos; // in toggles (not pulses)
 
@@ -63,15 +63,8 @@ typedef struct
 
 void stepgen_module_init();
 void stepgen_module_base_thread();
-void stepgen_pin_setup(
-    uint8_t c,
-    uint8_t type,
-    uint8_t port,
-    uint8_t pin,
-    uint8_t invert,
-    uint32_t pin_low_time,
-    uint32_t pin_high_time);
-void stepgen_task_add(uint8_t c, uint8_t type, uint32_t toggles);
+void stepgen_pin_setup(uint8_t c, uint8_t type, uint8_t port, uint8_t pin, uint8_t invert);
+void stepgen_task_add(uint8_t c, uint8_t type, uint32_t toggles, uint32_t pin_low_time, uint32_t pin_high_time);
 void stepgen_abort(uint8_t c);
 int32_t stepgen_pos_get(uint8_t c);
 void stepgen_pos_set(uint8_t c, int32_t pos);
