@@ -29,7 +29,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"mod_gpio_8c-example.html"
+"mod__stepgen_8h.html#a391ff901d5bcea5490313bd67540a0f4"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

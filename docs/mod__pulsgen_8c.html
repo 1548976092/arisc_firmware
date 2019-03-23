@@ -116,12 +116,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a47e187a3a4d2366e008411c2eb41f7a5"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#a47e187a3a4d2366e008411c2eb41f7a5">pulsgen_task_toggles_get</a> (uint8_t c)</td></tr>
 <tr class="memdesc:a47e187a3a4d2366e008411c2eb41f7a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">get current pin state changes since task start  <a href="#a47e187a3a4d2366e008411c2eb41f7a5">More...</a><br /></td></tr>
 <tr class="separator:a47e187a3a4d2366e008411c2eb41f7a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab89af063f241465830cb628885e8eb66"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#ab89af063f241465830cb628885e8eb66">pulsgen_toggles_done_get</a> (uint8_t c)</td></tr>
-<tr class="memdesc:ab89af063f241465830cb628885e8eb66"><td class="mdescLeft">&#160;</td><td class="mdescRight">get total pin toggles  <a href="#ab89af063f241465830cb628885e8eb66">More...</a><br /></td></tr>
-<tr class="separator:ab89af063f241465830cb628885e8eb66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a719851041c19077c3b2648c4569d0e74"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#a719851041c19077c3b2648c4569d0e74">pulsgen_toggles_done_set</a> (uint8_t c, uint32_t toggles)</td></tr>
-<tr class="memdesc:a719851041c19077c3b2648c4569d0e74"><td class="mdescLeft">&#160;</td><td class="mdescRight">set total pin toggles value  <a href="#a719851041c19077c3b2648c4569d0e74">More...</a><br /></td></tr>
-<tr class="separator:a719851041c19077c3b2648c4569d0e74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf0f038aea5a130a3f24c34654bd0eaf"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#aaf0f038aea5a130a3f24c34654bd0eaf">pulsgen_cnt_get</a> (uint8_t c)</td></tr>
+<tr class="memdesc:aaf0f038aea5a130a3f24c34654bd0eaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">get total pin toggles  <a href="#aaf0f038aea5a130a3f24c34654bd0eaf">More...</a><br /></td></tr>
+<tr class="separator:aaf0f038aea5a130a3f24c34654bd0eaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a982410ed1bac5a0db27b60b027ac9406"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#a982410ed1bac5a0db27b60b027ac9406">pulsgen_cnt_set</a> (uint8_t c, int32_t value)</td></tr>
+<tr class="memdesc:a982410ed1bac5a0db27b60b027ac9406"><td class="mdescLeft">&#160;</td><td class="mdescRight">set total pin toggles value  <a href="#a982410ed1bac5a0db27b60b027ac9406">More...</a><br /></td></tr>
+<tr class="separator:a982410ed1bac5a0db27b60b027ac9406"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a686d12d41d8c446583a29ab6d6db5999"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__pulsgen_8c.html#a686d12d41d8c446583a29ab6d6db5999">pulsgen_tasks_done_get</a> (uint8_t c)</td></tr>
 <tr class="memdesc:a686d12d41d8c446583a29ab6d6db5999"><td class="mdescLeft">&#160;</td><td class="mdescRight">get total pin toggles  <a href="#a686d12d41d8c446583a29ab6d6db5999">More...</a><br /></td></tr>
 <tr class="separator:a686d12d41d8c446583a29ab6d6db5999"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -311,7 +311,7 @@ Variables</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">c</td><td>channel id </td></tr>
     <tr><td class="paramname">toggles</td><td>number of pin state changes </td></tr>
-    <tr><td class="paramname">toggles_dir</td><td>0 = toggles_done++, !0 = toggles_done&ndash; </td></tr>
+    <tr><td class="paramname">toggles_dir</td><td>0 = cnt++, !0 = cnt&ndash; </td></tr>
     <tr><td class="paramname">pin_setup_time</td><td>pin state setup_time (in nanoseconds) </td></tr>
     <tr><td class="paramname">pin_hold_time</td><td>pin state hold_time (in nanoseconds) </td></tr>
     <tr><td class="paramname">start_delay</td><td>task start delay (in nanoseconds)</td></tr>
@@ -437,14 +437,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="ab89af063f241465830cb628885e8eb66"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab89af063f241465830cb628885e8eb66">&#9670;&nbsp;</a></span>pulsgen_toggles_done_get()</h2>
+<a id="aaf0f038aea5a130a3f24c34654bd0eaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf0f038aea5a130a3f24c34654bd0eaf">&#9670;&nbsp;</a></span>pulsgen_cnt_get()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t pulsgen_toggles_done_get </td>
+          <td class="memname">int32_t pulsgen_cnt_get </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>c</em></td><td>)</td>
@@ -462,21 +462,21 @@ Variables</h2></td></tr>
 </dl>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">0..0xFFFFFFFF</td><td></td></tr>
+    <tr><td class="paramname">integer</td><td>4-bytes </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a719851041c19077c3b2648c4569d0e74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a719851041c19077c3b2648c4569d0e74">&#9670;&nbsp;</a></span>pulsgen_toggles_done_set()</h2>
+<a id="a982410ed1bac5a0db27b60b027ac9406"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a982410ed1bac5a0db27b60b027ac9406">&#9670;&nbsp;</a></span>pulsgen_cnt_set()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void pulsgen_toggles_done_set </td>
+          <td class="memname">void pulsgen_cnt_set </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>c</em>, </td>
@@ -484,8 +484,8 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>toggles</em>&#160;</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -499,13 +499,13 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>channel id </td></tr>
-    <tr><td class="paramname">toggles</td><td>toggles count (0..0xFFFFFFFF) </td></tr>
+    <tr><td class="paramname">value</td><td>integer 4-bytes </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">0..0xFFFFFFFF</td><td></td></tr>
+    <tr><td class="paramname">none</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -580,7 +580,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">0..0xFFFFFFFF</td><td></td></tr>
+    <tr><td class="paramname">none</td><td></td></tr>
   </table>
   </dd>
 </dl>

@@ -12,6 +12,8 @@ var files =
     [ "mod_msg.h", "mod__msg_8h.html", "mod__msg_8h" ],
     [ "mod_pulsgen.c", "mod__pulsgen_8c.html", "mod__pulsgen_8c" ],
     [ "mod_pulsgen.h", "mod__pulsgen_8h.html", "mod__pulsgen_8h" ],
+    [ "mod_stepgen.c", "mod__stepgen_8c.html", "mod__stepgen_8c" ],
+    [ "mod_stepgen.h", "mod__stepgen_8h.html", "mod__stepgen_8h" ],
     [ "mod_timer.c", "mod__timer_8c.html", "mod__timer_8c" ],
     [ "mod_timer.h", "mod__timer_8h.html", "mod__timer_8h" ],
     [ "sys.c", "sys_8c.html", "sys_8c" ],

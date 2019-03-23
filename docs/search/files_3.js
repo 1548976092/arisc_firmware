@@ -9,6 +9,8 @@ var searchData=
   ['mod_5fmsg_2eh',['mod_msg.h',['../mod__msg_8h.html',1,'']]],
   ['mod_5fpulsgen_2ec',['mod_pulsgen.c',['../mod__pulsgen_8c.html',1,'']]],
   ['mod_5fpulsgen_2eh',['mod_pulsgen.h',['../mod__pulsgen_8h.html',1,'']]],
+  ['mod_5fstepgen_2ec',['mod_stepgen.c',['../mod__stepgen_8c.html',1,'']]],
+  ['mod_5fstepgen_2eh',['mod_stepgen.h',['../mod__stepgen_8h.html',1,'']]],
   ['mod_5ftimer_2ec',['mod_timer.c',['../mod__timer_8c.html',1,'']]],
   ['mod_5ftimer_2eh',['mod_timer.h',['../mod__timer_8h.html',1,'']]]
 ];

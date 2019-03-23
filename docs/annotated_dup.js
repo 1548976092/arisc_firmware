@@ -15,5 +15,7 @@ var annotated_dup =
     [ "msg_t", "structmsg__t.html", "structmsg__t" ],
     [ "pulsgen_ch_t", "structpulsgen__ch__t.html", "structpulsgen__ch__t" ],
     [ "pulsgen_fifo_item_t", "structpulsgen__fifo__item__t.html", "structpulsgen__fifo__item__t" ],
+    [ "stepgen_ch_t", "structstepgen__ch__t.html", "structstepgen__ch__t" ],
+    [ "stepgen_fifo_slot_t", "structstepgen__fifo__slot__t.html", "structstepgen__fifo__slot__t" ],
     [ "u32_10_t", "structu32__10__t.html", "structu32__10__t" ]
 ];

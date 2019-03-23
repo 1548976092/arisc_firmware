@@ -16,13 +16,13 @@ var searchData=
   ['pl',['PL',['../mod__gpio_8h.html#abc6126af1d45847bc59afa0aa3216b04a4a0f7dc7bc13b4de9dcaf52874286bd9',1,'mod_gpio.h']]],
   ['pulsgen_5fmsg_5fabort',['PULSGEN_MSG_ABORT',['../mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a43d1c7d21037ab0dd6f3cf0957955776',1,'mod_pulsgen.h']]],
   ['pulsgen_5fmsg_5fcnt',['PULSGEN_MSG_CNT',['../mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a7c871ffc7aa95b514eb231b76519e993',1,'mod_pulsgen.h']]],
+  ['pulsgen_5fmsg_5fcnt_5fget',['PULSGEN_MSG_CNT_GET',['../mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635ab81f3f694042d6a12459f3c260403e0a',1,'mod_pulsgen.h']]],
+  ['pulsgen_5fmsg_5fcnt_5fset',['PULSGEN_MSG_CNT_SET',['../mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a3c1e65ab7b57dd0e115890fea0510565',1,'mod_pulsgen.h']]],
   ['pulsgen_5fmsg_5fpin_5fsetup',['PULSGEN_MSG_PIN_SETUP',['../mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a0cfdb83de97fed5390059a75ece1a2a1',1,'mod_pulsgen.h']]],
   ['pulsgen_5fmsg_5fstate_5fget',['PULSGEN_MSG_STATE_GET',['../mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a70976c7b78553d057bd361d5ba4a2b46',1,'mod_pulsgen.h']]],
   ['pulsgen_5fmsg_5ftask_5fadd',['PULSGEN_MSG_TASK_ADD',['../mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a4bab926d9eebfd828ccb350b65e1ec63',1,'mod_pulsgen.h']]],
   ['pulsgen_5fmsg_5ftask_5ftoggles_5fget',['PULSGEN_MSG_TASK_TOGGLES_GET',['../mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a988d85bb42c9d38844e2248144f726d4',1,'mod_pulsgen.h']]],
   ['pulsgen_5fmsg_5ftasks_5fdone_5fget',['PULSGEN_MSG_TASKS_DONE_GET',['../mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635aaa712597dfb937af3f61747a473a7dd6',1,'mod_pulsgen.h']]],
   ['pulsgen_5fmsg_5ftasks_5fdone_5fset',['PULSGEN_MSG_TASKS_DONE_SET',['../mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a47ef2555d0131ec5e7f66628a97a9190',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5ftoggles_5fdone_5fget',['PULSGEN_MSG_TOGGLES_DONE_GET',['../mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635abb6a085ac46f24e6b31c581c7c10f283',1,'mod_pulsgen.h']]],
-  ['pulsgen_5fmsg_5ftoggles_5fdone_5fset',['PULSGEN_MSG_TOGGLES_DONE_SET',['../mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a994a9121aa5bf7115b490562bacbe4c5',1,'mod_pulsgen.h']]],
   ['pulsgen_5fmsg_5fwatchdog_5fsetup',['PULSGEN_MSG_WATCHDOG_SETUP',['../mod__pulsgen_8h.html#a726ca809ffd3d67ab4b8476646f26635a19cda710dd1ce32c296c9e9f8c1cc1a2',1,'mod_pulsgen.h']]]
 ];

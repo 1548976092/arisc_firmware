@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>OrangeCNC - ARISC firmware documentation: main.c File Reference</title>
+<title>OrangeCNC - ARISC firmware documentation: stepgen_fifo_slot_t Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('main_8c.html','');});
+$(document).ready(function(){initNavTree('structstepgen__fifo__slot__t.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -80,48 +80,59 @@ $(document).ready(function(){initNavTree('main_8c.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">main.c File Reference</div>  </div>
+<div class="title">stepgen_fifo_slot_t Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="sys_8h_source.html">sys.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="mod__gpio_8h_source.html">mod_gpio.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="mod__msg_8h_source.html">mod_msg.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="mod__stepgen_8h_source.html">mod_stepgen.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="mod__encoder_8h_source.html">mod_encoder.h</a>&quot;</code><br />
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a840291bc02cba5474a4cb46a9b9566fe"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#a840291bc02cba5474a4cb46a9b9566fe">main</a> (void)</td></tr>
-<tr class="separator:a840291bc02cba5474a4cb46a9b9566fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+
+<p><code>#include &lt;<a class="el" href="mod__stepgen_8h_source.html">mod_stepgen.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Data Fields</h2></td></tr>
+<tr class="memitem:a1d127017fb298b889f4ba24752d08b8e"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstepgen__fifo__slot__t.html#a1d127017fb298b889f4ba24752d08b8e">type</a></td></tr>
+<tr class="separator:a1d127017fb298b889f4ba24752d08b8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cb6815aa8abf71a064c78bcf41a383b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstepgen__fifo__slot__t.html#a8cb6815aa8abf71a064c78bcf41a383b">toggles</a></td></tr>
+<tr class="separator:a8cb6815aa8abf71a064c78bcf41a383b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a840291bc02cba5474a4cb46a9b9566fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a840291bc02cba5474a4cb46a9b9566fe">&#9670;&nbsp;</a></span>main()</h2>
+<h2 class="groupheader">Field Documentation</h2>
+<a id="a1d127017fb298b889f4ba24752d08b8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d127017fb298b889f4ba24752d08b8e">&#9670;&nbsp;</a></span>type</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int main </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname">uint8_t type</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="mod_encoder_8c-example.html#a0">mod_encoder.c</a>, <a class="el" href="mod_gpio_8c-example.html#a0">mod_gpio.c</a>, <a class="el" href="mod_msg_8c-example.html#a2">mod_msg.c</a>, <a class="el" href="mod_pulsgen_8c-example.html#a0">mod_pulsgen.c</a>, <a class="el" href="mod_stepgen_8c-example.html#a0">mod_stepgen.c</a>, and <a class="el" href="mod_timer_8c-example.html#a0">mod_timer.c</a>.</dd>
-</dl>
+
 </div>
 </div>
+<a id="a8cb6815aa8abf71a064c78bcf41a383b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cb6815aa8abf71a064c78bcf41a383b">&#9670;&nbsp;</a></span>toggles</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t toggles</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="mod__stepgen_8h_source.html">mod_stepgen.h</a></li>
+</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="main_8c.html">main.c</a></li>
+    <li class="navelem"><a class="el" href="structstepgen__fifo__slot__t.html">stepgen_fifo_slot_t</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>

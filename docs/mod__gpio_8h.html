@@ -161,13 +161,13 @@ Macros</h2></td></tr>
 <tr class="memitem:a1c56baf8691304743f5a5a9667703056"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#a1c56baf8691304743f5a5a9667703056">GPIO_MSG_BUF_LEN</a>&#160;&#160;&#160;<a class="el" href="mod__msg_8h.html#a1f15293623649a310a7c68ff240f9647">MSG_LEN</a></td></tr>
 <tr class="memdesc:a1c56baf8691304743f5a5a9667703056"><td class="mdescLeft">&#160;</td><td class="mdescRight">the message data sizes  <a href="#a1c56baf8691304743f5a5a9667703056">More...</a><br /></td></tr>
 <tr class="separator:a1c56baf8691304743f5a5a9667703056"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad727c49f6f8d65ee5c8d3b6c04f3b933"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#ad727c49f6f8d65ee5c8d3b6c04f3b933">GPIO_PIN_SET</a>(PORT,  PIN_MASK)&#160;&#160;&#160;*<a class="el" href="mod__pulsgen_8c.html#a4c7ffa9d73e9b28219932f5a05140099">gpio_port_data</a>[PORT] |= PIN_MASK</td></tr>
+<tr class="memitem:ad727c49f6f8d65ee5c8d3b6c04f3b933"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#ad727c49f6f8d65ee5c8d3b6c04f3b933">GPIO_PIN_SET</a>(PORT,  PIN_MASK)&#160;&#160;&#160;*<a class="el" href="mod__stepgen_8c.html#a4c7ffa9d73e9b28219932f5a05140099">gpio_port_data</a>[PORT] |= PIN_MASK</td></tr>
 <tr class="memdesc:ad727c49f6f8d65ee5c8d3b6c04f3b933"><td class="mdescLeft">&#160;</td><td class="mdescRight">set pin state = 1  <a href="#ad727c49f6f8d65ee5c8d3b6c04f3b933">More...</a><br /></td></tr>
 <tr class="separator:ad727c49f6f8d65ee5c8d3b6c04f3b933"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e814b757b057a7003d2b87d40c08da7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#a9e814b757b057a7003d2b87d40c08da7">GPIO_PIN_CLEAR</a>(PORT,  PIN_MASK_NOT)&#160;&#160;&#160;*<a class="el" href="mod__pulsgen_8c.html#a4c7ffa9d73e9b28219932f5a05140099">gpio_port_data</a>[PORT] &amp;= PIN_MASK_NOT</td></tr>
+<tr class="memitem:a9e814b757b057a7003d2b87d40c08da7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#a9e814b757b057a7003d2b87d40c08da7">GPIO_PIN_CLEAR</a>(PORT,  PIN_MASK_NOT)&#160;&#160;&#160;*<a class="el" href="mod__stepgen_8c.html#a4c7ffa9d73e9b28219932f5a05140099">gpio_port_data</a>[PORT] &amp;= PIN_MASK_NOT</td></tr>
 <tr class="memdesc:a9e814b757b057a7003d2b87d40c08da7"><td class="mdescLeft">&#160;</td><td class="mdescRight">set pin state = 0  <a href="#a9e814b757b057a7003d2b87d40c08da7">More...</a><br /></td></tr>
 <tr class="separator:a9e814b757b057a7003d2b87d40c08da7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae707cf62135b8abb196042836cdb7daa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#ae707cf62135b8abb196042836cdb7daa">GPIO_PIN_GET</a>(PORT,  PIN_MASK)&#160;&#160;&#160;(*<a class="el" href="mod__pulsgen_8c.html#a4c7ffa9d73e9b28219932f5a05140099">gpio_port_data</a>[PORT] &amp; PIN_MASK)</td></tr>
+<tr class="memitem:ae707cf62135b8abb196042836cdb7daa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__gpio_8h.html#ae707cf62135b8abb196042836cdb7daa">GPIO_PIN_GET</a>(PORT,  PIN_MASK)&#160;&#160;&#160;(*<a class="el" href="mod__stepgen_8c.html#a4c7ffa9d73e9b28219932f5a05140099">gpio_port_data</a>[PORT] &amp; PIN_MASK)</td></tr>
 <tr class="memdesc:ae707cf62135b8abb196042836cdb7daa"><td class="mdescLeft">&#160;</td><td class="mdescRight">get pin state  <a href="#ae707cf62135b8abb196042836cdb7daa">More...</a><br /></td></tr>
 <tr class="separator:ae707cf62135b8abb196042836cdb7daa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -606,7 +606,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;*<a class="el" href="mod__pulsgen_8c.html#a4c7ffa9d73e9b28219932f5a05140099">gpio_port_data</a>[PORT] |= PIN_MASK</td>
+          <td></td><td>&#160;&#160;&#160;*<a class="el" href="mod__stepgen_8c.html#a4c7ffa9d73e9b28219932f5a05140099">gpio_port_data</a>[PORT] |= PIN_MASK</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -636,7 +636,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;*<a class="el" href="mod__pulsgen_8c.html#a4c7ffa9d73e9b28219932f5a05140099">gpio_port_data</a>[PORT] &amp;= PIN_MASK_NOT</td>
+          <td></td><td>&#160;&#160;&#160;*<a class="el" href="mod__stepgen_8c.html#a4c7ffa9d73e9b28219932f5a05140099">gpio_port_data</a>[PORT] &amp;= PIN_MASK_NOT</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -666,7 +666,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(*<a class="el" href="mod__pulsgen_8c.html#a4c7ffa9d73e9b28219932f5a05140099">gpio_port_data</a>[PORT] &amp; PIN_MASK)</td>
+          <td></td><td>&#160;&#160;&#160;(*<a class="el" href="mod__stepgen_8c.html#a4c7ffa9d73e9b28219932f5a05140099">gpio_port_data</a>[PORT] &amp; PIN_MASK)</td>
         </tr>
       </table>
 </div><div class="memdoc">

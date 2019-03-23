@@ -85,6 +85,9 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>AB_state
 : <a class="el" href="structencoder__ch__t.html#a09dd655169a54f5e35529eea8eb42176">encoder_ch_t</a>
 </li>
+<li>abort
+: <a class="el" href="structstepgen__ch__t.html#af54eeb7ea4d11bcc974ca9d981e7a331">stepgen_ch_t</a>
+</li>
 <li>abort_on_hold
 : <a class="el" href="structpulsgen__ch__t.html#a69a7d18666dfc03d713bb6d15e192cde">pulsgen_ch_t</a>
 </li>
@@ -101,6 +104,9 @@ $(document).ready(function(){initNavTree('functions.html','');});
 , <a class="el" href="structencoder__msg__pin__setup__t.html#aa03da43d2cb66a780d402267ce28013d">encoder_msg_pin_setup_t</a>
 , <a class="el" href="structencoder__msg__setup__t.html#aa03da43d2cb66a780d402267ce28013d">encoder_msg_setup_t</a>
 , <a class="el" href="structencoder__msg__state__set__t.html#aa03da43d2cb66a780d402267ce28013d">encoder_msg_state_set_t</a>
+</li>
+<li>cnt
+: <a class="el" href="structpulsgen__ch__t.html#af6f803593aee8c037d7703d205765df2">pulsgen_ch_t</a>
 </li>
 <li>counts
 : <a class="el" href="structencoder__ch__t.html#ad81accb2d92fb90d570962574dbcb1ff">encoder_ch_t</a>
@@ -152,21 +158,38 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="structencoder__msg__pin__setup__t.html#a2e63015a6d5134e2f8d58e171e163c4c">encoder_msg_pin_setup_t</a>
 , <a class="el" href="structgpio__msg__port__pin__t.html#a2e63015a6d5134e2f8d58e171e163c4c">gpio_msg_port_pin_t</a>
 </li>
+<li>pin_high_ticks
+: <a class="el" href="structstepgen__ch__t.html#aca7e643f021d66900e9a75094d367c42">stepgen_ch_t</a>
+</li>
 <li>pin_hold_time
 : <a class="el" href="structpulsgen__fifo__item__t.html#a0d6010d7331d716ae8d387e9452cd773">pulsgen_fifo_item_t</a>
+</li>
+<li>pin_invert
+: <a class="el" href="structstepgen__ch__t.html#a44c8a5c9b0e81aed5d9c9041e64a04b9">stepgen_ch_t</a>
 </li>
 <li>pin_inverted
 : <a class="el" href="structpulsgen__ch__t.html#a93dde74fef44def5407a54c88bd742f7">pulsgen_ch_t</a>
 </li>
+<li>pin_low_ticks
+: <a class="el" href="structstepgen__ch__t.html#ae444ab225ac8cda6e2919f35ead72533">stepgen_ch_t</a>
+</li>
 <li>pin_mask
 : <a class="el" href="structencoder__ch__t.html#a2ac4edfac489929becedee83885c73fd">encoder_ch_t</a>
 , <a class="el" href="structpulsgen__ch__t.html#adb86b9d6ab8039a33f3e0aab67ef57a3">pulsgen_ch_t</a>
+, <a class="el" href="structstepgen__ch__t.html#ad615f8840f119c785df1094bbd25e8bf">stepgen_ch_t</a>
 </li>
 <li>pin_mask_not
 : <a class="el" href="structpulsgen__ch__t.html#accbd1609875ecdc8b9c0575b72e84892">pulsgen_ch_t</a>
+, <a class="el" href="structstepgen__ch__t.html#a1cc3cfde13756acb73202c20d1a00737">stepgen_ch_t</a>
+</li>
+<li>pin_port
+: <a class="el" href="structstepgen__ch__t.html#aefa52a41eae915213ccbcdd1f5333383">stepgen_ch_t</a>
 </li>
 <li>pin_setup_time
 : <a class="el" href="structpulsgen__fifo__item__t.html#a9bdc1a313cca3a0673fa2274f459c909">pulsgen_fifo_item_t</a>
+</li>
+<li>pin_state
+: <a class="el" href="structstepgen__ch__t.html#afacbb1e7be774a38535fef6b05bdb1ec">stepgen_ch_t</a>
 </li>
 <li>port
 : <a class="el" href="structencoder__ch__t.html#a9068272b97c7b328f9a5f1f6d3d7e0ee">encoder_ch_t</a>
@@ -175,6 +198,9 @@ $(document).ready(function(){initNavTree('functions.html','');});
 , <a class="el" href="structgpio__msg__port__pin__t.html#a83a04ad582de2b7d36b96f9db429c2c6">gpio_msg_port_pin_t</a>
 , <a class="el" href="structgpio__msg__port__t.html#a83a04ad582de2b7d36b96f9db429c2c6">gpio_msg_port_t</a>
 , <a class="el" href="structpulsgen__ch__t.html#a83a04ad582de2b7d36b96f9db429c2c6">pulsgen_ch_t</a>
+</li>
+<li>pos
+: <a class="el" href="structstepgen__ch__t.html#a3a1bbcb80d6aba4220ac521bd4929f83">stepgen_ch_t</a>
 </li>
 </ul>
 
@@ -202,11 +228,20 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>task_infinite
 : <a class="el" href="structpulsgen__ch__t.html#a75b4ea125202228ed86690ae46a778c6">pulsgen_ch_t</a>
 </li>
+<li>task_slot
+: <a class="el" href="structstepgen__ch__t.html#a07968236195cd41e44af78d15a2449e8">stepgen_ch_t</a>
+</li>
+<li>task_tick
+: <a class="el" href="structstepgen__ch__t.html#ae3006897902ef1979438ea8f127b8188">stepgen_ch_t</a>
+</li>
 <li>task_toggles
 : <a class="el" href="structpulsgen__ch__t.html#ab24b2c016c493b4c52a9fcf1abf24b07">pulsgen_ch_t</a>
 </li>
 <li>task_toggles_todo
 : <a class="el" href="structpulsgen__ch__t.html#a5000d5faa5db2fd66ff0345eefd23e6c">pulsgen_ch_t</a>
+</li>
+<li>tasks
+: <a class="el" href="structstepgen__ch__t.html#a822b9333562f0a26569f16564a0b0ab6">stepgen_ch_t</a>
 </li>
 <li>tasks_done
 : <a class="el" href="structpulsgen__ch__t.html#a94c5643af19ec94322edaff8af1fcd0e">pulsgen_ch_t</a>
@@ -216,16 +251,15 @@ $(document).ready(function(){initNavTree('functions.html','');});
 </li>
 <li>toggles
 : <a class="el" href="structpulsgen__fifo__item__t.html#a8cb6815aa8abf71a064c78bcf41a383b">pulsgen_fifo_item_t</a>
+, <a class="el" href="structstepgen__fifo__slot__t.html#a8cb6815aa8abf71a064c78bcf41a383b">stepgen_fifo_slot_t</a>
 </li>
 <li>toggles_dir
 : <a class="el" href="structpulsgen__ch__t.html#acd98b787b790ec28958bca82a9fedc34">pulsgen_ch_t</a>
 , <a class="el" href="structpulsgen__fifo__item__t.html#acd98b787b790ec28958bca82a9fedc34">pulsgen_fifo_item_t</a>
 </li>
-<li>toggles_done
-: <a class="el" href="structpulsgen__ch__t.html#a170627a8ddf06bfc268ff3072371bdbd">pulsgen_ch_t</a>
-</li>
 <li>type
 : <a class="el" href="structmsg__t.html#a1d127017fb298b889f4ba24752d08b8e">msg_t</a>
+, <a class="el" href="structstepgen__fifo__slot__t.html#a1d127017fb298b889f4ba24752d08b8e">stepgen_fifo_slot_t</a>
 </li>
 </ul>
 

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['u32_5f10_5ft',['u32_10_t',['../structu32__10__t.html',1,'']]]
+  ['stepgen_5fch_5ft',['stepgen_ch_t',['../structstepgen__ch__t.html',1,'']]],
+  ['stepgen_5ffifo_5fslot_5ft',['stepgen_fifo_slot_t',['../structstepgen__fifo__slot__t.html',1,'']]]
 ];
