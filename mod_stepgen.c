@@ -168,7 +168,7 @@ void stepgen_task_add(uint8_t c, uint8_t type, uint32_t toggles, uint32_t pin_lo
     // no free slots?
     if ( gen[c].tasks[slot].toggles ) return;
 
-    if ( c > max_id ) ++max_id;
+    if ( c > max_id ) max_id = c;
 
     gen[c].tasks[slot].type = type;
     gen[c].tasks[slot].toggles = toggles;
