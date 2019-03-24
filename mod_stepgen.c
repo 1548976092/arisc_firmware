@@ -252,8 +252,6 @@ void stepgen_pos_set(uint8_t c, int32_t pos)
  */
 int8_t volatile stepgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
 {
-    static uint8_t i = 0;
-
     u32_10_t *in = (u32_10_t*) msg;
     u32_10_t *out = (u32_10_t*) msg_buf;
 
