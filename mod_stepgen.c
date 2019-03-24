@@ -50,13 +50,38 @@ static void abort(uint8_t c)
     for ( i = STEPGEN_FIFO_SIZE; i--; ) gen[c].tasks[i].pulses = 0;
 }
 
+static void toggle_pin(uint8_t c, uint8_t t)
+{
+    if ( gen[c].pin_state[t] ^ gen[c].pin_invert[t] )
+        GPIO_PIN_SET(gen[c].pin_port[t], gen[c].pin_mask[t]);
+    else
+        GPIO_PIN_CLEAR(gen[c].pin_port[t], gen[c].pin_mask_not[t]);
+}
+
 static void goto_next_task(uint8_t c)
 {
     // go to the next fifo slot
     gen[c].task_slot++;
     if ( gen[c].task_slot >= STEPGEN_FIFO_SIZE ) gen[c].task_slot = 0;
-    // no more tasks to do?
-    if ( !gen[c].tasks[gen[c].task_slot].pulses ) idle(c);
+
+    // have we more tasks to do?
+    if ( gen[c].tasks[gen[c].task_slot].pulses )
+    {
+        uint8_t type = gen[c].tasks[gen[c].task_slot].type;
+
+        if ( type )
+        {
+            gen[c].tasks[gen[c].task_slot].pulses = 2;
+            gen[c].task_tick += gen[c].tasks[gen[c].task_slot].low_ticks;
+        }
+        else
+        {
+            gen[c].pin_state[type] = 1;
+            gen[c].task_tick += gen[c].tasks[gen[c].task_slot].high_ticks;
+            toggle_pin(c, type);
+        }
+    }
+    else idle(c);
 }
 
 
@@ -89,7 +114,7 @@ void stepgen_module_init()
  */
 void stepgen_module_base_thread()
 {
-    static uint8_t c, t, toggle;
+    static uint8_t c;
     static stepgen_ch_t *g;
     static stepgen_fifo_slot_t *s;
 
@@ -104,65 +129,46 @@ void stepgen_module_base_thread()
 
         g = &gen[c];                    // stepgen channel
         s = &g->tasks[g->task_slot];    // channel's fifo slot
-        t = s->type;                    // channel's task type (0=step,1=dir)
+        #define t s->type               // channel's task type (0=step,1=dir)
 
         // we need to stop? && (it's DIR task || step pin is LOW)
         if ( g->abort && (t || !g->pin_state[0]) ) { abort(c); continue; }
         // it's not a time for a pulse?
         if ( tick < g->task_tick ) continue;
 
-        toggle = 1; // change pin state
-
         if ( t ) // dir
         {
-            if ( g->task_stage ) // setup
+            if ( s->pulses > 1 ) // hold
             {
-                g->task_stage = 0;
-                g->task_tick += s->low_ticks;
-                toggle = 0; // don't touch any pins, just wait
+                g->pin_state[t] = g->pin_state[t] ? 0 : 1;
+                g->task_tick += s->high_ticks;
             }
-            else // hold
-            {
-                if ( s->pulses == 2 )
-                {
-                    g->pin_state[t] = g->pin_state[t] ? 0 : 1;
-                    g->task_tick += s->high_ticks;
-                }
-                else if ( s->pulses == 1 ) goto_next_task(c);
-                s->pulses--;
-            }
+            else goto_next_task(c); // dir task done
+
+            s->pulses--;
         }
         else // step
         {
-            if ( g->task_stage ) // high
+            if ( g->pin_state[t] ) // high
             {
-                g->task_stage = 0;
-                g->pin_state[t] = 1;
-                g->task_tick += s->high_ticks;
+                g->pin_state[t] = 0;
+                g->task_tick += s->low_ticks;
             }
             else // low
             {
-                if ( g->pin_state[t] )
+                g->pos += g->pin_state[1] ? -1 : 1;
+                s->pulses--;
+                if ( s->pulses ) // have we more steps to do?
                 {
-                    g->pin_state[t] = 0;
-                    g->task_tick += s->low_ticks;
+                    g->pin_state[t] = 1;
+                    g->task_tick += s->high_ticks;
                 }
-                else
-                {
-                    g->pos += g->pin_state[1] ? -1 : 1; // update position
-                    s->pulses--;
-                    if ( s->pulses ) g->task_stage = 1;
-                    else  goto_next_task(c);
-                }
-
+                else goto_next_task(c); // step task done
             }
         }
 
-        if ( toggle ) // we need to toggle the pin?
-        {
-            if ( g->pin_state[t] ^ g->pin_invert[t] ) GPIO_PIN_SET(g->pin_port[t], g->pin_mask[t]);
-            else GPIO_PIN_CLEAR(g->pin_port[t], g->pin_mask_not[t]);
-        }
+        toggle_pin(c, t);
+        #undef t
     }
 }
 
@@ -184,15 +190,13 @@ void stepgen_pin_setup(uint8_t c, uint8_t type, uint8_t port, uint8_t pin, uint8
 {
     gpio_pin_setup_for_output(port, pin);
 
+    gen[c].pin_state[type] = 0;
     gen[c].pin_port[type] = port;
     gen[c].pin_mask[type] = 1U << pin;
     gen[c].pin_mask_not[type] = ~(gen[c].pin_mask[type]);
     gen[c].pin_invert[type] = invert ? 1 : 0;
 
-    // reset pin state
-    gen[c].pin_state[type] = 0;
-    if ( gen[c].pin_invert[type] ) GPIO_PIN_SET(port, gen[c].pin_mask[type]);
-    else GPIO_PIN_CLEAR(port, gen[c].pin_mask_not[type]);
+    toggle_pin(c, type);
 }
 
 
@@ -225,14 +229,29 @@ void stepgen_task_add(uint8_t c, uint8_t type, uint32_t pulses, uint32_t pin_low
 
     busy(c);
 
-    gen[c].task_stage = 1;
-    gen[c].task_tick = tick;
     gen[c].tasks[slot].type = type;
     gen[c].tasks[slot].pulses = type ? 2 : pulses;
     gen[c].tasks[slot].low_ticks = (uint32_t) ( (uint64_t)pin_low_time *
         (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
     gen[c].tasks[slot].high_ticks = (uint32_t) ( (uint64_t)pin_high_time *
         (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
+
+    // start a task right now?
+    if ( slot == gen[c].task_slot )
+    {
+        gen[c].task_tick = tick + 9000;
+
+        if ( type )
+        {
+            gen[c].task_tick += gen[c].tasks[slot].low_ticks;
+        }
+        else
+        {
+            gen[c].pin_state[type] = 1;
+            gen[c].task_tick += gen[c].tasks[slot].high_ticks;
+            toggle_pin(c, type);
+        }
+    }
 }
 
 
