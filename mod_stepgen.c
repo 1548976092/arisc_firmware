@@ -13,10 +13,10 @@
 
 // private vars
 
-static uint8_t max_id = 0; // maximum channel id
+static uint8_t max_id = 0; // uses to speedup idle channels processing
 static stepgen_ch_t gen[STEPGEN_CH_CNT] = {0}; // array of channels data
-static uint8_t msg_buf[STEPGEN_MSG_BUF_LEN] = {0};
-static uint64_t tick = 0;
+static uint8_t msg_buf[STEPGEN_MSG_BUF_LEN] = {0}; // message buffer
+static uint64_t tick = 0; // last CPU tick
 
 // uses with GPIO module macros
 extern volatile uint32_t * gpio_port_data[GPIO_PORTS_CNT];
@@ -24,9 +24,21 @@ extern volatile uint32_t * gpio_port_data[GPIO_PORTS_CNT];
 
 
 
-// private function prototypes
+// private functions
 
 static void abort(uint8_t c);
+static void busy(uint8_t c)
+{
+    // we need to increase max channel ID?
+    if ( c > max_id ) max_id = c;
+}
+static void idle(uint8_t c)
+{
+    // no need to decrease max channel ID?
+    if ( !max_id || c != max_id ) return;
+    // decrease max channel ID
+    for ( max_id--; gen[max_id].tasks[gen[c].task_slot].toggles; max_id-- );
+}
 
 
 
@@ -99,17 +111,17 @@ void stepgen_module_base_thread()
 
         // it's a STEP task?
         if ( !t ) g->pos += g->pin_state[1] ? -1 : 1; // update position
-
         // update toggles
         s->toggles--;
+
         // no more toggles to do?
         if ( !s->toggles )
         {
             // go to the next fifo slot
             g->task_slot++;
             if ( g->task_slot >= STEPGEN_FIFO_SIZE ) g->task_slot = 0;
-            if ( !gen[c].tasks[g->task_slot].toggles &&
-                (max_id && c == max_id) ) --max_id;
+            // no more tasks to do?
+            if ( !gen[c].tasks[g->task_slot].toggles ) idle(c);
         }
     }
 }
@@ -171,7 +183,7 @@ void stepgen_task_add(uint8_t c, uint8_t type, uint32_t toggles, uint32_t pin_lo
     // no free slots?
     if ( gen[c].tasks[slot].toggles ) return;
 
-    if ( c > max_id ) max_id = c;
+    busy(c);
 
     gen[c].tasks[slot].type = type;
     gen[c].tasks[slot].toggles = toggles;
@@ -204,7 +216,7 @@ static void abort(uint8_t c)
 
     gen[c].abort = 0;
 
-    if ( max_id && c == max_id ) --max_id;
+    idle(c);
 
     // fifo cleanup
     for ( i = STEPGEN_FIFO_SIZE; i--; ) gen[c].tasks[i].toggles = 0;
