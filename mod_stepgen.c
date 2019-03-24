@@ -69,12 +69,13 @@ void stepgen_module_base_thread()
     // check all working channels
     for ( c = max_id + 1; c--; )
     {
+        // channel disabled?
+        if ( !gen[c].tasks[ gen[c].task_slot ].toggles ) continue;
+
         g = &gen[c];                    // stepgen channel
         s = &g->tasks[g->task_slot];    // channel's fifo slot
         t = s->type;                    // channel's task type (0=step,1=dir)
 
-        // channel disabled?
-        if ( !s->toggles ) continue;
         // we need to stop? && (it's DIR task || step pin is LOW)
         if ( g->abort && (t || !g->pin_state[t]) ) { abort(c); continue; }
         // it's not a time for a pulse?
