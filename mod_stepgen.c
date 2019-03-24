@@ -77,7 +77,7 @@ void stepgen_module_base_thread()
         t = s->type;                    // channel's task type (0=step,1=dir)
 
         // we need to stop? && (it's DIR task || step pin is LOW)
-        if ( g->abort && (t || !g->pin_state[t]) ) { abort(c); continue; }
+        if ( g->abort && (t || !g->pin_state[0]) ) { abort(c); continue; }
         // it's not a time for a pulse?
         if ( tick < g->task_tick ) continue;
 
