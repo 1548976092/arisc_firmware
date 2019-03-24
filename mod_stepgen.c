@@ -87,14 +87,14 @@ void stepgen_module_base_thread()
             if ( g->pin_invert[t] ) GPIO_PIN_SET(g->pin_port[t], g->pin_mask[t]);
             else GPIO_PIN_CLEAR(g->pin_port[t], g->pin_mask_not[t]);
             g->pin_state[t] = 0;
-            g->task_tick += s->pin_low_ticks;
+            g->task_tick += s->low_ticks;
         }
         else // pin state is LOW
         {
             if ( !g->pin_invert[t] ) GPIO_PIN_SET(g->pin_port[t], g->pin_mask[t]);
             else GPIO_PIN_CLEAR(g->pin_port[t], g->pin_mask_not[t]);
             g->pin_state[t] = 1;
-            g->task_tick += s->pin_high_ticks;
+            g->task_tick += s->high_ticks;
         }
 
         // it's a STEP task?
@@ -173,16 +173,14 @@ void stepgen_task_add(uint8_t c, uint8_t type, uint32_t toggles, uint32_t pin_lo
 
     gen[c].tasks[slot].type = type;
     gen[c].tasks[slot].toggles = toggles;
-    gen[c].tasks[slot].pin_low_ticks = (uint32_t) ( (uint64_t)pin_low_time *
+    gen[c].tasks[slot].low_ticks = (uint32_t) ( (uint64_t)pin_low_time *
         (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
-    gen[c].tasks[slot].pin_high_ticks = (uint32_t) ( (uint64_t)pin_high_time *
+    gen[c].tasks[slot].high_ticks = (uint32_t) ( (uint64_t)pin_high_time *
         (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
 
     // need to start task right now?
     if ( slot == gen[c].task_slot ) gen[c].task_tick = tick +
-        gen[c].pin_state[type] ?
-            gen[c].tasks[slot].pin_high_ticks :
-            gen[c].tasks[slot].pin_low_ticks ;
+        ( gen[c].pin_state[type] ? gen[c].tasks[slot].high_ticks : gen[c].tasks[slot].low_ticks );
 }
 
 

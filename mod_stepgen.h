@@ -35,8 +35,8 @@ typedef struct
 {
     uint8_t     type; // 0:step, 1:dir
     uint32_t    toggles; // 0:empty slot, !0:used
-    uint32_t    pin_low_ticks;
-    uint32_t    pin_high_ticks;
+    uint32_t    low_ticks;
+    uint32_t    high_ticks;
 
 } stepgen_fifo_slot_t;
 
