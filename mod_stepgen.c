@@ -108,6 +108,7 @@ void stepgen_module_base_thread()
             // go to the next fifo slot
             g->task_slot++;
             if ( g->task_slot >= STEPGEN_FIFO_SIZE ) g->task_slot = 0;
+            if ( !s->toggles && (max_id && c == max_id) ) --max_id;
         }
     }
 }
