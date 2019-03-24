@@ -237,6 +237,27 @@ void stepgen_pos_set(uint8_t c, int32_t pos)
 
 
 /**
+ * @brief   task count left to do
+ * @param   c           channel id
+ * @retval  uint8_t     task count left to do (including current task)
+ */
+uint8_t stepgen_tasks_left(uint8_t c)
+{
+    uint8_t i, slot, cnt = 0;
+
+    for ( i = STEPGEN_FIFO_SIZE, slot = gen[c].task_slot; i--; slot++ )
+    {
+        if ( slot >= STEPGEN_FIFO_SIZE ) slot = 0;
+        if ( gen[c].tasks[slot].toggles ) cnt++;
+    }
+
+    return cnt;
+}
+
+
+
+
+/**
  * @brief   "message received" callback
  *
  * @note    this function will be called automatically
@@ -271,6 +292,10 @@ int8_t volatile stepgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             break;
         case STEPGEN_MSG_POS_SET:
             stepgen_pos_set(in->v[0], (int32_t)in->v[1]);
+            break;
+        case STEPGEN_MSG_TASKS_LEFT:
+            out->v[0] = (uint32_t) stepgen_tasks_left(in->v[0]);
+            msg_send(type, msg_buf, 4);
             break;
 
         default: return -1;
