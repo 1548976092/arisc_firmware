@@ -66,6 +66,7 @@ static void goto_next_task(uint8_t c)
         }
         else
         {
+            gen[c].task_infinite = gen[c].tasks[gen[c].task_slot].pulses > INT32_MAX ? 1 : 0;
             gen[c].pin_state[type] = 1;
             gen[c].task_tick += gen[c].tasks[gen[c].task_slot].high_ticks;
             toggle_pin(c, type);
@@ -162,7 +163,7 @@ void stepgen_module_base_thread()
             else // low
             {
                 g->pos += g->pin_state[1] ? -1 : 1;
-                s->pulses--;
+                if ( !g->task_infinite ) s->pulses--;
                 if ( s->pulses ) // have we more steps to do?
                 {
                     g->pin_state[t] = 1;
@@ -252,6 +253,7 @@ void stepgen_task_add(uint8_t c, uint8_t type, uint32_t pulses, uint32_t pin_low
         }
         else
         {
+            gen[c].task_infinite = gen[c].tasks[slot].pulses > INT32_MAX ? 1 : 0;
             gen[c].pin_state[type] = 1;
             gen[c].task_tick += gen[c].tasks[slot].high_ticks;
             toggle_pin(c, type);

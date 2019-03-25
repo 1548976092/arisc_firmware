@@ -53,6 +53,7 @@ typedef struct
 
     uint8_t     abort;
 
+    uint8_t                 task_infinite;
     uint8_t                 task_slot;
     uint64_t                task_tick;
     stepgen_fifo_slot_t     tasks[STEPGEN_FIFO_SIZE];
