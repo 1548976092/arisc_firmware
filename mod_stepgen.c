@@ -40,16 +40,6 @@ static void idle(uint8_t c)
     for ( max_id--; gen[max_id].tasks[gen[c].task_slot].pulses; max_id-- );
 }
 
-static void abort(uint8_t c)
-{
-    gen[c].abort = 0;
-    idle(c);
-
-    // fifo cleanup
-    uint8_t i;
-    for ( i = STEPGEN_FIFO_SIZE; i--; ) gen[c].tasks[i].pulses = 0;
-}
-
 static void toggle_pin(uint8_t c, uint8_t t)
 {
     if ( gen[c].pin_state[t] ^ gen[c].pin_invert[t] )
@@ -82,6 +72,21 @@ static void goto_next_task(uint8_t c)
         }
     }
     else idle(c);
+}
+
+static void abort(uint8_t c)
+{
+    if ( gen[c].abort > 1 )
+    {
+        // fifo cleanup
+        uint8_t i;
+        for ( i = STEPGEN_FIFO_SIZE; i--; ) gen[c].tasks[i].pulses = 0;
+        // free channel id
+        idle(c);
+    }
+    else goto_next_task(c);
+
+    gen[c].abort = 0;
 }
 
 
@@ -259,12 +264,13 @@ void stepgen_task_add(uint8_t c, uint8_t type, uint32_t pulses, uint32_t pin_low
 
 /**
  * @brief   abort all tasks for the selected channel
- * @param   c   channel id
+ * @param   c       channel id
+ * @param   all     abort all task?
  * @retval  none
  */
-void stepgen_abort(uint8_t c)
+void stepgen_abort(uint8_t c, uint8_t all)
 {
-    gen[c].abort = 1;
+    gen[c].abort = all ? 2 : 1;
 }
 
 
@@ -342,7 +348,7 @@ int8_t volatile stepgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             stepgen_task_add(in->v[0], in->v[1], in->v[2], in->v[3], in->v[4]);
             break;
         case STEPGEN_MSG_ABORT:
-            stepgen_abort(in->v[0]);
+            stepgen_abort(in->v[0], in->v[1]);
             break;
         case STEPGEN_MSG_POS_GET:
             out->v[0] = (uint32_t) stepgen_pos_get(in->v[0]);
