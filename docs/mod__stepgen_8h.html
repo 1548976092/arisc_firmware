@@ -124,6 +124,7 @@ Enumerations</h2></td></tr>
 <a class="el" href="mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf6cd7c98ac1fb53dc5d5be7f3a78317d">STEPGEN_MSG_POS_GET</a>, 
 <br />
 &#160;&#160;<a class="el" href="mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daadd2b95fe787b4566197d0077ce8971b">STEPGEN_MSG_POS_SET</a>, 
+<a class="el" href="mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf2c0e4a587af312339d79d21f2e0ade8">STEPGEN_MSG_TASKS_LEFT</a>, 
 <a class="el" href="mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da27323544b34707df604e85d578e67790">STEPGEN_MSG_CNT</a>
 <br />
  }</td></tr>
@@ -140,12 +141,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a76c18f23772eec1d9d3fb9dd2119487c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__stepgen_8h.html#a76c18f23772eec1d9d3fb9dd2119487c">stepgen_pin_setup</a> (uint8_t c, uint8_t type, uint8_t port, uint8_t pin, uint8_t invert)</td></tr>
 <tr class="memdesc:a76c18f23772eec1d9d3fb9dd2119487c"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup GPIO pin for the selected channel  <a href="#a76c18f23772eec1d9d3fb9dd2119487c">More...</a><br /></td></tr>
 <tr class="separator:a76c18f23772eec1d9d3fb9dd2119487c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a669878afce43157603668aae25db3406"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__stepgen_8h.html#a669878afce43157603668aae25db3406">stepgen_task_add</a> (uint8_t c, uint8_t type, uint32_t toggles, uint32_t pin_low_time, uint32_t pin_high_time)</td></tr>
-<tr class="memdesc:a669878afce43157603668aae25db3406"><td class="mdescLeft">&#160;</td><td class="mdescRight">add a new task for the selected channel  <a href="#a669878afce43157603668aae25db3406">More...</a><br /></td></tr>
-<tr class="separator:a669878afce43157603668aae25db3406"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dba84a30a7fe5bccde6d4e6dd0aaac7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__stepgen_8h.html#a7dba84a30a7fe5bccde6d4e6dd0aaac7">stepgen_abort</a> (uint8_t c)</td></tr>
-<tr class="memdesc:a7dba84a30a7fe5bccde6d4e6dd0aaac7"><td class="mdescLeft">&#160;</td><td class="mdescRight">abort all tasks for the selected channel  <a href="#a7dba84a30a7fe5bccde6d4e6dd0aaac7">More...</a><br /></td></tr>
-<tr class="separator:a7dba84a30a7fe5bccde6d4e6dd0aaac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52dff69cf40ad614a0997cb69294a3f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__stepgen_8h.html#a52dff69cf40ad614a0997cb69294a3f3">stepgen_task_add</a> (uint8_t c, uint8_t type, uint32_t pulses, uint32_t pin_low_time, uint32_t pin_high_time)</td></tr>
+<tr class="memdesc:a52dff69cf40ad614a0997cb69294a3f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">add a new task for the selected channel  <a href="#a52dff69cf40ad614a0997cb69294a3f3">More...</a><br /></td></tr>
+<tr class="separator:a52dff69cf40ad614a0997cb69294a3f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1987baf2be40fdf44f84356533516c17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__stepgen_8h.html#a1987baf2be40fdf44f84356533516c17">stepgen_abort</a> (uint8_t c, uint8_t all)</td></tr>
+<tr class="memdesc:a1987baf2be40fdf44f84356533516c17"><td class="mdescLeft">&#160;</td><td class="mdescRight">abort all tasks for the selected channel  <a href="#a1987baf2be40fdf44f84356533516c17">More...</a><br /></td></tr>
+<tr class="separator:a1987baf2be40fdf44f84356533516c17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9b0241e054c570a042b70b7a8f2682c"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__stepgen_8h.html#af9b0241e054c570a042b70b7a8f2682c">stepgen_pos_get</a> (uint8_t c)</td></tr>
 <tr class="memdesc:af9b0241e054c570a042b70b7a8f2682c"><td class="mdescLeft">&#160;</td><td class="mdescRight">set channel steps position  <a href="#af9b0241e054c570a042b70b7a8f2682c">More...</a><br /></td></tr>
 <tr class="separator:af9b0241e054c570a042b70b7a8f2682c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -223,6 +224,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a0411cd49bb5b71852cecd93bcbf0ca2da3004a9efaad2a6f80c34e5f9a1f4bca1"></a>STEPGEN_MSG_ABORT&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a0411cd49bb5b71852cecd93bcbf0ca2daf6cd7c98ac1fb53dc5d5be7f3a78317d"></a>STEPGEN_MSG_POS_GET&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a0411cd49bb5b71852cecd93bcbf0ca2daadd2b95fe787b4566197d0077ce8971b"></a>STEPGEN_MSG_POS_SET&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0411cd49bb5b71852cecd93bcbf0ca2daf2c0e4a587af312339d79d21f2e0ade8"></a>STEPGEN_MSG_TASKS_LEFT&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a0411cd49bb5b71852cecd93bcbf0ca2da27323544b34707df604e85d578e67790"></a>STEPGEN_MSG_CNT&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
@@ -345,8 +347,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a669878afce43157603668aae25db3406"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a669878afce43157603668aae25db3406">&#9670;&nbsp;</a></span>stepgen_task_add()</h2>
+<a id="a52dff69cf40ad614a0997cb69294a3f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52dff69cf40ad614a0997cb69294a3f3">&#9670;&nbsp;</a></span>stepgen_task_add()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -367,7 +369,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>toggles</em>, </td>
+          <td class="paramname"><em>pulses</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -394,7 +396,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">c</td><td>channel id </td></tr>
     <tr><td class="paramname">type</td><td>0:step, 1:dir </td></tr>
-    <tr><td class="paramname">toggles</td><td>number of pin state changes </td></tr>
+    <tr><td class="paramname">pulses</td><td>number of pulses (ignored for DIR task) </td></tr>
     <tr><td class="paramname">pin_low_time</td><td>pin LOW state duration (in nanoseconds) </td></tr>
     <tr><td class="paramname">pin_high_time</td><td>pin HIGH state duration (in nanoseconds)</td></tr>
   </table>
@@ -409,8 +411,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a7dba84a30a7fe5bccde6d4e6dd0aaac7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7dba84a30a7fe5bccde6d4e6dd0aaac7">&#9670;&nbsp;</a></span>stepgen_abort()</h2>
+<a id="a1987baf2be40fdf44f84356533516c17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1987baf2be40fdf44f84356533516c17">&#9670;&nbsp;</a></span>stepgen_abort()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -419,8 +421,18 @@ Functions</h2></td></tr>
           <td class="memname">void stepgen_abort </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>c</em></td><td>)</td>
+          <td class="paramname"><em>c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>all</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -429,6 +441,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>channel id </td></tr>
+    <tr><td class="paramname">all</td><td>abort all task? </td></tr>
   </table>
   </dd>
 </dl>

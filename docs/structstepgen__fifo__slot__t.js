@@ -1,7 +1,7 @@
 var structstepgen__fifo__slot__t =
 [
     [ "type", "structstepgen__fifo__slot__t.html#a1d127017fb298b889f4ba24752d08b8e", null ],
-    [ "toggles", "structstepgen__fifo__slot__t.html#a8cb6815aa8abf71a064c78bcf41a383b", null ],
-    [ "pin_low_ticks", "structstepgen__fifo__slot__t.html#a8d73f9f85f5cabd6c0929655413ed45b", null ],
-    [ "pin_high_ticks", "structstepgen__fifo__slot__t.html#add50eeefb397058d98a9202002c4279d", null ]
+    [ "pulses", "structstepgen__fifo__slot__t.html#af990eddaa908d8e2a6b5567989eb2e58", null ],
+    [ "low_ticks", "structstepgen__fifo__slot__t.html#a20e782ffc21797e1e912ed0a98ada5c8", null ],
+    [ "high_ticks", "structstepgen__fifo__slot__t.html#a77a0732fe2b2951b46e9135073110348", null ]
 ];
