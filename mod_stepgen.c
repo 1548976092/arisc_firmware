@@ -152,13 +152,12 @@ void stepgen_module_base_thread()
     {
         // channel disabled?
         if ( !TASK.pulses ) continue;
-        // we need to stop? && (it's DIR task || step pin is LOW)
-        if ( SG.abort && (TASK.type || !SG.pin_state[0]) ) { abort(c); continue; }
         // it's not a time for a pulse?
         if ( tick < SG.task_tick ) continue;
 
         if ( TASK.type ) // DIR task
         {
+            if ( SG.abort ) { abort(c); continue; }
             if ( TASK.pulses > 1 ) // hold
             {
                 SG.pin_state[TASK.type] = SG.pin_state[TASK.type] ? 0 : 1;
@@ -178,8 +177,9 @@ void stepgen_module_base_thread()
             else // low
             {
                 SG.pos += SG.pin_state[1] ? -1 : 1;
-                if ( !SG.task_infinite ) TASK.pulses--;
 
+                if ( SG.abort ) { abort(c); continue; }
+                if ( !SG.task_infinite ) TASK.pulses--;
                 if ( TASK.pulses ) // have we more steps to do?
                 {
                     SG.pin_state[TASK.type] = 1;
