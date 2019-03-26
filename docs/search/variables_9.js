@@ -8,6 +8,7 @@ var searchData=
   ['task_5ftoggles_5ftodo',['task_toggles_todo',['../structpulsgen__ch__t.html#a5000d5faa5db2fd66ff0345eefd23e6c',1,'pulsgen_ch_t']]],
   ['tasks',['tasks',['../structstepgen__ch__t.html#a822b9333562f0a26569f16564a0b0ab6',1,'stepgen_ch_t']]],
   ['tasks_5fdone',['tasks_done',['../structpulsgen__ch__t.html#a94c5643af19ec94322edaff8af1fcd0e',1,'pulsgen_ch_t']]],
+  ['tick',['tick',['../structstepgen__fifo__slot__t.html#a2c38447b8253c8df855e3131c95941a1',1,'stepgen_fifo_slot_t']]],
   ['todo_5ftick',['todo_tick',['../structpulsgen__ch__t.html#a8877063788184b18eadf986ed313ba26',1,'pulsgen_ch_t']]],
   ['toggles',['toggles',['../structpulsgen__fifo__item__t.html#a8cb6815aa8abf71a064c78bcf41a383b',1,'pulsgen_fifo_item_t']]],
   ['toggles_5fdir',['toggles_dir',['../structpulsgen__ch__t.html#acd98b787b790ec28958bca82a9fedc34',1,'pulsgen_ch_t::toggles_dir()'],['../structpulsgen__fifo__item__t.html#acd98b787b790ec28958bca82a9fedc34',1,'pulsgen_fifo_item_t::toggles_dir()']]],

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['t',['t',['../mod__stepgen_8c.html#a1f0cf49f22a9b271d1d9e6e14609faed',1,'mod_stepgen.c']]],
+  ['t',['t',['../mod__stepgen_8c.html#a1f0cf49f22a9b271d1d9e6e14609faed',1,'t():&#160;mod_stepgen.c'],['../mod__stepgen_8c.html#a1f0cf49f22a9b271d1d9e6e14609faed',1,'t():&#160;mod_stepgen.c']]],
   ['task',['task',['../structpulsgen__ch__t.html#ac064e347dd925fff522092558d00a490',1,'pulsgen_ch_t']]],
   ['task_5finfinite',['task_infinite',['../structpulsgen__ch__t.html#a75b4ea125202228ed86690ae46a778c6',1,'pulsgen_ch_t::task_infinite()'],['../structstepgen__ch__t.html#a75b4ea125202228ed86690ae46a778c6',1,'stepgen_ch_t::task_infinite()']]],
   ['task_5fslot',['task_slot',['../structstepgen__ch__t.html#a07968236195cd41e44af78d15a2449e8',1,'stepgen_ch_t']]],
@@ -16,6 +16,7 @@ var searchData=
   ['ths_5fclk_5fsrc_5fosc24m',['THS_CLK_SRC_OSC24M',['../sys_8h.html#acb327f3c3edb1b719e3f8bc89e5304a3',1,'sys.h']]],
   ['ths_5fgating',['THS_GATING',['../sys_8h.html#a7f4f7a1fef4b8fab540c50af006d7722',1,'sys.h']]],
   ['ths_5frst',['THS_RST',['../sys_8h.html#a28b1a98f4c4c6976a195f57370355f8d',1,'sys.h']]],
+  ['tick',['tick',['../structstepgen__fifo__slot__t.html#a2c38447b8253c8df855e3131c95941a1',1,'stepgen_fifo_slot_t']]],
   ['timer_5fcnt_5fget',['TIMER_CNT_GET',['../mod__timer_8h.html#a8e6a3b2eb0563b3d94d83939efce5b21',1,'TIMER_CNT_GET():&#160;mod_timer.h'],['../mod__timer_8c.html#ac0b22a5df951fddf6977edf3b1cd55f6',1,'timer_cnt_get():&#160;mod_timer.c'],['../mod__timer_8h.html#ac0b22a5df951fddf6977edf3b1cd55f6',1,'timer_cnt_get():&#160;mod_timer.c']]],
   ['timer_5fcnt_5fget_5f64',['timer_cnt_get_64',['../mod__timer_8c.html#a197b3a4ed7085bc37f8dcb177c80486f',1,'timer_cnt_get_64():&#160;mod_timer.c'],['../mod__timer_8h.html#a197b3a4ed7085bc37f8dcb177c80486f',1,'timer_cnt_get_64():&#160;mod_timer.c']]],
   ['timer_5fcnt_5fset',['timer_cnt_set',['../mod__timer_8c.html#aef86d8f8e96209074113a6579ba042ce',1,'timer_cnt_set(uint32_t cnt):&#160;mod_timer.c'],['../mod__timer_8h.html#aef86d8f8e96209074113a6579ba042ce',1,'timer_cnt_set(uint32_t cnt):&#160;mod_timer.c'],['../mod__timer_8h.html#a6cb2b7772151124948e5d17d1c6e08ea',1,'TIMER_CNT_SET():&#160;mod_timer.h']]],
