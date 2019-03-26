@@ -103,7 +103,11 @@ static void abort(uint8_t c)
         // free channel id
         idle(c);
     }
-    else goto_next_task(c);
+    else
+    {
+        TASK.pulses = 0;
+        goto_next_task(c);
+    }
 
     SG.abort = 0;
 }
