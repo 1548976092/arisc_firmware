@@ -11,7 +11,7 @@
  *      <a href="http://machinekit.io">Machinekit</a>
  * make a real-time @b GPIO manipulations.
  *
- * http://github.com/orange-cnc/h3_arisc_firmware
+ * http://github.com/orange-cnc/arisc_firmware
  *
  */
 
