@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['t',['t',['../mod__stepgen_8c.html#a1f0cf49f22a9b271d1d9e6e14609faed',1,'t():&#160;mod_stepgen.c'],['../mod__stepgen_8c.html#a1f0cf49f22a9b271d1d9e6e14609faed',1,'t():&#160;mod_stepgen.c']]],
-  ['task',['task',['../structpulsgen__ch__t.html#ac064e347dd925fff522092558d00a490',1,'pulsgen_ch_t']]],
+  ['task',['task',['../structpulsgen__ch__t.html#ac064e347dd925fff522092558d00a490',1,'pulsgen_ch_t::task()'],['../mod__stepgen_8c.html#af0d589fbe2b26bdee7a8c36ce4446a24',1,'TASK():&#160;mod_stepgen.c']]],
   ['task_5finfinite',['task_infinite',['../structpulsgen__ch__t.html#a75b4ea125202228ed86690ae46a778c6',1,'pulsgen_ch_t::task_infinite()'],['../structstepgen__ch__t.html#a75b4ea125202228ed86690ae46a778c6',1,'stepgen_ch_t::task_infinite()']]],
   ['task_5fslot',['task_slot',['../structstepgen__ch__t.html#a07968236195cd41e44af78d15a2449e8',1,'stepgen_ch_t']]],
   ['task_5ftick',['task_tick',['../structstepgen__ch__t.html#ae3006897902ef1979438ea8f127b8188',1,'stepgen_ch_t']]],
@@ -22,7 +21,7 @@ var searchData=
   ['timer_5fcnt_5fset',['timer_cnt_set',['../mod__timer_8c.html#aef86d8f8e96209074113a6579ba042ce',1,'timer_cnt_set(uint32_t cnt):&#160;mod_timer.c'],['../mod__timer_8h.html#aef86d8f8e96209074113a6579ba042ce',1,'timer_cnt_set(uint32_t cnt):&#160;mod_timer.c'],['../mod__timer_8h.html#a6cb2b7772151124948e5d17d1c6e08ea',1,'TIMER_CNT_SET():&#160;mod_timer.h']]],
   ['timer_5ffrequency',['TIMER_FREQUENCY',['../mod__timer_8h.html#a150e4f9c8426a49d5153393b6612ef9e',1,'mod_timer.h']]],
   ['timer_5ffrequency_5fmhz',['TIMER_FREQUENCY_MHZ',['../mod__timer_8h.html#a19f140dc1376350673aaac7d35cf1ccf',1,'mod_timer.h']]],
-  ['timer_5fstart',['TIMER_START',['../mod__timer_8h.html#a61d5531e2b8556916fa42733208f0659',1,'TIMER_START():&#160;mod_timer.h'],['../mod__timer_8c.html#a161432848a326da3a1ea7765fc2bc023',1,'timer_start():&#160;mod_timer.c'],['../mod__timer_8h.html#a161432848a326da3a1ea7765fc2bc023',1,'timer_start():&#160;mod_timer.c']]],
+  ['timer_5fstart',['timer_start',['../mod__timer_8c.html#a161432848a326da3a1ea7765fc2bc023',1,'timer_start():&#160;mod_timer.c'],['../mod__timer_8h.html#a161432848a326da3a1ea7765fc2bc023',1,'timer_start():&#160;mod_timer.c'],['../mod__timer_8h.html#a61d5531e2b8556916fa42733208f0659',1,'TIMER_START():&#160;mod_timer.h']]],
   ['timer_5fstop',['TIMER_STOP',['../mod__timer_8h.html#a8055a02ef3688352212e0dba357905b3',1,'TIMER_STOP():&#160;mod_timer.h'],['../mod__timer_8c.html#aa04078f48a0e8f5b6860a393ad06b535',1,'timer_stop():&#160;mod_timer.c'],['../mod__timer_8h.html#aa04078f48a0e8f5b6860a393ad06b535',1,'timer_stop():&#160;mod_timer.c']]],
   ['todo_5ftick',['todo_tick',['../structpulsgen__ch__t.html#a8877063788184b18eadf986ed313ba26',1,'pulsgen_ch_t']]],
   ['toggles',['toggles',['../structpulsgen__fifo__item__t.html#a8cb6815aa8abf71a064c78bcf41a383b',1,'pulsgen_fifo_item_t']]],

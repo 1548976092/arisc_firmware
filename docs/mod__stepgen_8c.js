@@ -1,7 +1,8 @@
 var mod__stepgen_8c =
 [
-    [ "t", "mod__stepgen_8c.html#a1f0cf49f22a9b271d1d9e6e14609faed", null ],
-    [ "t", "mod__stepgen_8c.html#a1f0cf49f22a9b271d1d9e6e14609faed", null ],
+    [ "SG", "mod__stepgen_8c.html#afac21626bf940cc097b858fa9a5ef2d0", null ],
+    [ "SLOT", "mod__stepgen_8c.html#a50b56ce26e119f8c5f3ad7719f37f682", null ],
+    [ "TASK", "mod__stepgen_8c.html#af0d589fbe2b26bdee7a8c36ce4446a24", null ],
     [ "stepgen_module_init", "mod__stepgen_8c.html#a328fc56e89d3be7b314f773c35206ef3", null ],
     [ "stepgen_module_base_thread", "mod__stepgen_8c.html#ad07cf3fa21b467202e728256fabe57c7", null ],
     [ "stepgen_pin_setup", "mod__stepgen_8c.html#a76c18f23772eec1d9d3fb9dd2119487c", null ],
