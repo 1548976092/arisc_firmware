@@ -51,35 +51,35 @@ static void toggle_pin(uint8_t c, uint8_t t)
 static void goto_next_task(uint8_t c)
 {
     static uint8_t i, slot;
+    #define s gen[c].tasks[slot]
 
     // find next task
     for ( i = STEPGEN_FIFO_SIZE, slot = gen[c].task_slot; i--; slot++ )
     {
         if ( slot >= STEPGEN_FIFO_SIZE ) slot = 0;
-        if ( gen[c].tasks[slot].pulses ) break;
+        if ( s.pulses ) break;
     }
 
     // no more tasks to do?
-    if ( !gen[c].tasks[slot].pulses ) { idle(c); return; }
+    if ( !s.pulses ) { idle(c); return; }
 
     // save new task slot
     gen[c].task_slot = slot;
 
     // start task
-    #define t gen[c].tasks[slot].type
-    if ( t ) // DIR task
+    if ( s.type ) // DIR task
     {
-        gen[c].tasks[slot].pulses = 2;
-        gen[c].task_tick += gen[c].tasks[slot].low_ticks;
+        s.pulses = 2;
+        gen[c].task_tick += s.low_ticks;
     }
     else // STEP task
     {
-        gen[c].task_infinite = gen[c].tasks[slot].pulses > INT32_MAX ? 1 : 0;
-        gen[c].pin_state[t] = 1;
-        gen[c].task_tick += gen[c].tasks[slot].high_ticks;
-        toggle_pin(c, t);
+        gen[c].task_infinite = s.pulses > INT32_MAX ? 1 : 0;
+        gen[c].pin_state[s.type] = 1;
+        gen[c].task_tick += s.high_ticks;
+        toggle_pin(c, s.type);
     }
-    #undef t
+    #undef s
 }
 
 static void abort(uint8_t c)
