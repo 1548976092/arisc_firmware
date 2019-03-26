@@ -38,6 +38,7 @@ typedef struct
     uint32_t    pulses; // 0:empty slot, !0:used
     uint32_t    low_ticks;
     uint32_t    high_ticks;
+    uint64_t    tick;
 
 } stepgen_fifo_slot_t;
 
@@ -52,6 +53,7 @@ typedef struct
     int32_t     pos; // in pulses
 
     uint8_t     abort;
+    uint64_t    abort_tick;
 
     uint8_t                 task_infinite;
     uint8_t                 task_slot;

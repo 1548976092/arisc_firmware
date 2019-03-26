@@ -81,7 +81,11 @@ static void abort(uint8_t c)
     {
         // fifo cleanup
         uint8_t i;
-        for ( i = STEPGEN_FIFO_SIZE; i--; ) gen[c].tasks[i].pulses = 0;
+        for ( i = STEPGEN_FIFO_SIZE; i--; )
+        {
+            // abort tasks added before abort command only
+            if ( gen[c].tasks[i].tick > gen[c].abort_tick ) gen[c].tasks[i].pulses = 0;
+        }
         // free channel id
         idle(c);
     }
@@ -235,6 +239,7 @@ void stepgen_task_add(uint8_t c, uint8_t type, uint32_t pulses, uint32_t pin_low
 
     busy(c);
 
+    gen[c].tasks[slot].tick = tick;
     gen[c].tasks[slot].type = type;
     gen[c].tasks[slot].pulses = type ? 2 : pulses;
     gen[c].tasks[slot].low_ticks = (uint32_t) ( (uint64_t)pin_low_time *
@@ -273,6 +278,7 @@ void stepgen_task_add(uint8_t c, uint8_t type, uint32_t pulses, uint32_t pin_low
 void stepgen_abort(uint8_t c, uint8_t all)
 {
     gen[c].abort = all ? 2 : 1;
+    gen[c].abort_tick = tick;
 }
 
 
