@@ -96,7 +96,9 @@ static void abort(uint8_t c)
         for ( i = STEPGEN_FIFO_SIZE; i--; )
         {
             // abort tasks added before abort command only
-            if ( SG.tasks[i].tick > SG.abort_tick ) SG.tasks[i].pulses = 0;
+            if ( SG.tasks[i].pulses && SG.tasks[i].tick < SG.abort_tick ) {
+                SG.tasks[i].pulses = 0;
+            }
         }
         // free channel id
         idle(c);
