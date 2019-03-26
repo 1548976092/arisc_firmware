@@ -11,6 +11,13 @@
 
 
 
+#define SG gen[c]               // current channel
+#define SLOT SG.task_slot       // current task slot
+#define TASK SG.tasks[SLOT]     // current task
+
+
+
+
 // private vars
 
 static uint8_t max_id = 0; // uses to speedup idle channels processing
@@ -37,68 +44,66 @@ static void idle(uint8_t c)
     // no need to decrease max channel ID?
     if ( !max_id || c != max_id ) return;
     // decrease max channel ID
-    for ( max_id--; gen[max_id].tasks[gen[c].task_slot].pulses; max_id-- );
+    for ( max_id--; gen[max_id].tasks[SLOT].pulses; max_id-- );
 }
 
 static void toggle_pin(uint8_t c, uint8_t t)
 {
-    if ( gen[c].pin_state[t] ^ gen[c].pin_invert[t] )
-        GPIO_PIN_SET(gen[c].pin_port[t], gen[c].pin_mask[t]);
+    if ( SG.pin_state[t] ^ SG.pin_invert[t] )
+        GPIO_PIN_SET(SG.pin_port[t], SG.pin_mask[t]);
     else
-        GPIO_PIN_CLEAR(gen[c].pin_port[t], gen[c].pin_mask_not[t]);
+        GPIO_PIN_CLEAR(SG.pin_port[t], SG.pin_mask_not[t]);
 }
 
 static void goto_next_task(uint8_t c)
 {
     static uint8_t i, slot;
-    #define s gen[c].tasks[slot]
 
     // find next task
-    for ( i = STEPGEN_FIFO_SIZE, slot = gen[c].task_slot; i--; slot++ )
+    for ( i = STEPGEN_FIFO_SIZE, slot = SLOT; i--; slot++ )
     {
         if ( slot >= STEPGEN_FIFO_SIZE ) slot = 0;
-        if ( s.pulses ) break;
+        if ( SG.tasks[slot].pulses ) break;
     }
 
     // no more tasks to do?
-    if ( !s.pulses ) { idle(c); return; }
+    if ( !SG.tasks[slot].pulses ) { idle(c); return; }
 
     // save new task slot
-    gen[c].task_slot = slot;
+    SLOT = slot;
 
     // start task
-    if ( s.type ) // DIR task
+    if ( SG.tasks[slot].type ) // DIR task
     {
-        s.pulses = 2;
-        gen[c].task_tick += s.low_ticks;
+        SG.tasks[slot].pulses = 2;
+        SG.task_tick += SG.tasks[slot].low_ticks;
     }
     else // STEP task
     {
-        gen[c].task_infinite = s.pulses > INT32_MAX ? 1 : 0;
-        gen[c].pin_state[s.type] = 1;
-        gen[c].task_tick += s.high_ticks;
-        toggle_pin(c, s.type);
+        SG.task_infinite = SG.tasks[slot].pulses > INT32_MAX ? 1 : 0;
+        SG.pin_state[SG.tasks[slot].type] = 1;
+        SG.task_tick += SG.tasks[slot].high_ticks;
+        toggle_pin(c, SG.tasks[slot].type);
     }
-    #undef s
 }
 
 static void abort(uint8_t c)
 {
-    if ( gen[c].abort > 1 )
+    if ( SG.abort > 1 )
     {
         // fifo cleanup
         uint8_t i;
         for ( i = STEPGEN_FIFO_SIZE; i--; )
         {
             // abort tasks added before abort command only
-            if ( gen[c].tasks[i].tick > gen[c].abort_tick ) gen[c].tasks[i].pulses = 0;
+            if ( SG.tasks[i].tick > SG.abort_tick ) SG.tasks[i].pulses = 0;
         }
         // free channel id
         idle(c);
     }
     else goto_next_task(c);
 
-    gen[c].abort = 0;
+    SG.abort = 0;
 }
 
 
@@ -132,8 +137,6 @@ void stepgen_module_init()
 void stepgen_module_base_thread()
 {
     static uint8_t c;
-    static stepgen_ch_t *g;
-    static stepgen_fifo_slot_t *s;
 
     // get current CPU tick
     tick = timer_cnt_get_64();
@@ -142,50 +145,45 @@ void stepgen_module_base_thread()
     for ( c = max_id + 1; c--; )
     {
         // channel disabled?
-        if ( !gen[c].tasks[ gen[c].task_slot ].pulses ) continue;
-
-        g = &gen[c];                    // stepgen channel
-        s = &g->tasks[g->task_slot];    // channel's fifo slot
-        #define t s->type               // channel's task type (0=step,1=dir)
-
+        if ( !TASK.pulses ) continue;
         // we need to stop? && (it's DIR task || step pin is LOW)
-        if ( g->abort && (t || !g->pin_state[0]) ) { abort(c); continue; }
+        if ( SG.abort && (TASK.type || !SG.pin_state[0]) ) { abort(c); continue; }
         // it's not a time for a pulse?
-        if ( tick < g->task_tick ) continue;
+        if ( tick < SG.task_tick ) continue;
 
-        if ( t ) // dir
+        if ( TASK.type ) // DIR task
         {
-            if ( s->pulses > 1 ) // hold
+            if ( TASK.pulses > 1 ) // hold
             {
-                g->pin_state[t] = g->pin_state[t] ? 0 : 1;
-                g->task_tick += s->high_ticks;
+                SG.pin_state[TASK.type] = SG.pin_state[TASK.type] ? 0 : 1;
+                SG.task_tick += TASK.high_ticks;
             }
             else goto_next_task(c); // dir task done
 
-            s->pulses--;
+            TASK.pulses--;
         }
-        else // step
+        else // STEP task
         {
-            if ( g->pin_state[t] ) // high
+            if ( SG.pin_state[TASK.type] ) // high
             {
-                g->pin_state[t] = 0;
-                g->task_tick += s->low_ticks;
+                SG.pin_state[TASK.type] = 0;
+                SG.task_tick += TASK.low_ticks;
             }
             else // low
             {
-                g->pos += g->pin_state[1] ? -1 : 1;
-                if ( !g->task_infinite ) s->pulses--;
-                if ( s->pulses ) // have we more steps to do?
+                SG.pos += SG.pin_state[1] ? -1 : 1;
+                if ( !SG.task_infinite ) TASK.pulses--;
+
+                if ( TASK.pulses ) // have we more steps to do?
                 {
-                    g->pin_state[t] = 1;
-                    g->task_tick += s->high_ticks;
+                    SG.pin_state[TASK.type] = 1;
+                    SG.task_tick += TASK.high_ticks;
                 }
                 else goto_next_task(c); // step task done
             }
         }
 
-        toggle_pin(c, t);
-        #undef t
+        toggle_pin(c, TASK.type);
     }
 }
 
@@ -207,11 +205,11 @@ void stepgen_pin_setup(uint8_t c, uint8_t type, uint8_t port, uint8_t pin, uint8
 {
     gpio_pin_setup_for_output(port, pin);
 
-    gen[c].pin_state[type] = 0;
-    gen[c].pin_port[type] = port;
-    gen[c].pin_mask[type] = 1U << pin;
-    gen[c].pin_mask_not[type] = ~(gen[c].pin_mask[type]);
-    gen[c].pin_invert[type] = invert ? 1 : 0;
+    SG.pin_state[type] = 0;
+    SG.pin_port[type] = port;
+    SG.pin_mask[type] = 1U << pin;
+    SG.pin_mask_not[type] = ~(SG.pin_mask[type]);
+    SG.pin_invert[type] = invert ? 1 : 0;
 
     toggle_pin(c, type);
 }
@@ -235,39 +233,39 @@ void stepgen_task_add(uint8_t c, uint8_t type, uint32_t pulses, uint32_t pin_low
     uint8_t i, slot;
 
     // find free fifo slot for the new task
-    for ( i = STEPGEN_FIFO_SIZE, slot = gen[c].task_slot; i--; slot++ )
+    for ( i = STEPGEN_FIFO_SIZE, slot = SLOT; i--; slot++ )
     {
         if ( slot >= STEPGEN_FIFO_SIZE ) slot = 0;
-        if ( !gen[c].tasks[slot].pulses ) break;
+        if ( !SG.tasks[slot].pulses ) break;
     }
 
     // no free slots?
-    if ( gen[c].tasks[slot].pulses ) return;
+    if ( SG.tasks[slot].pulses ) return;
 
     busy(c);
 
-    gen[c].tasks[slot].tick = tick;
-    gen[c].tasks[slot].type = type;
-    gen[c].tasks[slot].pulses = type ? 2 : pulses;
-    gen[c].tasks[slot].low_ticks = (uint32_t) ( (uint64_t)pin_low_time *
+    SG.tasks[slot].tick = tick;
+    SG.tasks[slot].type = type;
+    SG.tasks[slot].pulses = type ? 2 : pulses;
+    SG.tasks[slot].low_ticks = (uint32_t) ( (uint64_t)pin_low_time *
         (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
-    gen[c].tasks[slot].high_ticks = (uint32_t) ( (uint64_t)pin_high_time *
+    SG.tasks[slot].high_ticks = (uint32_t) ( (uint64_t)pin_high_time *
         (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
 
     // start a task right now?
-    if ( slot == gen[c].task_slot )
+    if ( slot == SLOT )
     {
-        gen[c].task_tick = tick + 9000;
+        SG.task_tick = tick + 9000;
 
         if ( type )
         {
-            gen[c].task_tick += gen[c].tasks[slot].low_ticks;
+            SG.task_tick += SG.tasks[slot].low_ticks;
         }
         else
         {
-            gen[c].task_infinite = gen[c].tasks[slot].pulses > INT32_MAX ? 1 : 0;
-            gen[c].pin_state[type] = 1;
-            gen[c].task_tick += gen[c].tasks[slot].high_ticks;
+            SG.task_infinite = SG.tasks[slot].pulses > INT32_MAX ? 1 : 0;
+            SG.pin_state[type] = 1;
+            SG.task_tick += SG.tasks[slot].high_ticks;
             toggle_pin(c, type);
         }
     }
@@ -284,8 +282,8 @@ void stepgen_task_add(uint8_t c, uint8_t type, uint32_t pulses, uint32_t pin_low
  */
 void stepgen_abort(uint8_t c, uint8_t all)
 {
-    gen[c].abort = all ? 2 : 1;
-    gen[c].abort_tick = tick;
+    SG.abort = all ? 2 : 1;
+    SG.abort_tick = tick;
 }
 
 
@@ -298,7 +296,7 @@ void stepgen_abort(uint8_t c, uint8_t all)
  */
 int32_t stepgen_pos_get(uint8_t c)
 {
-    return gen[c].pos;
+    return SG.pos;
 }
 
 /**
@@ -309,7 +307,7 @@ int32_t stepgen_pos_get(uint8_t c)
  */
 void stepgen_pos_set(uint8_t c, int32_t pos)
 {
-    gen[c].pos = pos;
+    SG.pos = pos;
 }
 
 
@@ -324,10 +322,10 @@ uint8_t stepgen_tasks_left(uint8_t c)
 {
     uint8_t i, slot, cnt = 0;
 
-    for ( i = STEPGEN_FIFO_SIZE, slot = gen[c].task_slot; i--; slot++ )
+    for ( i = STEPGEN_FIFO_SIZE, slot = SLOT; i--; slot++ )
     {
         if ( slot >= STEPGEN_FIFO_SIZE ) slot = 0;
-        if ( gen[c].tasks[slot].pulses ) cnt++;
+        if ( SG.tasks[slot].pulses ) cnt++;
     }
 
     return cnt;
