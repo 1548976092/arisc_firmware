@@ -60,7 +60,7 @@ static void goto_next_task(uint8_t c)
     static uint8_t i, slot;
 
     // find next task
-    for ( i = STEPGEN_FIFO_SIZE, slot = SLOT; i--; slot++ )
+    for ( i = STEPGEN_FIFO_SIZE, slot = SLOT + 1; i--; slot++ )
     {
         if ( slot >= STEPGEN_FIFO_SIZE ) slot = 0;
         if ( SG.tasks[slot].pulses ) break;
