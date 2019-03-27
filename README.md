@@ -10,7 +10,7 @@ How to build?
 * Download the toolchain binaries from here - https://github.com/openrisc/newlib/releases
 * Unpack toolchain binary files into the ``/opt/toolchains/or1k-elf`` folder
 * Clone this repo to any folder:
-  ``$ git clone https://github.com/orange-cnc/h3_arisc_firmware.git``
+  ``$ git clone https://github.com/orange-cnc/arisc_firmware.git``
 * Build the firmware by the ``make all`` command
 
 How to use?
@@ -22,7 +22,7 @@ How to use?
   into the ``/boot`` folder of your ``Armbian OS``.
 * Restart your ``Orange Pi`` board.
 * Clone arisc linux API repo to any folder of your ``Armbian OS``: 
-  ``$ git clone https://github.com/orange-cnc/h3_arisc_api.git``
+  ``$ git clone https://github.com/orange-cnc/arisc_api.git``
 * Build arisc linux API by the ``make all`` command
 * Run arisc linux API:
   ``$ ./arisc``
