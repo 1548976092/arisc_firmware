@@ -26,6 +26,7 @@ enum
     STEPGEN_MSG_ABORT,
     STEPGEN_MSG_POS_GET,
     STEPGEN_MSG_POS_SET,
+    STEPGEN_MSG_WATCHDOG_SETUP,
     STEPGEN_MSG_CNT
 };
 
@@ -72,6 +73,7 @@ void stepgen_task_add(uint8_t c, uint8_t type, uint32_t pulses, uint32_t pin_low
 void stepgen_abort(uint8_t c, uint8_t all);
 int32_t stepgen_pos_get(uint8_t c);
 void stepgen_pos_set(uint8_t c, int32_t pos);
+void stepgen_watchdog_setup(uint8_t enable, uint32_t time);
 int8_t volatile stepgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length);
 
 

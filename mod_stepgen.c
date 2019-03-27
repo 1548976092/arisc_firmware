@@ -23,7 +23,7 @@
 static uint8_t max_id = 0; // uses to speedup idle channels processing
 static stepgen_ch_t gen[STEPGEN_CH_CNT] = {0}; // array of channels data
 static uint8_t msg_buf[STEPGEN_MSG_BUF_LEN] = {0}; // message buffer
-static uint64_t tick = 0; // last CPU tick
+static uint64_t tick = 0, wd_ticks = 0, wd_todo_tick = 0;
 
 // uses with GPIO module macros
 extern volatile uint32_t * gpio_port_data[GPIO_PORTS_CNT];
@@ -146,6 +146,15 @@ void stepgen_module_base_thread()
 
     // get current CPU tick
     tick = timer_cnt_get_64();
+
+    // watchdog enabled? AND it's time to abort all channels?
+    if ( wd_todo_tick && tick > wd_todo_tick )
+    {
+        // disable watchdog
+        wd_todo_tick = 0;
+        // abort all active channels
+        for ( c = max_id + 1; c--; ) if ( TASK.pulses ) stepgen_abort(c, 1);
+    }
 
     // check all working channels
     for ( c = max_id + 1; c--; )
@@ -345,6 +354,23 @@ void stepgen_pos_set(uint8_t c, int32_t pos)
 
 
 /**
+ * @brief   enable/disable `abort all` watchdog
+ * @param   enable      0 = disable watchdog, other values - enable watchdog
+ * @param   time        watchdog wait time (in nanoseconds)
+ * @retval  none
+ */
+void stepgen_watchdog_setup(uint8_t enable, uint32_t time)
+{
+    if ( !enable ) { wd_todo_tick = 0; return; }
+
+    wd_ticks = (uint64_t)time * (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000;
+    wd_todo_tick = tick + wd_ticks;
+}
+
+
+
+
+/**
  * @brief   "message received" callback
  *
  * @note    this function will be called automatically
@@ -361,6 +387,9 @@ int8_t volatile stepgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
 {
     u32_10_t *in = (u32_10_t*) msg;
     u32_10_t *out = (u32_10_t*) msg_buf;
+
+    // any incoming message will update the watchdog wait time
+    if ( wd_todo_tick ) wd_todo_tick = tick + wd_ticks;
 
     switch (type)
     {
@@ -382,6 +411,9 @@ int8_t volatile stepgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             break;
         case STEPGEN_MSG_POS_SET:
             stepgen_pos_set(in->v[0], (int32_t)in->v[1]);
+            break;
+        case STEPGEN_MSG_WATCHDOG_SETUP:
+            stepgen_watchdog_setup(in->v[0], in->v[1]);
             break;
 
         default: return -1;
