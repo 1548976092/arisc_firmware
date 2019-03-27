@@ -277,6 +277,27 @@ void stepgen_task_add(uint8_t c, uint8_t type, uint32_t pulses, uint32_t pin_low
     }
 }
 
+/**
+ * @brief   update time values for the current task
+ *
+ * @param   c               channel id
+ * @param   type            0:step, 1:dir
+ * @param   pin_low_time    pin LOW state duration (in nanoseconds)
+ * @param   pin_high_time   pin HIGH state duration (in nanoseconds)
+ *
+ * @retval  none
+ */
+void stepgen_task_update(uint8_t c, uint8_t type, uint32_t pin_low_time, uint32_t pin_high_time)
+{
+    // is idle OR task type is different?
+    if ( !TASK.pulses || SG.tasks[SLOT].type != type ) return;
+
+    TASK.low_ticks = (uint32_t) ( (uint64_t)pin_low_time *
+        (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
+    TASK.high_ticks = (uint32_t) ( (uint64_t)pin_high_time *
+        (uint64_t)TIMER_FREQUENCY_MHZ / (uint64_t)1000 );
+}
+
 
 
 
@@ -365,6 +386,9 @@ int8_t volatile stepgen_msg_recv(uint8_t type, uint8_t * msg, uint8_t length)
             break;
         case STEPGEN_MSG_TASK_ADD:
             stepgen_task_add(in->v[0], in->v[1], in->v[2], in->v[3], in->v[4]);
+            break;
+        case STEPGEN_MSG_TASK_UPDATE:
+            stepgen_task_update(in->v[0], in->v[1], in->v[2], in->v[3]);
             break;
         case STEPGEN_MSG_ABORT:
             stepgen_abort(in->v[0], in->v[1]);
