@@ -238,15 +238,19 @@ void stepgen_task_add(uint8_t c, uint8_t type, uint32_t pulses, uint32_t pin_low
 {
     uint8_t i, slot;
 
-    // find free fifo slot for the new task
-    for ( i = STEPGEN_FIFO_SIZE, slot = SLOT; i--; slot++ )
+    if ( TASK.pulses )
     {
-        if ( slot >= STEPGEN_FIFO_SIZE ) slot = 0;
-        if ( !SG.tasks[slot].pulses ) break;
-    }
+        // find free fifo slot for the new task
+        for ( i = STEPGEN_FIFO_SIZE, slot = SLOT; i--; slot++ )
+        {
+            if ( slot >= STEPGEN_FIFO_SIZE ) slot = 0;
+            if ( !SG.tasks[slot].pulses ) break;
+        }
 
-    // no free slots?
-    if ( SG.tasks[slot].pulses ) return;
+        // no free slots?
+        if ( SG.tasks[slot].pulses ) return;
+    }
+    else slot = SLOT;
 
     busy(c);
 
