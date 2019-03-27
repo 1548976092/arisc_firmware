@@ -24,12 +24,12 @@ var searchData=
   ['stepgen_5fmsg_5fpos_5fset',['STEPGEN_MSG_POS_SET',['../mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daadd2b95fe787b4566197d0077ce8971b',1,'mod_stepgen.h']]],
   ['stepgen_5fmsg_5frecv',['stepgen_msg_recv',['../mod__stepgen_8c.html#aea55c383984191341be13404a7e73bb7',1,'stepgen_msg_recv(uint8_t type, uint8_t *msg, uint8_t length):&#160;mod_stepgen.c'],['../mod__stepgen_8h.html#aea55c383984191341be13404a7e73bb7',1,'stepgen_msg_recv(uint8_t type, uint8_t *msg, uint8_t length):&#160;mod_stepgen.c']]],
   ['stepgen_5fmsg_5ftask_5fadd',['STEPGEN_MSG_TASK_ADD',['../mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da819acf215bd47a2a09534f42c5134eec',1,'mod_stepgen.h']]],
-  ['stepgen_5fmsg_5ftasks_5fleft',['STEPGEN_MSG_TASKS_LEFT',['../mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf2c0e4a587af312339d79d21f2e0ade8',1,'mod_stepgen.h']]],
+  ['stepgen_5fmsg_5ftask_5fupdate',['STEPGEN_MSG_TASK_UPDATE',['../mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da1277c6bab97058bd73148093308e7531',1,'mod_stepgen.h']]],
   ['stepgen_5fpin_5fsetup',['stepgen_pin_setup',['../mod__stepgen_8c.html#a76c18f23772eec1d9d3fb9dd2119487c',1,'stepgen_pin_setup(uint8_t c, uint8_t type, uint8_t port, uint8_t pin, uint8_t invert):&#160;mod_stepgen.c'],['../mod__stepgen_8h.html#a76c18f23772eec1d9d3fb9dd2119487c',1,'stepgen_pin_setup(uint8_t c, uint8_t type, uint8_t port, uint8_t pin, uint8_t invert):&#160;mod_stepgen.c']]],
   ['stepgen_5fpos_5fget',['stepgen_pos_get',['../mod__stepgen_8c.html#af9b0241e054c570a042b70b7a8f2682c',1,'stepgen_pos_get(uint8_t c):&#160;mod_stepgen.c'],['../mod__stepgen_8h.html#af9b0241e054c570a042b70b7a8f2682c',1,'stepgen_pos_get(uint8_t c):&#160;mod_stepgen.c']]],
   ['stepgen_5fpos_5fset',['stepgen_pos_set',['../mod__stepgen_8c.html#a233182090807dad5573d8f3e0654fdd5',1,'stepgen_pos_set(uint8_t c, int32_t pos):&#160;mod_stepgen.c'],['../mod__stepgen_8h.html#a233182090807dad5573d8f3e0654fdd5',1,'stepgen_pos_set(uint8_t c, int32_t pos):&#160;mod_stepgen.c']]],
   ['stepgen_5ftask_5fadd',['stepgen_task_add',['../mod__stepgen_8c.html#a52dff69cf40ad614a0997cb69294a3f3',1,'stepgen_task_add(uint8_t c, uint8_t type, uint32_t pulses, uint32_t pin_low_time, uint32_t pin_high_time):&#160;mod_stepgen.c'],['../mod__stepgen_8h.html#a52dff69cf40ad614a0997cb69294a3f3',1,'stepgen_task_add(uint8_t c, uint8_t type, uint32_t pulses, uint32_t pin_low_time, uint32_t pin_high_time):&#160;mod_stepgen.c']]],
-  ['stepgen_5ftasks_5fleft',['stepgen_tasks_left',['../mod__stepgen_8c.html#a569a2ee32898bf2f8bfac43bbaf1ae0a',1,'mod_stepgen.c']]],
+  ['stepgen_5ftask_5fupdate',['stepgen_task_update',['../mod__stepgen_8c.html#a8182372b9e0faf6d41fb131c593cc4e8',1,'mod_stepgen.c']]],
   ['sys_2ec',['sys.c',['../sys_8c.html',1,'']]],
   ['sys_2eh',['sys.h',['../sys_8h.html',1,'']]]
 ];

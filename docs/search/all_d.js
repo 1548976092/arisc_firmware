@@ -16,7 +16,7 @@ var searchData=
   ['ths_5fgating',['THS_GATING',['../sys_8h.html#a7f4f7a1fef4b8fab540c50af006d7722',1,'sys.h']]],
   ['ths_5frst',['THS_RST',['../sys_8h.html#a28b1a98f4c4c6976a195f57370355f8d',1,'sys.h']]],
   ['tick',['tick',['../structstepgen__fifo__slot__t.html#a2c38447b8253c8df855e3131c95941a1',1,'stepgen_fifo_slot_t']]],
-  ['timer_5fcnt_5fget',['TIMER_CNT_GET',['../mod__timer_8h.html#a8e6a3b2eb0563b3d94d83939efce5b21',1,'TIMER_CNT_GET():&#160;mod_timer.h'],['../mod__timer_8c.html#ac0b22a5df951fddf6977edf3b1cd55f6',1,'timer_cnt_get():&#160;mod_timer.c'],['../mod__timer_8h.html#ac0b22a5df951fddf6977edf3b1cd55f6',1,'timer_cnt_get():&#160;mod_timer.c']]],
+  ['timer_5fcnt_5fget',['timer_cnt_get',['../mod__timer_8c.html#ac0b22a5df951fddf6977edf3b1cd55f6',1,'timer_cnt_get():&#160;mod_timer.c'],['../mod__timer_8h.html#ac0b22a5df951fddf6977edf3b1cd55f6',1,'timer_cnt_get():&#160;mod_timer.c'],['../mod__timer_8h.html#a8e6a3b2eb0563b3d94d83939efce5b21',1,'TIMER_CNT_GET():&#160;mod_timer.h']]],
   ['timer_5fcnt_5fget_5f64',['timer_cnt_get_64',['../mod__timer_8c.html#a197b3a4ed7085bc37f8dcb177c80486f',1,'timer_cnt_get_64():&#160;mod_timer.c'],['../mod__timer_8h.html#a197b3a4ed7085bc37f8dcb177c80486f',1,'timer_cnt_get_64():&#160;mod_timer.c']]],
   ['timer_5fcnt_5fset',['timer_cnt_set',['../mod__timer_8c.html#aef86d8f8e96209074113a6579ba042ce',1,'timer_cnt_set(uint32_t cnt):&#160;mod_timer.c'],['../mod__timer_8h.html#aef86d8f8e96209074113a6579ba042ce',1,'timer_cnt_set(uint32_t cnt):&#160;mod_timer.c'],['../mod__timer_8h.html#a6cb2b7772151124948e5d17d1c6e08ea',1,'TIMER_CNT_SET():&#160;mod_timer.h']]],
   ['timer_5ffrequency',['TIMER_FREQUENCY',['../mod__timer_8h.html#a150e4f9c8426a49d5153393b6612ef9e',1,'mod_timer.h']]],
