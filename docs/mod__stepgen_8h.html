@@ -125,6 +125,7 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf6cd7c98ac1fb53dc5d5be7f3a78317d">STEPGEN_MSG_POS_GET</a>, 
 <a class="el" href="mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daadd2b95fe787b4566197d0077ce8971b">STEPGEN_MSG_POS_SET</a>, 
+<a class="el" href="mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da4f132c3555be9287960b2ca72552ca11">STEPGEN_MSG_WATCHDOG_SETUP</a>, 
 <a class="el" href="mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da27323544b34707df604e85d578e67790">STEPGEN_MSG_CNT</a>
 <br />
  }</td></tr>
@@ -153,6 +154,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a233182090807dad5573d8f3e0654fdd5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__stepgen_8h.html#a233182090807dad5573d8f3e0654fdd5">stepgen_pos_set</a> (uint8_t c, int32_t pos)</td></tr>
 <tr class="memdesc:a233182090807dad5573d8f3e0654fdd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">set channel steps position  <a href="#a233182090807dad5573d8f3e0654fdd5">More...</a><br /></td></tr>
 <tr class="separator:a233182090807dad5573d8f3e0654fdd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afddac7f2ba8476a7d153ea4697c3b9df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__stepgen_8h.html#afddac7f2ba8476a7d153ea4697c3b9df">stepgen_watchdog_setup</a> (uint8_t enable, uint32_t time)</td></tr>
+<tr class="memdesc:afddac7f2ba8476a7d153ea4697c3b9df"><td class="mdescLeft">&#160;</td><td class="mdescRight">enable/disable <code>abort all</code> watchdog  <a href="#afddac7f2ba8476a7d153ea4697c3b9df">More...</a><br /></td></tr>
+<tr class="separator:afddac7f2ba8476a7d153ea4697c3b9df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea55c383984191341be13404a7e73bb7"><td class="memItemLeft" align="right" valign="top">int8_t volatile&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mod__stepgen_8h.html#aea55c383984191341be13404a7e73bb7">stepgen_msg_recv</a> (uint8_t type, uint8_t *msg, uint8_t length)</td></tr>
 <tr class="memdesc:aea55c383984191341be13404a7e73bb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">"message received" callback  <a href="#aea55c383984191341be13404a7e73bb7">More...</a><br /></td></tr>
 <tr class="separator:aea55c383984191341be13404a7e73bb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -225,6 +229,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a0411cd49bb5b71852cecd93bcbf0ca2da3004a9efaad2a6f80c34e5f9a1f4bca1"></a>STEPGEN_MSG_ABORT&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a0411cd49bb5b71852cecd93bcbf0ca2daf6cd7c98ac1fb53dc5d5be7f3a78317d"></a>STEPGEN_MSG_POS_GET&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a0411cd49bb5b71852cecd93bcbf0ca2daadd2b95fe787b4566197d0077ce8971b"></a>STEPGEN_MSG_POS_SET&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0411cd49bb5b71852cecd93bcbf0ca2da4f132c3555be9287960b2ca72552ca11"></a>STEPGEN_MSG_WATCHDOG_SETUP&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a0411cd49bb5b71852cecd93bcbf0ca2da27323544b34707df604e85d578e67790"></a>STEPGEN_MSG_CNT&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
@@ -517,6 +522,49 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">c</td><td>channel id </td></tr>
     <tr><td class="paramname">pos</td><td>integer 4-bytes </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">none</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="afddac7f2ba8476a7d153ea4697c3b9df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afddac7f2ba8476a7d153ea4697c3b9df">&#9670;&nbsp;</a></span>stepgen_watchdog_setup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void stepgen_watchdog_setup </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>enable</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>time</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>enable/disable <code>abort all</code> watchdog </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enable</td><td>0 = disable watchdog, other values - enable watchdog </td></tr>
+    <tr><td class="paramname">time</td><td>watchdog wait time (in nanoseconds) </td></tr>
   </table>
   </dd>
 </dl>

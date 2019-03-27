@@ -11,6 +11,7 @@ var mod__stepgen_8h =
     [ "STEPGEN_MSG_ABORT", "mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da3004a9efaad2a6f80c34e5f9a1f4bca1", null ],
     [ "STEPGEN_MSG_POS_GET", "mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf6cd7c98ac1fb53dc5d5be7f3a78317d", null ],
     [ "STEPGEN_MSG_POS_SET", "mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daadd2b95fe787b4566197d0077ce8971b", null ],
+    [ "STEPGEN_MSG_WATCHDOG_SETUP", "mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da4f132c3555be9287960b2ca72552ca11", null ],
     [ "STEPGEN_MSG_CNT", "mod__stepgen_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da27323544b34707df604e85d578e67790", null ],
     [ "stepgen_module_init", "mod__stepgen_8h.html#a328fc56e89d3be7b314f773c35206ef3", null ],
     [ "stepgen_module_base_thread", "mod__stepgen_8h.html#ad07cf3fa21b467202e728256fabe57c7", null ],
@@ -19,5 +20,6 @@ var mod__stepgen_8h =
     [ "stepgen_abort", "mod__stepgen_8h.html#a1987baf2be40fdf44f84356533516c17", null ],
     [ "stepgen_pos_get", "mod__stepgen_8h.html#af9b0241e054c570a042b70b7a8f2682c", null ],
     [ "stepgen_pos_set", "mod__stepgen_8h.html#a233182090807dad5573d8f3e0654fdd5", null ],
+    [ "stepgen_watchdog_setup", "mod__stepgen_8h.html#afddac7f2ba8476a7d153ea4697c3b9df", null ],
     [ "stepgen_msg_recv", "mod__stepgen_8h.html#aea55c383984191341be13404a7e73bb7", null ]
 ];

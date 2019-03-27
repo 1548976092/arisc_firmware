@@ -11,6 +11,7 @@ var mod__stepgen_8c =
     [ "stepgen_abort", "mod__stepgen_8c.html#a1987baf2be40fdf44f84356533516c17", null ],
     [ "stepgen_pos_get", "mod__stepgen_8c.html#af9b0241e054c570a042b70b7a8f2682c", null ],
     [ "stepgen_pos_set", "mod__stepgen_8c.html#a233182090807dad5573d8f3e0654fdd5", null ],
+    [ "stepgen_watchdog_setup", "mod__stepgen_8c.html#afddac7f2ba8476a7d153ea4697c3b9df", null ],
     [ "stepgen_msg_recv", "mod__stepgen_8c.html#aea55c383984191341be13404a7e73bb7", null ],
     [ "gpio_port_data", "mod__stepgen_8c.html#a4c7ffa9d73e9b28219932f5a05140099", null ]
 ];
